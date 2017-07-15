@@ -1,0 +1,35 @@
+{
+  "name": "chan-lite",
+  "version": "0.1.0",
+  "private": true,
+  "devDependencies": {
+    "bs-platform": "^1.8.1",
+    "bs-react-native": "https://github.com/BuckleTypes/bs-react-native.git",
+    "react-native-scripts": "0.0.50",
+    "reason-react": "^0.2.3"
+  },
+  "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
+  "scripts": {
+    "expo-start": "react-native-scripts start",
+    "expo-android": "react-native-scripts android",
+    "expo-ios": "react-native-scripts ios",
+    "re-build": "bsb -make-world -clean-world",
+    "re-watch": "bsb -make-world -clean-world -w"
+  },
+  "dependencies": {
+    "@expo/react-native-action-sheet": "^1.0.0",
+    "expo": "^18.0.3",
+    "install": "^0.10.1",
+    "native-base": "2.2.0",
+    "npm": "^5.2.0",
+    "react": "16.0.0-alpha.12",
+    "react-native": "^0.45.1",
+    "react-native-fade-in-image": "^1.0.3",
+    "react-native-htmlview": "^0.10.0",
+    "react-navigation": "^1.0.0-beta.11",
+    "react-redux": "^5.0.5",
+    "recompose": "^0.24.0",
+    "redux": "^3.7.2",
+    "redux-thunk": "^2.2.0"
+  }
+}
