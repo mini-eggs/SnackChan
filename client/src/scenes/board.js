@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { MAX_PAGE } from "../utilities/4chan";
+import withParam from "../components/withParam";
 import { requestThreadList, clearThreadList } from "../reducers/threadList";
 import { jsComponent as ThreadListContainer } from "../../lib/js/re/components/threadListContainer.js";
 
@@ -12,8 +13,9 @@ function mapState({ ThreadList }) {
 
 function mapDispatch(dispatch) {
   return {
-    requestThreadList: (board, page) =>
-      dispatch(requestThreadList(board, page)),
+    requestThreadList: (board, page) => {
+      dispatch(requestThreadList(board, page));
+    },
     clearThreadList: () => dispatch(clearThreadList())
   };
 }
@@ -26,6 +28,8 @@ function navigationOptions({ navigation }) {
 }
 
 export default {
-  screen: connect(mapState, mapDispatch)(ThreadListContainer),
+  screen: connect(mapState, mapDispatch)(
+    withParam("board")(ThreadListContainer)
+  ),
   navigationOptions
 };

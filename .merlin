@@ -1,13 +1,13 @@
 ####{BSB GENERATED: NO EDIT
 FLG -ppx '/Users/evanjones/.nvm/versions/node/v6.8.1/lib/node_modules/bs-platform/bin/reactjs_jsx_ppx_2.exe'
 FLG -ppx /Users/evanjones/.nvm/versions/node/v6.8.1/lib/node_modules/bs-platform/bin/bsppx.exe
-S /Users/evanjones/evansapps/chan-lite-2/re/node_modules/bs-platform/lib/ocaml
-B /Users/evanjones/evansapps/chan-lite-2/re/node_modules/bs-platform/lib/ocaml
+S /Users/evanjones/evansapps/chan-lite-2/client/node_modules/bs-platform/lib/ocaml
+B /Users/evanjones/evansapps/chan-lite-2/client/node_modules/bs-platform/lib/ocaml
 FLG -nostdlib -no-alias-deps -color always -w -40+6+7+27+32..39+44+45
-S /Users/evanjones/evansapps/chan-lite-2/re/node_modules/bs-react-native/lib/ocaml
-B /Users/evanjones/evansapps/chan-lite-2/re/node_modules/bs-react-native/lib/ocaml
-S /Users/evanjones/evansapps/chan-lite-2/re/node_modules/reason-react/lib/ocaml
-B /Users/evanjones/evansapps/chan-lite-2/re/node_modules/reason-react/lib/ocaml
+S /Users/evanjones/evansapps/chan-lite-2/client/node_modules/bs-react-native/lib/ocaml
+B /Users/evanjones/evansapps/chan-lite-2/client/node_modules/bs-react-native/lib/ocaml
+S /Users/evanjones/evansapps/chan-lite-2/client/node_modules/reason-react/lib/ocaml
+B /Users/evanjones/evansapps/chan-lite-2/client/node_modules/reason-react/lib/ocaml
 S src
 B lib/bs/src
 S src/components
@@ -16,4 +16,9 @@ S src/simple
 B lib/bs/src/simple
 S src/interop
 B lib/bs/src/interop
+S client/re
+
+S client/re
+B client/lib/bs/src
+S client/re/components
 ####BSB GENERATED: NO EDIT}

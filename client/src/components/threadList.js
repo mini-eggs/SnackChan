@@ -6,25 +6,23 @@ import { MAX_PAGE } from "../utilities/4chan";
 import Card from "./card";
 import Navigate from "../utilities/navigate";
 
-function ThreadList({ threads, navigation, loading, handleNextPage, page }) {
-  const nextPageButton = (
-    <Button onPress={handleNextPage}>
-      <Text>Next</Text>
-    </Button>
-  );
-
+function ThreadList({ threads, navigation, handleNextPage, page }) {
   function iterateList(item, index) {
     const { board } = navigation.state.params;
     const onPress = Navigate(navigation, "Thread", item);
     return <Card key={index} onPress={onPress} item={item} board={board} />;
   }
 
-  const MainContent = loading
-    ? <Spinner style={{ flex: 1 }} />
-    : <Content>
-        {threads.map(iterateList)}
-        {page <= MAX_PAGE && !loading && nextPageButton}
-      </Content>;
+  const MainContent =
+    threads.length < 1
+      ? <Spinner style={{ flex: 1 }} />
+      : <Content>
+          {threads.map(iterateList)}
+          {page <= MAX_PAGE &&
+            <Button onPress={handleNextPage}>
+              <Text>Next</Text>
+            </Button>}
+        </Content>;
 
   return (
     <Container>
