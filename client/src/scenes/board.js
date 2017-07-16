@@ -1,9 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
-import { MAX_PAGE } from "../utilities/4chan";
 import withParam from "../components/withParam";
 import { requestThreadList, clearThreadList } from "../reducers/threadList";
 import { jsComponent as ThreadListContainer } from "../../lib/js/re/components/threadListContainer";
+
+const ThreadListWithParam = withParam("board")(ThreadListContainer);
 
 function mapState({ ThreadList }) {
   return {
@@ -28,8 +29,6 @@ function navigationOptions({ navigation }) {
 }
 
 export default {
-  screen: connect(mapState, mapDispatch)(
-    withParam("board")(ThreadListContainer)
-  ),
+  screen: connect(mapState, mapDispatch)(ThreadListWithParam),
   navigationOptions
 };
