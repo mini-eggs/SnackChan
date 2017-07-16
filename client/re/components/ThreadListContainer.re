@@ -1,28 +1,32 @@
-type state = int; /* page */
+open ReactNative;
+
+type state = {
+  page: int,
+  loadingNextPage: bool
+};
 
 let component = ReasonReact.statefulComponent "ThreadsListContainer";
 
+let containerStyle = Style.(style [flex 1.]);
+
+let scrollStyle = Style.(style [flex 1.]);
+
 let make ::requestThreadList ::clearThreadList ::threads ::board _children => {
-
-  let handleNextPage _event {ReasonReact.state: state} => {
-    let nextState = state + 1;
-    requestThreadList board nextState;
-    ReasonReact.Update nextState
-  };
-
+  let iterateThreads thread => <Text> (ReasonReact.stringToElement thread##name) </Text>;
   {
     ...component,
-
     initialState: fun () => {
       let page = 1;
       requestThreadList board page;
-      page
+      {page, loadingNextPage: false}
     },
-
     willUnmount: fun _self => clearThreadList,
-    
-    render: fun {state, update} =>
-      <ThreadListWrapper page=state threads handleNextPage=(update handleNextPage) />
+    willReceiveProps: fun self => {page: self.state.page, loadingNextPage: false},
+    render: fun _self => {
+      let listItems = Array.map iterateThreads threads;
+      let listElements = ReasonReact.arrayToElement listItems;
+      <View style=containerStyle> <ScrollView style=scrollStyle> listElements </ScrollView> </View>
+    }
   }
 };
 

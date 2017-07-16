@@ -8,6 +8,10 @@ S /Users/evanjones/evansapps/chan-lite-2/client/node_modules/bs-react-native/lib
 B /Users/evanjones/evansapps/chan-lite-2/client/node_modules/bs-react-native/lib/ocaml
 S /Users/evanjones/evansapps/chan-lite-2/client/node_modules/reason-react/lib/ocaml
 B /Users/evanjones/evansapps/chan-lite-2/client/node_modules/reason-react/lib/ocaml
+S /Users/evanjones/evansapps/chan-lite-2/client/node_modules/bs-fetch/lib/ocaml
+B /Users/evanjones/evansapps/chan-lite-2/client/node_modules/bs-fetch/lib/ocaml
+S /Users/evanjones/evansapps/chan-lite-2/client/node_modules/bs-json/lib/ocaml
+B /Users/evanjones/evansapps/chan-lite-2/client/node_modules/bs-json/lib/ocaml
 S src
 B lib/bs/src
 S src/components

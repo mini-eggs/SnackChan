@@ -3,11 +3,11 @@
   "reason": {
     "react-jsx": 2
   },
-  "bs-dependencies": ["bs-react-native", "reason-react"],
+  "bs-dependencies": ["bs-react-native", "reason-react", "bs-fetch", "bs-json"],
   "sources": [
     {
       "dir": "re",
-      "subdirs": ["components"]
+      "subdirs": ["types", "components", "externalComponents", "reducers"]
     }
   ]
 }

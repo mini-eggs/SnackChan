@@ -26,5 +26,5 @@ function mapDispatch(dispatch) {
 
 export default {
   screen: connect(mapState, mapDispatch)(home),
-  navigationOptions: () => ({ title: "Best Chan", subtitle: "Here" })
+  navigationOptions: () => ({ title: "Snack Chan", subtitle: "Here" })
 };

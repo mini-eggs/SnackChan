@@ -18,6 +18,8 @@
   },
   "dependencies": {
     "@expo/react-native-action-sheet": "^1.0.0",
+    "bs-fetch": "buckletypes/bs-fetch",
+    "bs-json": "buckletypes/bs-json",
     "expo": "^18.0.3",
     "install": "^0.10.1",
     "native-base": "2.2.0",

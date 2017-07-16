@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { MAX_PAGE } from "../utilities/4chan";
 import withParam from "../components/withParam";
 import { requestThreadList, clearThreadList } from "../reducers/threadList";
-import { jsComponent as ThreadListContainer } from "../../lib/js/re/components/threadListContainer.js";
+import { jsComponent as ThreadListContainer } from "../../lib/js/re/components/threadListContainer";
 
 function mapState({ ThreadList }) {
   return {
