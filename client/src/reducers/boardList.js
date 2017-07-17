@@ -1,9 +1,14 @@
 const initialState = {
-  boards: []
+  safeBoards: [],
+  allBoards: []
 };
 
 const url = "https://a.4cdn.org/boards.json";
 const BoardListReceived = "BoardListReceived";
+
+function filterNSFW({ ws_board }) {
+  return ws_board === 1;
+}
 
 function receivedBoardList({ boards }) {
   return {
@@ -28,7 +33,8 @@ export default function(state = initialState, action) {
   switch (action.type) {
     case BoardListReceived: {
       return {
-        boards: action.payload
+        safeBoards: action.payload.filter(filterNSFW),
+        allBoards: action.payload
       };
     }
 

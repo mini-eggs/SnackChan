@@ -7,7 +7,7 @@
   "sources": [
     {
       "dir": "re",
-      "subdirs": ["types", "components", "externalComponents", "reducers"]
+      "subdirs": ["types", "components", "externalComponents"]
     }
   ]
 }

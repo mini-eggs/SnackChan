@@ -18,6 +18,7 @@ import {
 } from "native-base";
 import Options from "./options";
 import Navigate from "../utilities/navigate";
+import { jsComponent as BoardItem } from "../../lib/js/re/components/boardItem";
 
 const headerProps =
   Platform.OS === "ios"
@@ -32,25 +33,10 @@ const headerProps =
         searchBar: true
       };
 
-function SingleItem({ title, board, navigation }) {
-  return (
-    <ListItem onPress={Navigate(navigation, "Board", { board })}>
-      <Body>
-        <H3>
-          {title}
-        </H3>
-      </Body>
-      <Right>
-        <Icon name="arrow-forward" />
-      </Right>
-    </ListItem>
-  );
-}
-
-const SingleItemNav = withNavigation(SingleItem);
-
-function IterateList(item, index) {
-  return <SingleItemNav key={index} {...item} />;
+function IterateList(navigation) {
+  return (item, index) => {
+    return <BoardItem key={index} item={item} navigation={navigation} />;
+  };
 }
 
 function filterBoards(search) {
@@ -62,20 +48,10 @@ function filterBoards(search) {
   };
 }
 
-function BoardListContainer({ boards, search, setSearch }) {
+function BoardListContainer({ boards, search, setSearch, navigation }) {
   function handleChangeText(value) {
     setSearch(value);
   }
-
-  const MainContent =
-    boards.length < 1
-      ? <Spinner style={{ flex: 1 }} />
-      : <Content>
-          <List>
-            {boards.filter(filterBoards(search)).map(IterateList)}
-          </List>
-        </Content>;
-
   return (
     <Container>
       <Header {...headerProps}>
@@ -84,7 +60,11 @@ function BoardListContainer({ boards, search, setSearch }) {
           <Input placeholder="Search" onChangeText={handleChangeText} />
         </Item>
       </Header>
-      {MainContent}
+      <Content>
+        <List>
+          {boards.filter(filterBoards(search)).map(IterateList(navigation))}
+        </List>
+      </Content>
       <Options />
     </Container>
   );

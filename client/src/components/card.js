@@ -5,9 +5,15 @@ import {
   Dimensions,
   TouchableWithoutFeedback
 } from "react-native";
+import { withNavigation } from "react-navigation";
+import { connect } from "react-redux";
 import { Grid, Row, Text, Spinner } from "native-base";
 import FadeIn from "react-native-fade-in-image";
 import HTML from "./html";
+import {
+  placeholderImage,
+  placeholderDimensions
+} from "../utilities/placeholderImage";
 
 function Placeholder() {
   return (
@@ -45,21 +51,29 @@ function Fade({ children }) {
   );
 }
 
-export default function({ item, board, onPress }) {
+function CardComponent({ item, board, showImages, navigation }) {
   function ImageWrapper() {
     if (typeof item.tim === "undefined") {
       return null;
     }
+    const uri = showImages ? getChanImage(item, board) : placeholderImage;
+    const dimensions = showImages
+      ? getImageDimensions(item)
+      : getImageDimensions(placeholderDimensions);
     return (
       <Row>
         <Fade>
-          <Image
-            source={{ uri: getChanImage(item, board) }}
-            style={getImageDimensions(item)}
-          />
+          <Image source={{ uri }} style={dimensions} />
         </Fade>
       </Row>
     );
+  }
+
+  function onPress() {
+    /* If on thread scene, navigate to post scene. */
+    if (navigation.state.routeName === "Board") {
+      navigation.navigate("Thread", { ...item, board });
+    }
   }
 
   return (
@@ -82,3 +96,12 @@ export default function({ item, board, onPress }) {
     </TouchableWithoutFeedback>
   );
 }
+
+function mapState({ Settings }) {
+  const { showImages } = Settings;
+  return {
+    showImages
+  };
+}
+
+export default connect(mapState)(withNavigation(CardComponent));

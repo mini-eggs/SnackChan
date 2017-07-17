@@ -16,13 +16,19 @@ S src
 B lib/bs/src
 S src/components
 B lib/bs/src/components
+S src/types
+B lib/bs/src/types
 S src/simple
 B lib/bs/src/simple
 S src/interop
 B lib/bs/src/interop
 S client/re
-
+####BSB GENERATED: NO EDIT}
 S client/re
 B client/lib/bs/src
 S client/re/components
-####BSB GENERATED: NO EDIT}
+B client/lib/bs/src/components
+S client/re/externalComponents
+B client/lib/bs/src/externalComponents
+S client/re/types
+B client/lib/bs/src/types

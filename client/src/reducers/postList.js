@@ -3,6 +3,7 @@ const initialState = {
 };
 
 const PostListReceived = "PostListReceived";
+const ClearPostList = "CLEAR_POST_LIST";
 
 function receivedPostList({ posts }) {
   return {
@@ -24,11 +25,23 @@ export function requestPostList(board, thread) {
   };
 }
 
+export function clearPostList() {
+  return {
+    type: ClearPostList
+  };
+}
+
 export default function(state = initialState, action) {
   switch (action.type) {
     case PostListReceived: {
       return {
         posts: action.payload
+      };
+    }
+
+    case ClearPostList: {
+      return {
+        posts: []
       };
     }
 

@@ -12,9 +12,11 @@ const home = lifecycle({
   componentWillMount
 })(BoardList);
 
-function mapState({ BoardList }) {
+function mapState({ BoardList, Settings }) {
+  const { showNSFW } = Settings;
+  const { allBoards, safeBoards } = BoardList;
   return {
-    boards: BoardList.boards
+    boards: showNSFW ? allBoards : safeBoards
   };
 }
 

@@ -1,5 +1,3 @@
-open ReactNative;
-
 type state = {
   page: int,
   loadingNextPage: bool
@@ -17,7 +15,12 @@ let make ::requestThreadList ::clearThreadList ::threads ::board _children => {
   willUnmount: fun _self => clearThreadList,
   willReceiveProps: fun self => {page: self.state.page, loadingNextPage: false},
   render: fun _self => {
-    let iterateThreads thread => <CustomCard item=thread board />;
+    let counter = ref (-1);
+    let iterateThreads thread => {
+      counter := !counter + 1;
+      let keyIndex = string_of_int !counter;
+      <CustomCard key=keyIndex item=thread board />
+    };
     let listItems = Array.map iterateThreads threads;
     let listElements = ReasonReact.arrayToElement listItems;
     <NativeBaseContainer>

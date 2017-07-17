@@ -1,17 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 import { lifecycle } from "recompose";
-import { requestPostList } from "../reducers/postList";
-import PostList from "../components/postList";
-
-function componentWillMount() {
-  const { board, no } = this.props.navigation.state.params;
-  this.props.requestPostList(board, no);
-}
-
-const thread = lifecycle({
-  componentWillMount
-})(PostList);
+import { requestPostList, clearPostList } from "../reducers/postList";
+import { jsComponent as PostListContainer } from "../../lib/js/re/components/postListContainer";
 
 function mapState({ PostList }) {
   return {
@@ -21,7 +12,8 @@ function mapState({ PostList }) {
 
 function mapDispatch(dispatch) {
   return {
-    requestPostList: (board, no) => dispatch(requestPostList(board, no))
+    requestPostList: (board, no) => dispatch(requestPostList(board, no)),
+    clearPostList: () => dispatch(clearPostList())
   };
 }
 
@@ -33,6 +25,6 @@ function navigationOptions({ navigation }) {
 }
 
 export default {
-  screen: connect(mapState, mapDispatch)(thread),
+  screen: connect(mapState, mapDispatch)(PostListContainer),
   navigationOptions
 };
