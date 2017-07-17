@@ -1,18 +1,4 @@
-/* function SingleItem({ title, board, navigation }) {
-     return (
-       <ListItem onPress={Navigate(navigation, "Board", { board })}>
-         <Body>
-           <H3>
-             {title}
-           </H3>
-         </Body>
-         <Right>
-           <Icon name="arrow-forward" />
-         </Right>
-       </ListItem>
-     );
-   } */
- type navigationObject = {board: string}; 
+type navigationObject = {board: string}; 
 
 let component = ReasonReact.statelessComponent "BoardItem";
 
@@ -34,6 +20,6 @@ let make ::item ::navigation _children => {
   }
 };
 
-let jsComponent =
+/* let jsComponent =
   ReasonReact.wrapReasonForJs
-    ::component (fun jsProps => make item::jsProps##item navigation::jsProps##navigation [||]);
+    ::component (fun jsProps => make item::jsProps##item navigation::jsProps##navigation [||]); */

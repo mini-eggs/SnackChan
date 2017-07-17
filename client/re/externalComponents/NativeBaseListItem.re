@@ -1,5 +1,4 @@
-external nativeBaseListItem : ReasonReact.reactClass =
-  "../../../../src/exports/nativeBaseListItem" [@@bs.module];
+external nativeBaseListItem : ReasonReact.reactClass = "ListItem" [@@bs.module "native-base"];
 
 let make ::onPress children =>
   ReasonReact.wrapJsForReason reactClass::nativeBaseListItem props::{"onPress": onPress} children;

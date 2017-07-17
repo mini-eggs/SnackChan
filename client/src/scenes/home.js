@@ -2,15 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { lifecycle } from "recompose";
 import { requestBoardList } from "../reducers/boardList";
-import BoardList from "../components/boardList";
-
-function componentWillMount() {
-  this.props.requestBoardList();
-}
-
-const home = lifecycle({
-  componentWillMount
-})(BoardList);
+import { jsComponent as BoardListContainer } from "../../lib/js/re/components/boardListContainer";
 
 function mapState({ BoardList, Settings }) {
   const { showNSFW } = Settings;
@@ -27,6 +19,6 @@ function mapDispatch(dispatch) {
 }
 
 export default {
-  screen: connect(mapState, mapDispatch)(home),
-  navigationOptions: () => ({ title: "Snack Chan", subtitle: "Here" })
+  screen: connect(mapState, mapDispatch)(BoardListContainer),
+  navigationOptions: () => ({ title: "Snack Chan" })
 };

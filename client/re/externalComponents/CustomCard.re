@@ -1,4 +1,5 @@
-external customCard : ReasonReact.reactClass = "../../../../src/exports/customCard" [@@bs.module];
+external customCard : ReasonReact.reactClass =
+  "default" [@@bs.module "../../../../src/components/card"];
 
 let make ::item ::board children =>
   ReasonReact.wrapJsForReason
