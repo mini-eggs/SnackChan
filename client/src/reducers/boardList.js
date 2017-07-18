@@ -19,13 +19,9 @@ function receivedBoardList({ boards }) {
 
 export function requestBoardList() {
   return async function(dispatch) {
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
-      dispatch(receivedBoardList(data));
-    } catch (err) {
-      console.log(err);
-    }
+    const response = await fetch(url);
+    const data = await response.json();
+    dispatch(receivedBoardList(data));
   };
 }
 
@@ -37,7 +33,6 @@ export default function(state = initialState, action) {
         allBoards: action.payload
       };
     }
-
     default: {
       return state;
     }

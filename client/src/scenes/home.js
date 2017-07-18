@@ -1,14 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
-import { lifecycle } from "recompose";
 import { requestBoardList } from "../reducers/boardList";
 import { jsComponent as BoardListContainer } from "../../lib/js/re/components/boardListContainer";
 
 function mapState({ BoardList, Settings }) {
-  const { showNSFW } = Settings;
-  const { allBoards, safeBoards } = BoardList;
   return {
-    boards: showNSFW ? allBoards : safeBoards
+    boards: Settings.showNSFW ? BoardList.allBoards : BoardList.safeBoards
   };
 }
 

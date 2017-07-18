@@ -19,7 +19,3 @@ let make ::item ::navigation _children => {
       </NativeBaseListItem>
   }
 };
-
-/* let jsComponent =
-  ReasonReact.wrapReasonForJs
-    ::component (fun jsProps => make item::jsProps##item navigation::jsProps##navigation [||]); */

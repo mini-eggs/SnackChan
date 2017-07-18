@@ -1,13 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
-import { lifecycle } from "recompose";
 import { requestPostList, clearPostList } from "../reducers/postList";
 import { jsComponent as PostListContainer } from "../../lib/js/re/components/postListContainer";
 
 function mapState({ PostList }) {
-  return {
-    posts: PostList.posts
-  };
+  return { posts: PostList.posts };
 }
 
 function mapDispatch(dispatch) {
@@ -18,10 +15,7 @@ function mapDispatch(dispatch) {
 }
 
 function navigationOptions({ navigation }) {
-  const { no } = navigation.state.params;
-  return {
-    title: no
-  };
+  return { title: navigation.state.params.no };
 }
 
 export default {

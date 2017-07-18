@@ -4,9 +4,7 @@ import { requestThreadList, clearThreadList } from "../reducers/threadList";
 import { jsComponent as ThreadListContainer } from "../../lib/js/re/components/threadListContainer";
 
 function mapState({ ThreadList }) {
-  return {
-    threads: ThreadList.threads
-  };
+  return { threads: ThreadList.threads };
 }
 
 function mapDispatch(dispatch) {
@@ -19,10 +17,7 @@ function mapDispatch(dispatch) {
 }
 
 function navigationOptions({ navigation }) {
-  const { title, board } = navigation.state.params;
-  return {
-    title: `/${board}/`
-  };
+  return { title: `/${navigation.state.params.board}/` };
 }
 
 export default {

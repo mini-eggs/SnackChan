@@ -37,6 +37,7 @@ let make ::requestBoardList ::navigation ::boards _children => {
           </NativeBaseItem>
         </NativeBaseHeader>
         <NativeBaseContent> <NativeBaseList> listElements </NativeBaseList> </NativeBaseContent>
+        <CustomFabOptions />
       </NativeBaseContainer>
     }
   }

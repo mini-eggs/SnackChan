@@ -14,14 +14,10 @@ function receivedPostList({ posts }) {
 
 export function requestPostList(board, thread) {
   return async function(dispatch) {
-    try {
-      const url = `https://a.4cdn.org/${board}/thread/${thread}.json`;
-      const response = await fetch(url);
-      const data = await response.json();
-      dispatch(receivedPostList(data));
-    } catch (err) {
-      console.log(err);
-    }
+    const url = `https://a.4cdn.org/${board}/thread/${thread}.json`;
+    const response = await fetch(url);
+    const data = await response.json();
+    dispatch(receivedPostList(data));
   };
 }
 

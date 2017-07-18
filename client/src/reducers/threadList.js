@@ -20,19 +20,15 @@ function receivedThreadList(threads, board) {
 
 export function requestThreadList(board, page) {
   return async function(dispatch) {
-    try {
-      const url = `https://a.4cdn.org/${board}/${page}.json`;
-      const response = await fetch(url);
-      const { threads } = await response.json();
-      dispatch(receivedThreadList(threads, board));
-    } catch (err) {
-      console.log(err);
-    }
+    const url = `https://a.4cdn.org/${board}/${page}.json`;
+    const response = await fetch(url);
+    const { threads } = await response.json();
+    dispatch(receivedThreadList(threads, board));
   };
 }
 
 function getFirstPostWithBoard(board) {
-  return item => {
+  return function(item) {
     const firstPost = item.posts[0];
     firstPost.board = board;
     return firstPost;
