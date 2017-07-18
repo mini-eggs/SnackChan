@@ -23,7 +23,7 @@ export default function() {
     <Provider store={store}>
       <StyleProvider>
         <ActionSheetProvider>
-          <Stacks />
+          <Stacks onNavigationStateChange={null} />
         </ActionSheetProvider>
       </StyleProvider>
     </Provider>

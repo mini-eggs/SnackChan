@@ -11,7 +11,7 @@ let headerStyle = [%bs.raw {| { marginTop: -14 } |}];
 let component = ReasonReact.statefulComponent "BoardListContainer";
 
 let make ::requestBoardList ::navigation ::boards _children => {
-  let handleUserInput text {ReasonReact.state: state} => ReasonReact.Update {userInput: text};
+  let handleUserInput text {ReasonReact.state: _state} => ReasonReact.Update {userInput: text};
   {
     ...component,
     initialState: fun () => {userInput: ""},
