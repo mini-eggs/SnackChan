@@ -30,9 +30,21 @@ let make ::showActionSheetWithOptions ::navigation _children => {
       "cancelButtonIndex": currentAction.cancelButtonIndex
     }]; 
     let handleActionSheetChosen index => {
-       let alert string => [%bs.raw {| function(int){alert(int)} |}];
-       let chosenAction = currentAction.options.(index);
-        (alert 0) chosenAction; 
+      if (index != 0) {
+        /* let alert string => [%bs.raw {| function(int){alert(int)} |}]; */
+        let chosenAction = currentAction.options.(index);
+        /* (alert 0) chosenAction; */
+
+        switch chosenAction {
+        | "Settings" => {
+          (navigation##navigate "Settings")
+          ()
+        }
+        | _ => {
+          ()
+        }
+        };
+      } 
     };
     showActionSheetWithOptions params handleActionSheetChosen [@bs];
     ReasonReact.NoUpdate

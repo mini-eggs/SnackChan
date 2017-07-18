@@ -1,5 +1,11 @@
 type state = {userInput: string};
 
+let posOfSubString uint => [%bs.raw
+  {| function(aString, subString) {
+    return aString.indexOf(subString);
+   } |}
+];
+
 let headerStyle = [%bs.raw {| { marginTop: -14 } |}];
 
 let component = ReasonReact.statefulComponent "BoardListContainer";
@@ -18,7 +24,10 @@ let make ::requestBoardList ::navigation ::boards _children => {
         if (state.userInput == "") {
           state.userInput == ""
         } else {
-          String.lowercase boardItem##title == String.lowercase state.userInput
+          let boardTitle = String.lowercase boardItem##title;
+          let userInputSearch = String.lowercase state.userInput;
+          let check = posOfSubString 0 boardTitle userInputSearch;
+          check > (-1)
         };
       let filteredBoards = List.filter filterBoards (Array.to_list boards);
       let counter = ref (-1);
