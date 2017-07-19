@@ -12,11 +12,18 @@ import Settings from "./reducers/settings";
 import Home from "./scenes/home";
 import Board from "./scenes/board";
 import Thread from "./scenes/thread";
+import Reply from "./scenes/reply";
 import SettingsScene from "./scenes/settings";
 
 const reducers = combineReducers({ BoardList, ThreadList, PostList, Settings });
 const store = createStore(reducers, applyMiddleware(Thunk));
-const Stacks = StackNavigator({ Home, Board, Thread, Settings: SettingsScene });
+const Stacks = StackNavigator({
+  Home,
+  Board,
+  Thread,
+  Settings: SettingsScene,
+  Reply
+});
 
 export default function() {
   return (

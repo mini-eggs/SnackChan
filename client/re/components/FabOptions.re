@@ -13,7 +13,7 @@ let homeOptions = defaultOptions;
 
 let boardOptions = defaultOptions;
 
-let threadOptions: actionsType = {options: [|"Cancel", "Save", "Watch"|], cancelButtonIndex: 0};
+let threadOptions: actionsType = {options: [|"Cancel", "Save", "Watch", "Reply"|], cancelButtonIndex: 0};
 
 let make ::showActionSheetWithOptions ::navigation _children => {
   let handlePress _event {ReasonReact.state: state} => {
@@ -31,13 +31,15 @@ let make ::showActionSheetWithOptions ::navigation _children => {
     }]; 
     let handleActionSheetChosen index => {
       if (index != 0) {
-        /* let alert string => [%bs.raw {| function(int){alert(int)} |}]; */
         let chosenAction = currentAction.options.(index);
-        /* (alert 0) chosenAction; */
 
         switch chosenAction {
         | "Settings" => {
           (navigation##navigate "Settings")
+          ()
+        }
+        | "Reply" => {
+          (navigation##navigate "Reply") navigation##state##params;
           ()
         }
         | _ => {

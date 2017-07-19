@@ -21,6 +21,7 @@ let make ::posts ::navigation ::requestPostList ::clearPostList _children => {
     let listElements = ReasonReact.arrayToElement listItems;
     <NativeBaseContainer>
       <NativeBaseContent> listElements </NativeBaseContent>
+      <CustomFabOptions />
     </NativeBaseContainer>
   }
 };

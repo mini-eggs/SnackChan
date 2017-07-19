@@ -43,7 +43,7 @@ let make ::requestThreadList ::clearThreadList ::threads ::navigation _children 
         if (Array.length threads > 0 && state.page < 10) {
           <View style=buttonContainer>
             <NativeBaseButton onPress=(update handleNextPage)>
-              <Text style=buttonText> (ReasonReact.stringToElement "Next button") </Text>
+              <Text style=buttonText> (ReasonReact.stringToElement "More") </Text>
             </NativeBaseButton>
           </View>
         } else {
