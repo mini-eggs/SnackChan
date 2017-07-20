@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import Thunk from "redux-thunk";
 import { StackNavigator } from "react-navigation";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
-import StyleProvider from "./components/styleProvider";
+import StyleProvider, { cardStyle } from "./components/styleProvider";
 import BoardList from "./reducers/boardList";
 import ThreadList from "./reducers/threadList";
 import PostList from "./reducers/postList";
@@ -17,13 +17,18 @@ import SettingsScene from "./scenes/settings";
 
 const reducers = combineReducers({ BoardList, ThreadList, PostList, Settings });
 const store = createStore(reducers, applyMiddleware(Thunk));
-const Stacks = StackNavigator({
-  Home,
-  Board,
-  Thread,
-  Settings: SettingsScene,
-  Reply
-});
+const Stacks = StackNavigator(
+  {
+    Home,
+    Board,
+    Thread,
+    Settings: SettingsScene,
+    Reply
+  },
+  {
+    cardStyle
+  }
+);
 
 export default function() {
   return (

@@ -1,4 +1,4 @@
 external nativeBaseItem : ReasonReact.reactClass = "Item" [@@bs.module "native-base"];
 
-let make children =>
-  ReasonReact.wrapJsForReason reactClass::nativeBaseItem props::{"hello": "world"} children;
+let make ::style children =>
+  ReasonReact.wrapJsForReason reactClass::nativeBaseItem props::{"style": style} children;

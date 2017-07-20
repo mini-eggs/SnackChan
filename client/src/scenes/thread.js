@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { headerStyle } from "../components/styleProvider";
 import { requestPostList, clearPostList } from "../reducers/postList";
 import { jsComponent as PostListContainer } from "../../lib/js/re/components/postListContainer";
 
@@ -15,7 +16,7 @@ function mapDispatch(dispatch) {
 }
 
 function navigationOptions({ navigation }) {
-  return { title: navigation.state.params.no };
+  return { title: navigation.state.params.no, ...headerStyle };
 }
 
 export default {

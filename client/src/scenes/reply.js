@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { headerStyle } from "../components/styleProvider";
 import { requestBoardList } from "../reducers/boardList";
 import { jsComponent as PostReplyContainer } from "../../lib/js/re/components/postReplyContainer";
 
@@ -13,5 +14,5 @@ function mapDispatch(dispatch) {
 
 export default {
   screen: connect(null, mapDispatch)(PostReplyContainer),
-  navigationOptions: () => ({ title: "Reply" })
+  navigationOptions: () => ({ title: "Reply", ...headerStyle })
 };

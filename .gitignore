@@ -29,3 +29,4 @@ lib/bs
 *.mliast
 .vscode
 .merlin
+client/src/theme/variables/reference.js

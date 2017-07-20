@@ -40,7 +40,7 @@ let make ::requestBoardList ::navigation ::boards _children => {
       let listElements = ReasonReact.arrayToElement listItems;
       <NativeBaseContainer>
         <NativeBaseHeader style=headerStyle>
-          <NativeBaseItem>
+          <NativeBaseItem style=[%bs.raw {| { backgroundColor:"white" } |}]>
             <NativeBaseIcon name="ios-search" />
             <NativeBaseInput placeholder="Search" onChangeText=(update handleUserInput) />
           </NativeBaseItem>

@@ -14,11 +14,13 @@ import {
   placeholderImage,
   placeholderDimensions
 } from "../utilities/placeholderImage";
+import { cardStyle } from "./styleProvider";
 
 function Placeholder() {
   return (
     <View
       style={{
+        backgroundColor: cardStyle.backgroundColor,
         flex: 1,
         justifyContent: "center",
         alignItems: "center"

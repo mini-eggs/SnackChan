@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { headerStyle } from "../components/styleProvider";
 import { requestBoardList } from "../reducers/boardList";
 import { jsComponent as BoardListContainer } from "../../lib/js/re/components/boardListContainer";
 
@@ -17,5 +18,5 @@ function mapDispatch(dispatch) {
 
 export default {
   screen: connect(mapState, mapDispatch)(BoardListContainer),
-  navigationOptions: () => ({ title: "Snack Chan" })
+  navigationOptions: () => ({ title: "Snack Chan", ...headerStyle })
 };

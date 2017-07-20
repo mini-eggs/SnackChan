@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { headerStyle } from "../components/styleProvider";
 import { requestThreadList, clearThreadList } from "../reducers/threadList";
 import { jsComponent as ThreadListContainer } from "../../lib/js/re/components/threadListContainer";
 
@@ -17,7 +18,7 @@ function mapDispatch(dispatch) {
 }
 
 function navigationOptions({ navigation }) {
-  return { title: `/${navigation.state.params.board}/` };
+  return { title: `/${navigation.state.params.board}/`, ...headerStyle };
 }
 
 export default {

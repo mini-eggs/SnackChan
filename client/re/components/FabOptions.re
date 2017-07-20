@@ -56,7 +56,7 @@ let make ::showActionSheetWithOptions ::navigation _children => {
     render: fun {update} =>
       <NativeBaseFab
         active=[%bs.raw {| false |}]
-        style=[%bs.raw {| { backgroundColor: "red" } |}]
+        style=[%bs.raw {| { backgroundColor: "#800080" } |}]
         onPress=(update handlePress)
         direction="up"
         position="bottomRight">
