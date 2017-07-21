@@ -1,9 +1,7 @@
-open Lwt;
 open Cohttp_lwt_unix;
-open Yojson;
 
 /**
- * Utility function.
+ * Utility function.  
  */
 let build_response (status: int) (message: string) => {
   let body = `Assoc [ 

@@ -11,11 +11,13 @@ let make ::item ::navigation _children => {
   {
     ...component,
     render: fun {update} =>
-      <NativeBaseListItem onPress=(update handlePress)>
-        <NativeBaseBody>
-          <NativeBaseText> (ReasonReact.stringToElement item##title) </NativeBaseText>
-        </NativeBaseBody>
-        <NativeBaseRight> <NativeBaseIcon name="arrow-forward" /> </NativeBaseRight>
-      </NativeBaseListItem>
+      <CustomFade>
+        <NativeBaseListItem onPress=(update handlePress)>
+          <NativeBaseBody>
+            <NativeBaseText> (ReasonReact.stringToElement item##title) </NativeBaseText>
+          </NativeBaseBody>
+          <NativeBaseRight> <NativeBaseIcon name="arrow-forward" /> </NativeBaseRight>
+        </NativeBaseListItem>
+      </CustomFade>
   }
 };

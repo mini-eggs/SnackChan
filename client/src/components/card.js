@@ -15,11 +15,13 @@ import {
   placeholderDimensions
 } from "../utilities/placeholderImage";
 import { cardStyle } from "./styleProvider";
+import FadeAnimation from "./fade";
 
 function Placeholder() {
   return (
     <View
       style={{
+        backgroundColor: "transparent",
         flex: 1,
         justifyContent: "center",
         alignItems: "center"
@@ -76,21 +78,23 @@ function CardComponent({ item, board, showImages, navigation }) {
   }
 
   return (
-    <TouchableWithoutFeedback onPress={onPress}>
-      <View>
-        <ImageWrapper />
-        <View style={{ padding: 15 }}>
-          <Text>
-            {item.name}
-          </Text>
-          <Text>
-            {item.no}
-          </Text>
-          <View style={{ height: 15 }} />
-          <HTML html={item.com} />
+    <FadeAnimation>
+      <TouchableWithoutFeedback onPress={onPress}>
+        <View>
+          <ImageWrapper />
+          <View style={{ padding: 15 }}>
+            <Text>
+              {item.name}
+            </Text>
+            <Text>
+              {item.no}
+            </Text>
+            <View style={{ height: 15 }} />
+            <HTML html={item.com} />
+          </View>
         </View>
-      </View>
-    </TouchableWithoutFeedback>
+      </TouchableWithoutFeedback>
+    </FadeAnimation>
   );
 }
 
