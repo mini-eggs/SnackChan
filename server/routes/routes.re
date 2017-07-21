@@ -1,15 +1,25 @@
 open Lwt;
 open Cohttp_lwt_unix;
+open Yojson;
+
+/**
+ * Utility function.
+ */
+let build_response (status: int) (message: string) => {
+  let body = `Assoc [ 
+    ("status", `Int status),  
+    ("message", `String message)
+  ];
+  Server.respond_string status::`OK body::(Yojson.Basic.pretty_to_string body);
+};
 
 /**
  * Routes.
  */
 let default_route () => {
-  let body = "{\"message\": \"Hello world!\"}";
-  Server.respond_string status::`OK body::body ();
+  build_response 1 "Welcome to Snack Chan server" ();
 };
 
 let error_route () => {
-  let body = "{\"message\": \"Error.\"}";
-  Server.respond_string status::`Not_found body::body ();
+  build_response (-1) "Error" ();
 };
