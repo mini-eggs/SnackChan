@@ -10,7 +10,9 @@ import PostList from "../reducers/postList";
 import Settings from "../reducers/settings";
 
 const reducers = combineReducers({ BoardList, ThreadList, PostList, Settings });
-const middlewares = compose(applyMiddleware(Thunk), offline(offlineConfig));
+const middlewares = compose(
+  applyMiddleware(Thunk) /*, offline(offlineConfig) */
+);
 const store = createStore(reducers, middlewares);
 
 export default function({ children }) {
