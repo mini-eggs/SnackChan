@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { headerStyle } from "../components/styleProvider";
 import { requestPostList, clearPostList } from "../reducers/postList";
-import { jsComponent as PostListContainer } from "../../lib/js/re/components/postListContainer";
+import { jsComponent as PostListContainer } from "../../lib/js/src/components/postListContainer";
 
 function mapState({ PostList }) {
   return { posts: PostList.posts };

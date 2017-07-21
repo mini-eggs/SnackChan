@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { headerStyle } from "../components/styleProvider";
 import { requestBoardList } from "../reducers/boardList";
-import { jsComponent as BoardListContainer } from "../../lib/js/re/components/boardListContainer";
+import { jsComponent as BoardListContainer } from "../../lib/js/src/components/boardListContainer";
 
 function mapState({ BoardList, Settings }) {
   return {

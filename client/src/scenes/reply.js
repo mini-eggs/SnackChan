@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { headerStyle } from "../components/styleProvider";
 import { requestBoardList } from "../reducers/boardList";
-import { jsComponent as PostReplyContainer } from "../../lib/js/re/components/postReplyContainer";
+import { jsComponent as PostReplyContainer } from "../../lib/js/src/components/postReplyContainer";
 
 function mapDispatch(dispatch) {
   return {

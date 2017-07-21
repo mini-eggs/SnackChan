@@ -6,7 +6,7 @@
   "bs-dependencies": ["bs-react-native", "reason-react"],
   "sources": [
     {
-      "dir": "re",
+      "dir": "src",
       "subdirs": ["types", "components", "externalComponents"]
     }
   ]

@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { headerStyle } from "../components/styleProvider";
 import { requestThreadList, clearThreadList } from "../reducers/threadList";
-import { jsComponent as ThreadListContainer } from "../../lib/js/re/components/threadListContainer";
+import { jsComponent as ThreadListContainer } from "../../lib/js/src/components/threadListContainer";
 
 function mapState({ ThreadList }) {
   return { threads: ThreadList.threads };

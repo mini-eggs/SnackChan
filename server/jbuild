@@ -1,7 +1,7 @@
 (jbuild_version 1)
 
 (executables
- ((libraries (cohttp.lwt yojson))
+ ((libraries (cohttp.lwt yojson core routes))
   (names (main))))
 
 (alias
