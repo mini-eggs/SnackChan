@@ -1,15 +1,15 @@
 # jbuilder build main.exe
 # OCAMLPARAM: unset
 # Workspace root: /Users/evanjones/evansapps/SnackChan/server
-$ /Users/evanjones/.opam/4.02.3/bin/ocamlfind printconf path > /var/folders/wn/wxmz0zm91c31bpp23pdpknv80000gn/T/jbuild6eaccd.output
-$ /Users/evanjones/.opam/4.02.3/bin/ocamlc.opt -config > /var/folders/wn/wxmz0zm91c31bpp23pdpknv80000gn/T/jbuilde10f2b.output
+$ /Users/evanjones/.opam/4.02.3/bin/ocamlfind printconf path > /var/folders/wn/wxmz0zm91c31bpp23pdpknv80000gn/T/jbuild9e5747.output
+$ /Users/evanjones/.opam/4.02.3/bin/ocamlc.opt -config > /var/folders/wn/wxmz0zm91c31bpp23pdpknv80000gn/T/jbuildef5642.output
 # Jbuilder context:
 #  ((name default)
 #   (kind default)
 #   (merlin true)
 #   (for_host ())
 #   (build_dir _build/default)
-#   (toplevel_path (/Users/evanjones/.opam/4.02.3/lib/toplevel))
+#   (toplevel_path (/Users/evanjones/.opam/4.03.0/lib/toplevel))
 #   (ocaml_bin /Users/evanjones/.opam/4.02.3/bin)
 #   (ocaml /Users/evanjones/.opam/4.02.3/bin/ocaml)
 #   (ocamlc /Users/evanjones/.opam/4.02.3/bin/ocamlc.opt)
@@ -63,3 +63,12 @@ $ /Users/evanjones/.opam/4.02.3/bin/ocamlc.opt -config > /var/folders/wn/wxmz0zm
 #   (which
 #    ((ocamlc (/Users/evanjones/.opam/4.02.3/bin/ocamlc.opt))
 #     (ocamlfind (/Users/evanjones/.opam/4.02.3/bin/ocamlfind)))))
+$ (cd _build/default && /Users/evanjones/.opam/4.02.3/bin/refmt --print binary main.re) > _build/default/main.re.ml
+$ (cd _build/default && /Users/evanjones/.opam/4.02.3/bin/ocamldep.opt -modules main.re.ml) > _build/default/main.depends.ocamldep-output
+$ (cd _build/default && /Users/evanjones/.opam/4.02.3/bin/ocamlc.opt -w -40 -g -bin-annot -I /Users/evanjones/.opam/4.02.3/lib/base64 -I /Users/evanjones/.opam/4.02.3/lib/biniou -I /Users/evanjones/.opam/4.02.3/lib/bytes -I /Users/evanjones/.opam/4.02.3/lib/cohttp -I /Users/evanjones/.opam/4.02.3/lib/conduit -I /Users/evanjones/.opam/4.02.3/lib/cstruct -I /Users/evanjones/.opam/4.02.3/lib/easy-format -I /Users/evanjones/.opam/4.02.3/lib/fieldslib -I /Users/evanjones/.opam/4.02.3/lib/fmt -I /Users/evanjones/.opam/4.02.3/lib/ipaddr -I /Users/evanjones/.opam/4.02.3/lib/logs -I /Users/evanjones/.opam/4.02.3/lib/lwt -I /Users/evanjones/.opam/4.02.3/lib/magic-mime -I /Users/evanjones/.opam/4.02.3/lib/ocaml -I /Users/evanjones/.opam/4.02.3/lib/ocplib-endian -I /Users/evanjones/.opam/4.02.3/lib/re -I /Users/evanjones/.opam/4.02.3/lib/result -I /Users/evanjones/.opam/4.02.3/lib/sexplib -I /Users/evanjones/.opam/4.02.3/lib/ssl -I /Users/evanjones/.opam/4.02.3/lib/stringext -I /Users/evanjones/.opam/4.02.3/lib/uri -I /Users/evanjones/.opam/4.02.3/lib/yojson -no-alias-deps -I . -o main.cmo -c -impl main.re.ml)
+> File "main.re", line 5, characters 2-44:
+> Warning 10: this expression should have type unit.
+$ (cd _build/default && /Users/evanjones/.opam/4.02.3/bin/ocamlopt.opt -w -40 -g -I /Users/evanjones/.opam/4.02.3/lib/base64 -I /Users/evanjones/.opam/4.02.3/lib/biniou -I /Users/evanjones/.opam/4.02.3/lib/bytes -I /Users/evanjones/.opam/4.02.3/lib/cohttp -I /Users/evanjones/.opam/4.02.3/lib/conduit -I /Users/evanjones/.opam/4.02.3/lib/cstruct -I /Users/evanjones/.opam/4.02.3/lib/easy-format -I /Users/evanjones/.opam/4.02.3/lib/fieldslib -I /Users/evanjones/.opam/4.02.3/lib/fmt -I /Users/evanjones/.opam/4.02.3/lib/ipaddr -I /Users/evanjones/.opam/4.02.3/lib/logs -I /Users/evanjones/.opam/4.02.3/lib/lwt -I /Users/evanjones/.opam/4.02.3/lib/magic-mime -I /Users/evanjones/.opam/4.02.3/lib/ocaml -I /Users/evanjones/.opam/4.02.3/lib/ocplib-endian -I /Users/evanjones/.opam/4.02.3/lib/re -I /Users/evanjones/.opam/4.02.3/lib/result -I /Users/evanjones/.opam/4.02.3/lib/sexplib -I /Users/evanjones/.opam/4.02.3/lib/ssl -I /Users/evanjones/.opam/4.02.3/lib/stringext -I /Users/evanjones/.opam/4.02.3/lib/uri -I /Users/evanjones/.opam/4.02.3/lib/yojson -intf-suffix .ml -no-alias-deps -I . -o main.cmx -c -impl main.re.ml)
+> File "main.re", line 5, characters 2-44:
+> Warning 10: this expression should have type unit.
+$ (cd _build/default && /Users/evanjones/.opam/4.02.3/bin/ocamlopt.opt -w -40 -g -o main.exe -I /Users/evanjones/.opam/4.02.3/lib/base64 -I /Users/evanjones/.opam/4.02.3/lib/biniou -I /Users/evanjones/.opam/4.02.3/lib/bytes -I /Users/evanjones/.opam/4.02.3/lib/cohttp -I /Users/evanjones/.opam/4.02.3/lib/conduit -I /Users/evanjones/.opam/4.02.3/lib/cstruct -I /Users/evanjones/.opam/4.02.3/lib/easy-format -I /Users/evanjones/.opam/4.02.3/lib/fieldslib -I /Users/evanjones/.opam/4.02.3/lib/fmt -I /Users/evanjones/.opam/4.02.3/lib/ipaddr -I /Users/evanjones/.opam/4.02.3/lib/logs -I /Users/evanjones/.opam/4.02.3/lib/lwt -I /Users/evanjones/.opam/4.02.3/lib/magic-mime -I /Users/evanjones/.opam/4.02.3/lib/ocaml -I /Users/evanjones/.opam/4.02.3/lib/ocplib-endian -I /Users/evanjones/.opam/4.02.3/lib/re -I /Users/evanjones/.opam/4.02.3/lib/result -I /Users/evanjones/.opam/4.02.3/lib/sexplib -I /Users/evanjones/.opam/4.02.3/lib/ssl -I /Users/evanjones/.opam/4.02.3/lib/stringext -I /Users/evanjones/.opam/4.02.3/lib/uri -I /Users/evanjones/.opam/4.02.3/lib/yojson result.cmxa re.cmxa unix.cmxa bigarray.cmxa re_posix.cmxa stringext.cmxa sexplib.cmxa re_emacs.cmxa uri.cmxa fieldslib.cmxa base64.cmxa lwt.cmxa cohttp.cmxa lwt-log.cmxa ocplib_endian.cmxa bigstring.cmxa ipaddr.cmxa cstruct.cmxa logs.cmxa conduit.cmxa ssl_threads.cmxa lwt-unix.cmxa conduit-lwt.cmxa ipaddr_unix.cmxa lwt-ssl.cmxa services.cmxa fmt.cmxa cohttp_lwt.cmxa conduit-lwt-unix.cmxa magic-mime.cmxa logs_fmt.cmxa logs_lwt.cmxa easy_format.cmx biniou.cmxa cohttp_lwt_unix.cmxa yojson.cmx main.cmx)

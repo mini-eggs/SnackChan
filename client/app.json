@@ -1,5 +1,15 @@
 {
   "expo": {
-    "sdkVersion": "18.0.0"
+    "name": "Snack Chan",
+    "icon": "./path/to/your/app-icon.png",
+    "version": "1.0.0",
+    "slug": "snack-chan",
+    "sdkVersion": "18.0.0",
+    "ios": {
+      "bundleIdentifier": "com.evansapps.snackchan"
+    },
+    "android": {
+      "package": "com.evansapps.snackchan"
+    }
   }
 }

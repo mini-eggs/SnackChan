@@ -30,3 +30,5 @@ lib/bs
 .vscode
 .merlin
 client/src/theme/variables/reference.js
+server/_build
+.merlin

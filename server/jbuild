@@ -1,5 +1,9 @@
 (jbuild_version 1)
 
-(executable
- ((name main)
-  (libraries (lwt.unix))))
+(executables
+ ((libraries (cohttp.lwt yojson))
+  (names (main))))
+
+(alias
+  ((name DEFAULT)
+   (deps (main.exe))))
