@@ -8,8 +8,15 @@ import BoardList from "../reducers/boardList";
 import ThreadList from "../reducers/threadList";
 import PostList from "../reducers/postList";
 import Settings from "../reducers/settings";
+import App from "../reducers/app";
 
-const reducers = combineReducers({ BoardList, ThreadList, PostList, Settings });
+const reducers = combineReducers({
+  BoardList,
+  ThreadList,
+  PostList,
+  Settings,
+  App
+});
 const middlewares = compose(
   applyMiddleware(Thunk) /*, offline(offlineConfig) */
 );

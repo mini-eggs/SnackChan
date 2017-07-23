@@ -3,6 +3,7 @@ import { StackNavigator } from "react-navigation";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import ReduxProvider from "./components/reduxProvider";
 import StyleProvider, { cardStyle } from "./components/styleProvider";
+import AppProvider from "./components/appProvider";
 import Home from "./scenes/home";
 import Board from "./scenes/board";
 import Thread from "./scenes/thread";
@@ -17,11 +18,13 @@ const Stacks = StackNavigator(
 export default function() {
   return (
     <ReduxProvider>
-      <StyleProvider>
-        <ActionSheetProvider>
-          <Stacks onNavigationStateChange={null} />
-        </ActionSheetProvider>
-      </StyleProvider>
+      <AppProvider>
+        <StyleProvider>
+          <ActionSheetProvider>
+            <Stacks onNavigationStateChange={null} />
+          </ActionSheetProvider>
+        </StyleProvider>
+      </AppProvider>
     </ReduxProvider>
   );
 }
