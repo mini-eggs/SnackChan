@@ -14,6 +14,11 @@ let build_response (status: int) (message: string) => {
 /**
  * Routes.
  */
+let test_token () => {
+  let token = Lib.create_token "24";
+  build_response 1 token ();
+};
+
 let default_route () => {
   build_response 1 "Welcome to Snack Chan server" ();
 };

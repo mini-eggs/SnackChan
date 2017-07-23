@@ -2,4 +2,4 @@
 
 (library
  ((name routes)
-  (libraries (cohttp.lwt yojson))))
+  (libraries (cohttp.lwt yojson lib))))

@@ -9,6 +9,9 @@ run_server: build_server
 clean_server:
 	rm -rf server/_build
 
+dependencies_server:
+	cd server && jbuilder external-lib-deps --missing main.exe
+
 # Client
 
 run_client: 

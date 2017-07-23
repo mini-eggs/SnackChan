@@ -5,6 +5,7 @@ let get_handle conn (req: Cohttp.Request.t) body => {
   let handle () => {
     switch (req.resource) {
     | "/" => (Routes.default_route ())
+    | "/test/token" => (Routes.test_token ())
     | _ => (Routes.error_route ())
     }
   };
