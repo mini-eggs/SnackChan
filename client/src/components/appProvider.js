@@ -7,7 +7,7 @@ function AppContainer({ children }) {
 }
 
 function componentWillMount() {
-  this.props.requestToken();
+  // this.props.requestToken();
 }
 
 function mapDispatch(dispatch) {

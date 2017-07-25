@@ -8,11 +8,12 @@ open Core.Std;
  * Utility function.  
  */
 let build_response (status: int) (message: string) => {
-  let body = `Assoc [ 
+  let json = `Assoc [ 
     ("status", `Int status),  
     ("message", `String message)
   ];
-  Server.respond_string status::`OK body::(Yojson.Basic.pretty_to_string body);
+  let body = Yojson.Basic.pretty_to_string json;
+  Server.respond_string status::`OK body::body;
 };
 
 /**

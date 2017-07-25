@@ -16,3 +16,6 @@ dependencies_server:
 
 run_client: 
 	cd client && yarn ios && yarn start & cd client && yarn watch
+
+release_client:
+	cd client && yarn ios-release

@@ -1,3 +1,5 @@
+import { formatChanItem } from "../utilities/functions";
+
 const initialState = {
   threads: []
 };
@@ -42,7 +44,7 @@ export default function(state = initialState, action) {
         getFirstPostWithBoard(action.payload.board)
       );
       return {
-        threads: state.threads.concat(newThreads)
+        threads: state.threads.concat(newThreads.map(formatChanItem))
       };
     }
 

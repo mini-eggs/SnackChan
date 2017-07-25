@@ -1,75 +1,26 @@
 import React from "react";
-import {
-  Image,
-  View,
-  Dimensions,
-  TouchableWithoutFeedback
-} from "react-native";
+import { View, TouchableWithoutFeedback } from "react-native";
 import { withNavigation } from "react-navigation";
-import { connect } from "react-redux";
-import { Text, Spinner } from "native-base";
-import FadeIn from "react-native-fade-in-image";
+import { Text } from "native-base";
+import { connectActionSheet } from "@expo/react-native-action-sheet";
+import { saveImage } from "../utilities/functions";
 import HTML from "./html";
-import {
-  placeholderImage,
-  placeholderDimensions
-} from "../utilities/placeholderImage";
-import { cardStyle } from "./styleProvider";
 import FadeAnimation from "./fade";
+import ImageWrapper from "./image";
 
-function Placeholder() {
-  return (
-    <View
-      style={{
-        backgroundColor: "transparent",
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center"
-      }}
-    >
-      <Spinner />
-    </View>
-  );
-}
+const imageOptions = {
+  options: ["Cancel", "Save image", "Open in browser"],
+  cancelButtonIndex: 0
+};
 
-function getChanImage({ tim, ext }, board) {
-  return `https://i.4cdn.org/${board}/${tim}${ext}?time=${new Date().getTime()}`;
-}
-
-const { width } = Dimensions.get("window");
-function getImageDimensions({ tn_w, tn_h }) {
-  return {
-    width: width,
-    height: tn_h * width / tn_w
-  };
-}
-
-function Fade({ children }) {
-  return (
-    <FadeIn
-      children={children}
-      style={{ flex: 1 }}
-      renderPlaceholderContent={<Placeholder />}
-    />
-  );
-}
-
-function CardComponent({ item, board, showImages, navigation }) {
-  function ImageWrapper() {
-    if (typeof item.tim === "undefined") {
-      return null;
-    }
-    const uri = showImages ? getChanImage(item, board) : placeholderImage;
-    const dimensions = showImages
-      ? getImageDimensions(item)
-      : getImageDimensions(placeholderDimensions);
-    return (
-      <Fade>
-        <Image source={{ uri }} style={dimensions} />
-      </Fade>
-    );
-  }
-
+function CardComponent({
+  showActionSheetWithOptions,
+  item,
+  board,
+  showImages,
+  navigation
+}) {
+  // handle user interacions
   function onPress() {
     /* If on thread scene, navigate to post scene. */
     if (navigation.state.routeName === "Board") {
@@ -77,11 +28,28 @@ function CardComponent({ item, board, showImages, navigation }) {
     }
   }
 
+  function handleActionSheet(index) {
+    switch (imageOptions.options[index]) {
+      case "Save image": {
+        saveImage(item);
+      }
+      default: {
+        // Silence is golden.
+      }
+    }
+  }
+
+  function onLongPress() {
+    if (item.image) {
+      showActionSheetWithOptions(imageOptions, handleActionSheet);
+    }
+  }
+
   return (
     <FadeAnimation>
-      <TouchableWithoutFeedback onPress={onPress}>
+      <TouchableWithoutFeedback onPress={onPress} onLongPress={onLongPress}>
         <View>
-          <ImageWrapper />
+          <ImageWrapper item={item} board={board} />
           <View style={{ padding: 15 }}>
             <Text>
               {item.name}
@@ -98,11 +66,4 @@ function CardComponent({ item, board, showImages, navigation }) {
   );
 }
 
-function mapState({ Settings }) {
-  const { showImages } = Settings;
-  return {
-    showImages
-  };
-}
-
-export default connect(mapState)(withNavigation(CardComponent));
+export default connectActionSheet(withNavigation(CardComponent));
