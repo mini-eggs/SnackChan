@@ -17,9 +17,11 @@ const reducers = combineReducers({
   Settings,
   App
 });
-const middlewares = compose(
-  applyMiddleware(Thunk) /*, offline(offlineConfig) */
-);
+const someMiddlewards = [applyMiddleware(Thunk)];
+if (process.env.NODE_ENV !== "development") {
+  someMiddlewards.push(offline(offlineConfig));
+}
+const middlewares = compose(...someMiddlewards);
 const store = createStore(reducers, middlewares);
 
 export default function({ children }) {

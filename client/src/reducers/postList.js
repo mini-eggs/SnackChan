@@ -1,3 +1,5 @@
+import { formatChanItem } from "../utilities/functions";
+
 const initialState = {
   posts: []
 };
@@ -31,7 +33,7 @@ export default function(state = initialState, action) {
   switch (action.type) {
     case PostListReceived: {
       return {
-        posts: action.payload
+        posts: action.payload.map(formatChanItem)
       };
     }
 

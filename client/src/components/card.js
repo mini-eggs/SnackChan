@@ -31,7 +31,9 @@ function CardComponent({
   function handleActionSheet(index) {
     switch (imageOptions.options[index]) {
       case "Save image": {
-        saveImage(item);
+        saveImage(item)
+          .then(() => alert("Image saved."))
+          .catch(() => alert("Error."));
       }
       default: {
         // Silence is golden.

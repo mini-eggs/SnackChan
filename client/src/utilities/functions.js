@@ -1,4 +1,4 @@
-import { Dimensions } from "react-native";
+import { Dimensions, CameraRoll } from "react-native";
 import { FileSystem } from "expo";
 
 export function getChanImage({ tim, ext }, board) {
@@ -20,9 +20,7 @@ export function formatChanItem(item) {
 }
 
 export async function saveImage({ imageURI, imageFilename }) {
-  try {
-    const status = await FileSystem.downloadAsync(imageURI, imageFilename);
-  } catch (err) {
-    alert("Error");
-  }
+  const location = `${FileSystem.documentDirectory}/${imageFilename}`;
+  await FileSystem.downloadAsync(imageURI, location);
+  return await CameraRoll.saveToCameraRoll(location);
 }
