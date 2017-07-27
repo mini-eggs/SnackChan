@@ -2,6 +2,7 @@ import { connect } from "react-redux";
 import { lifecycle } from "recompose";
 import { requestToken } from "../reducers/app";
 import { clearThreadList } from "../reducers/threadList";
+import { clearPostList } from "../reducers/postList";
 
 function AppContainer({ children }) {
   return children;
@@ -12,12 +13,14 @@ function componentWillMount() {
   // Persisting this will mess
   // with images.
   this.props.clearThreadList();
+  this.props.clearPostList();
 }
 
 function mapDispatch(dispatch) {
   return {
     requestToken: () => dispatch(requestToken()),
-    clearThreadList: () => dispatch(clearThreadList())
+    clearThreadList: () => dispatch(clearThreadList()),
+    clearPostList: () => dispatch(clearPostList())
   };
 }
 

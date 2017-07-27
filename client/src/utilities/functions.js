@@ -15,13 +15,18 @@ export function imageDimensions({ tn_w, tn_h }) {
   return { width, height };
 }
 
-export function formatChanItem(item) {
-  const imageDetails = {};
-  imageDetails.image = typeof item.tim !== "undefined";
-  imageDetails.imageURI = getChanImage(item, item.board);
-  imageDetails.thumbnailURI = getChanThumbnail(item, item.board);
-  imageDetails.imageFilename = `${item.tim}${item.ext}`;
-  return Object.assign({}, item, imageDetails);
+export function formatChanItem(board) {
+  return item => {
+    const imageDetails = {};
+    imageDetails.image = typeof item.tim !== "undefined";
+    imageDetails.imageURI = `https://i.4cdn.org/${board}/${item.tim}${item.ext}`;
+    imageDetails.thumbnailURI = `https://i.4cdn.org/${board}/${item.tim}s${item.ext}`;
+    imageDetails.imageFilename = `${item.tim}${item.ext}`;
+    return Object.assign({}, item, {
+      ...imageDetails,
+      board
+    });
+  };
 }
 
 export async function saveImage({ imageURI, imageFilename }) {

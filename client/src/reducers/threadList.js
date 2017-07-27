@@ -29,22 +29,18 @@ export function requestThreadList(board, page) {
   };
 }
 
-function getFirstPostWithBoard(board) {
-  return function(item) {
-    const firstPost = item.posts[0];
-    firstPost.board = board;
-    return firstPost;
-  };
+function getFirst(item) {
+  return item.posts[0];
 }
 
 export default function(state = initialState, action) {
   switch (action.type) {
     case ThreadListReceived: {
-      const newThreads = action.payload.threads.map(
-        getFirstPostWithBoard(action.payload.board)
-      );
+      const newThreads = action.payload.threads.map(getFirst);
       return {
-        threads: state.threads.concat(newThreads.map(formatChanItem))
+        threads: state.threads.concat(
+          newThreads.map(formatChanItem(action.payload.board))
+        )
       };
     }
 

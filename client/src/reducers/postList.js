@@ -7,10 +7,10 @@ const initialState = {
 const PostListReceived = "PostListReceived";
 const ClearPostList = "CLEAR_POST_LIST";
 
-function receivedPostList({ posts }) {
+function receivedPostList(board, { posts }) {
   return {
     type: PostListReceived,
-    payload: posts
+    payload: { board, posts }
   };
 }
 
@@ -19,7 +19,7 @@ export function requestPostList(board, thread) {
     const url = `https://a.4cdn.org/${board}/thread/${thread}.json`;
     const response = await fetch(url);
     const data = await response.json();
-    dispatch(receivedPostList(data));
+    dispatch(receivedPostList(board, data));
   };
 }
 
@@ -33,7 +33,7 @@ export default function(state = initialState, action) {
   switch (action.type) {
     case PostListReceived: {
       return {
-        posts: action.payload.map(formatChanItem)
+        posts: action.payload.posts.map(formatChanItem(action.payload.board))
       };
     }
 
