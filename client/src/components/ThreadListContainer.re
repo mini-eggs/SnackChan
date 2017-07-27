@@ -1,5 +1,3 @@
-open ReactNative;
-
 /**
  * Styles
  */
@@ -10,11 +8,10 @@ let buttonText = [%bs.raw {| { color: "white" } |}];
 
 /**
  * Component state types.
+ * We currently only have one
+ * state variable: current page.
  */
-type state = {
-  page: int,
-  loadingNextPage: bool
-};
+type state = int;
 
 /**
  * Component
@@ -25,21 +22,25 @@ let make ::requestThreadList ::clearThreadList ::threads ::navigation _children 
   /* Get board from JS object. */
   let board = navigation##state##params##board;
 
-  /* Handle next page button press. */
-  let handleNextPage _event {ReasonReact.state: state} => {
-    let page = state.page + 1;
-    requestThreadList board page;
-    ReasonReact.Update {page, loadingNextPage: false}
+  /* Handle next page with infinite scroll */
+  let handleEndReached _event {ReasonReact.state: page} => {
+    if ( page < 10 ) {
+      let nextPage = page + 1;
+      requestThreadList board page;
+      ReasonReact.Update nextPage;
+    } else {
+      ReasonReact.NoUpdate;
+    }
   };
 
   {
     ...component,
 
-    /* Request threads and set page/loading status. */
+    /* Request threads and set page status. */
     initialState: fun () => {
       let page = 1;
       requestThreadList board page;
-      {page, loadingNextPage: false};
+      page;
     },
 
     /* Clear thread list, do not persist. */
@@ -47,37 +48,28 @@ let make ::requestThreadList ::clearThreadList ::threads ::navigation _children 
       clearThreadList ();
     },
 
-    /* We're no longer loading the next page. */
-    willReceiveProps: fun self => {
-      {page: self.state.page, loadingNextPage: false};
-    },
+    render: fun {update} => {
 
-    render: fun {state, update} => {
-
-      /* Iterate and get threads. */
+      /**
+       * Iterate threads.
+       */
+      
+      /* Mutable count. */
       let counter = ref (-1);
+
+      /* Iterator. */
       let iterateThreads thread => {
         counter := !counter + 1;
         let keyIndex = string_of_int !counter;
         <CustomCard key=keyIndex item=thread board />
       };
-      let listItems = Array.map iterateThreads threads;
-      let listElements = ReasonReact.arrayToElement listItems;
-      
-      /* Get button if there are threads + we're below page 10. */
-      let button =
-        if (Array.length threads > 0 && state.page < 10) {
-          <View style=buttonContainer>
-            <NativeBaseButton onPress=(update handleNextPage)>
-              <Text style=buttonText> (ReasonReact.stringToElement "More") </Text>
-            </NativeBaseButton>
-          </View>
-        } else {
-          <View />
-        };
+
+      let listElements = Array.map iterateThreads threads |> ReasonReact.arrayToElement;
 
       <NativeBaseContainer>
-        <NativeBaseContent> listElements button </NativeBaseContent>
+        <CustomList onEndReached=(update handleEndReached)>
+          listElements
+        </CustomList>
       </NativeBaseContainer>;
     }
   }

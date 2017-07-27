@@ -18,9 +18,9 @@ const reducers = combineReducers({
   App
 });
 const someMiddlewards = [applyMiddleware(Thunk)];
-// if (process.env.NODE_ENV !== "development") {
-someMiddlewards.push(offline(offlineConfig));
-// }
+if (process.env.NODE_ENV !== "development") {
+  someMiddlewards.push(offline(offlineConfig));
+}
 const middlewares = compose(...someMiddlewards);
 const store = createStore(reducers, middlewares);
 

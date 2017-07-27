@@ -9,6 +9,13 @@ let make ::posts ::navigation ::requestPostList ::clearPostList _children => {
   let number = navigation##state##params##no;
 
   /**
+   * Handlers.
+   */
+  let handleEndReached _event { ReasonReact.state: _state } => {
+    ReasonReact.NoUpdate;
+  };
+
+  /**
    * Component main.
    */
   {
@@ -23,22 +30,22 @@ let make ::posts ::navigation ::requestPostList ::clearPostList _children => {
       clearPostList 0;
     },
 
-    render: fun _self => {
+    render: fun {update} => {
 
       let counter = ref (-1);
+
       let iteratePosts post => {
         counter := !counter + 1;
         let keyIndex = string_of_int !counter;
         <CustomCard key=keyIndex item=post board />
       };
 
-      let listItems = Array.map iteratePosts posts;
-      let listElements = ReasonReact.arrayToElement listItems;
+      let listElements = Array.map iteratePosts posts |> ReasonReact.arrayToElement;
 
       <NativeBaseContainer>
-        <NativeBaseContent> 
+        <CustomList onEndReached=(update handleEndReached)> 
           listElements
-        </NativeBaseContent>
+        </CustomList>
         <CustomFabOptions />
       </NativeBaseContainer>
     }
@@ -57,3 +64,4 @@ let jsComponent =
           clearPostList::jsProps##clearPostList
           [||]
     );
+    
