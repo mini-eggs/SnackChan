@@ -4,11 +4,19 @@ import { Provider } from "react-redux";
 import Thunk from "redux-thunk";
 import { offline } from "redux-offline";
 import offlineConfig from "redux-offline/lib/defaults";
-import BoardList from "../reducers/boardList";
+
+import ReasonBoardList from "../../lib/js/src/reducers/boardList";
+// import BoardList from "../reducers/boardList";
 import ThreadList from "../reducers/threadList";
 import PostList from "../reducers/postList";
 import Settings from "../reducers/settings";
 import App from "../reducers/app";
+
+function wrapReasonReducer(aReasonReducer) {
+  return (state, { type, payload }) => aReasonReducer(state, type, payload);
+}
+
+const BoardList = wrapReasonReducer(ReasonBoardList.reducer);
 
 const reducers = combineReducers({
   BoardList,

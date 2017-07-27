@@ -45,9 +45,9 @@ export default function(state = initialState, action) {
     }
 
     case ClearThreadListAction: {
-      return {
+      return Object.assign({}, state, {
         threads: []
-      };
+      });
     }
 
     default: {
