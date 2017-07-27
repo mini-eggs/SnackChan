@@ -12,7 +12,6 @@ export function requestToken() {
   return async dispatch => {
     const request = await fetch(`${API_URL}/get/token`, { method, body });
     const data = await request.json();
-    console.log(data);
   };
 }
 

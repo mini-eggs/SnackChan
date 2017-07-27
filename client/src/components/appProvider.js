@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import { lifecycle } from "recompose";
 import { requestToken } from "../reducers/app";
-import { clearThreadList } from "../reducers/threadList";
+import { clearThreadList } from "../actions/threadList";
 import { clearPostList } from "../reducers/postList";
 
 function AppContainer({ children }) {

@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { headerStyle } from "../components/styleProvider";
-import { requestThreadList, clearThreadList } from "../reducers/threadList";
+import { requestThreadList, clearThreadList } from "../actions/threadList";
 import { jsComponent as ThreadListContainer } from "../../lib/js/src/components/threadListContainer";
 
 function mapState({ ThreadList }) {

@@ -7,7 +7,13 @@
   "sources": [
     {
       "dir": "src",
-      "subdirs": ["types", "components", "externalComponents", "reducers"]
+      "subdirs": [
+        "types",
+        "components",
+        "externalComponents",
+        "reducers",
+        "utilities"
+      ]
     }
   ]
 }

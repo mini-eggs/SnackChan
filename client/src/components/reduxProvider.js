@@ -5,18 +5,11 @@ import Thunk from "redux-thunk";
 import { offline } from "redux-offline";
 import offlineConfig from "redux-offline/lib/defaults";
 
-import ReasonBoardList from "../../lib/js/src/reducers/boardList";
-// import BoardList from "../reducers/boardList";
-import ThreadList from "../reducers/threadList";
+import { reducer as BoardList } from "../../lib/js/src/reducers/boardList";
+import { reducer as ThreadList } from "../../lib/js/src/reducers/threadList";
 import PostList from "../reducers/postList";
 import Settings from "../reducers/settings";
 import App from "../reducers/app";
-
-function wrapReasonReducer(aReasonReducer) {
-  return (state, { type, payload }) => aReasonReducer(state, type, payload);
-}
-
-const BoardList = wrapReasonReducer(ReasonBoardList.reducer);
 
 const reducers = combineReducers({
   BoardList,

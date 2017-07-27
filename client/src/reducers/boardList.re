@@ -2,7 +2,6 @@
  * Constants and initial values;
  */
 let initialState = [%bs.raw {| { safeBoards: [], allBoards: [] } |}];
-let nullJS = [%bs.raw {| undefined |}];
 
 /**
  * Helper functions.
@@ -20,8 +19,10 @@ let handleBoardListReceived payload => {
 /**
  * Board list reducer.
  */
-let reducer state name payload => {
-  let nextState = state == nullJS ? initialState : state;
+let reducer state action => {
+  let name = Utilities.getType action;
+  let payload = Utilities.getPayload action;
+  let nextState = state == Utilities.nullJS ? initialState : state;
 
   switch name {
   | "BOARD_LIST_RECEIVED" => handleBoardListReceived payload
