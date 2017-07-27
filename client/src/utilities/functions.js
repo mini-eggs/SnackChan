@@ -5,6 +5,10 @@ export function getChanImage({ tim, ext }, board) {
   return `https://i.4cdn.org/${board}/${tim}${ext}`;
 }
 
+function getChanThumbnail({ tim, ext }, board) {
+  return `https://i.4cdn.org/${board}/${tim}s${ext}`;
+}
+
 export function imageDimensions({ tn_w, tn_h }) {
   const { width } = Dimensions.get("window");
   const height = tn_h * width / tn_w;
@@ -15,6 +19,7 @@ export function formatChanItem(item) {
   const imageDetails = {};
   imageDetails.image = typeof item.tim !== "undefined";
   imageDetails.imageURI = getChanImage(item, item.board);
+  imageDetails.thumbnailURI = getChanThumbnail(item, item.board);
   imageDetails.imageFilename = `${item.tim}${item.ext}`;
   return Object.assign({}, item, imageDetails);
 }

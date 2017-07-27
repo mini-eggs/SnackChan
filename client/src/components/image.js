@@ -3,7 +3,7 @@ import { Image, View } from "react-native";
 import { connect } from "react-redux";
 import FadeIn from "react-native-fade-in-image";
 import { Spinner } from "native-base";
-import { getChanImage, imageDimensions } from "../utilities/functions";
+import { imageDimensions } from "../utilities/functions";
 
 const placeholderImage = "https://i.imgur.com/8PsJHG2.jpg";
 const placeholderDimensions = { tn_h: 270, tn_w: 360 };
@@ -14,16 +14,16 @@ const placeholderStyles = {
   alignItems: "center"
 };
 
-function Placeholder() {
+function SpinnerPlaceholder() {
   return <View style={placeholderStyles} children={<Spinner />} />;
 }
 
-function Fade({ children }) {
+function Fade({ children, placeholder }) {
   return (
     <FadeIn
       children={children}
       style={{ flex: 1 }}
-      renderPlaceholderContent={<Placeholder />}
+      renderPlaceholderContent={placeholder}
     />
   );
 }
@@ -32,13 +32,17 @@ function ImageWrapper({ item, board, showImages }) {
   if (typeof item.tim === "undefined") {
     return null;
   }
-  const uri = showImages ? getChanImage(item, board) : placeholderImage;
+  const imageURI = showImages ? item.imageURI : placeholderImage;
+  const thumbURI = showImages ? item.thumbnailURI : placeholderImage;
   const dimensions = imageDimensions(showImages ? item : placeholderDimensions);
-  return (
-    <Fade>
-      <Image source={{ uri }} style={dimensions} />
-    </Fade>
+  const placeholder = (
+    <Fade
+      placeholder={<SpinnerPlaceholder />}
+      children={<Image source={{ uri: thumbURI }} style={dimensions} />}
+    />
   );
+  const image = <Image source={{ uri: imageURI }} style={dimensions} />;
+  return <Fade placeholder={placeholder} children={image} />;
 }
 
 function mapState({ Settings }) {

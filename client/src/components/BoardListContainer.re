@@ -1,5 +1,10 @@
 type state = {userInput: string};
 
+
+let handleEndReached _event {ReasonReact.state: state} => ReasonReact.NoUpdate;
+
+let onEndReachedThreshold = [%bs.raw {| 0 |}];
+
 let posOfSubString uint => [%bs.raw
   {| function(aString, subString) {
     return aString.indexOf(subString);
@@ -45,7 +50,11 @@ let make ::requestBoardList ::navigation ::boards _children => {
             <NativeBaseInput placeholder="Search" onChangeText=(update handleUserInput) />
           </NativeBaseItem>
         </NativeBaseHeader>
-        <NativeBaseContent> <NativeBaseList> listElements </NativeBaseList> </NativeBaseContent>
+        <NativeBaseContent>
+          <NativeBaseList> 
+            listElements 
+          </NativeBaseList>
+        </NativeBaseContent>
         <CustomFabOptions />
       </NativeBaseContainer>
     }
