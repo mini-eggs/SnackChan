@@ -11,9 +11,12 @@ let filterNSFW thread => {
 };
 
 let handleBoardListReceived payload => {
-  let safeBoards = Array.of_list ( List.filter filterNSFW ( Array.to_list payload ) );
-  let allBoards = payload;
-  [%bs.obj { "safeBoards": safeBoards, "allBoards": allBoards }];
+  let safeBoards = payload
+    |> Array.to_list
+    |> Array.filter filterNSFW
+    |> Array.of_list;
+
+  { "safeBoards": safeBoards, "allBoards": payload };
 };
 
 /**

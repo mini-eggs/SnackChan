@@ -11,8 +11,8 @@ let getFirstPost item => {
   posts.(0);
 };
 
-let formatPosts board item => {
-  Utilities.formatChanItem board item; 
+let formatPost board item => {
+  item |> getFirstPost |> Utilities.formatChanItem board;
 };
 
 /**
@@ -24,11 +24,10 @@ let handleThreadListReceived state payload => {
   let board = payload##board;
 
   let nextThreads = newThreads
-    |> Array.map getFirstPost
-    |> Array.map (formatPosts board)
+    |> Array.map (formatPost board)
     |> Array.append currentThreads;
-  
-  [%bs.obj { "threads": nextThreads }];
+
+  { "threads": nextThreads };
 };
 
 /**
