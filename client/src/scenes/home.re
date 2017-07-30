@@ -1,6 +1,5 @@
-let boardListActions = [%bs.raw {|
-  require("../../../../src/actions/boardList")
-|}];
+external requestBoardList : unit => Types.asyncAction =
+  "requestBoardList" [@@bs.module "../../../../src/actions/boardList"];
 
 let mapState state => {
   let boardList = state##boardList;
@@ -11,7 +10,7 @@ let mapState state => {
 
 let mapDispatch dispatch => {
   [%bs.obj {
-    requestBoardList: fun () => boardListActions##requestBoardList () |> dispatch
+    requestBoardList: fun () => requestBoardList () |> dispatch
   }];
 }; 
 

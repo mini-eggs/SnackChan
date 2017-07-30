@@ -1,3 +1,7 @@
+type asyncAction = {
+  future: bool
+};
+
 type threadType = {
   board: string,
   bumplimit: int,

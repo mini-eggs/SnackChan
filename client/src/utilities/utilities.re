@@ -2,6 +2,9 @@
  * Shared Reason code.
  */
 
+/**
+ * Functions.
+ */
  let connect = [%bs.raw {|
   function(state, dispatch) {
     var { connect } = require("react-redux");
