@@ -2,6 +2,20 @@
  * Shared Reason code.
  */
 
+ let connect = [%bs.raw {|
+  function(state, dispatch) {
+    var { connect } = require("react-redux");
+    return connect(state, dispatch);
+  }
+|}];
+
+let getNavigation = [%bs.raw {|
+  function(customObj) {
+    var { headerStyle } = require("../../../../src/components/styleProvider");
+    return Object.assign({}, headerStyle, customObj);
+  }
+|}];
+
 let nullJS = [%bs.raw {| undefined |}];
 
 let getType = [%bs.raw {| function(item) { return item.type } |}];
@@ -32,7 +46,7 @@ let formatChanItem board item => {
     tn_h: item##tn_h,
     tn_w: item##tn_w,
     w: item##w,
-    image: String.length item##tim > 0,
+    image: (String.length item##tim) > 0,
     imageURI: "https://i.4cdn.org/" ^ board ^ "/" ^ item##tim ^ item##ext,
     thumbnailURI: "https://i.4cdn.org/" ^ board ^ "/" ^ item##tim ^ "s" ^ item##ext,
     imageFilename: item##tim ^ item##ext

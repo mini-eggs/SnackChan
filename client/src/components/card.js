@@ -42,7 +42,7 @@ function CardComponent({
   }
 
   function onLongPress() {
-    if (item.image) {
+    if (item.image.toString() !== "false") {
       showActionSheetWithOptions(imageOptions, handleActionSheet);
     }
   }

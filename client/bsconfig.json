@@ -12,7 +12,8 @@
         "components",
         "externalComponents",
         "reducers",
-        "utilities"
+        "utilities",
+        "scenes"
       ]
     }
   ]

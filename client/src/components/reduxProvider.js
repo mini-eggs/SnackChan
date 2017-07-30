@@ -13,9 +13,11 @@ import App from "../reducers/app";
 
 const reducers = combineReducers({
   BoardList,
+  boardList: BoardList /* TODO: for Reason. */,
   ThreadList,
   PostList,
   Settings,
+  settings: Settings /* TODO: for Reason. */,
   App
 });
 const someMiddlewards = [applyMiddleware(Thunk)];

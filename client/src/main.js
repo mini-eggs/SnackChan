@@ -4,7 +4,7 @@ import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import ReduxProvider from "./components/reduxProvider";
 import StyleProvider, { cardStyle } from "./components/styleProvider";
 import AppProvider from "./components/appProvider";
-import Home from "./scenes/home";
+import { jsComponent as Home } from "../lib/js/src/scenes/home";
 import Board from "./scenes/board";
 import Thread from "./scenes/thread";
 import Reply from "./scenes/reply";

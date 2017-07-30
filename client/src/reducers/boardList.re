@@ -13,7 +13,7 @@ let filterNSFW thread => {
 let handleBoardListReceived payload => {
   let safeBoards = payload
     |> Array.to_list
-    |> Array.filter filterNSFW
+    |> List.filter filterNSFW
     |> Array.of_list;
 
   { "safeBoards": safeBoards, "allBoards": payload };
