@@ -16,9 +16,8 @@ let mapDispatch dispatch => {
 }; 
 
 let jsComponent = {
-  let reduxState = Utilities.connect mapState mapDispatch;
   [%bs.obj {
-    screen: reduxState BoardListContainer.jsComponent,
+    screen: BoardListContainer.jsComponent |> Utilities.connect mapState mapDispatch,
     navigationOptions: fun () => { title: "Snack Chan" } |> Utilities.getNavigation
   }];
 };
