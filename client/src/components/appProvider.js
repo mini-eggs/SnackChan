@@ -2,7 +2,7 @@ import { connect } from "react-redux";
 import { lifecycle } from "recompose";
 import { requestToken } from "../reducers/app";
 import { clearThreadList } from "../actions/threadList";
-import { clearPostList } from "../reducers/postList";
+import { clearPostList } from "../actions/postList";
 
 function AppContainer({ children }) {
   return children;

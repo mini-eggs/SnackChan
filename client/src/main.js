@@ -5,8 +5,10 @@ import ReduxProvider from "./components/reduxProvider";
 import StyleProvider, { cardStyle } from "./components/styleProvider";
 import AppProvider from "./components/appProvider";
 import { jsComponent as Home } from "../lib/js/src/scenes/home";
-import Board from "./scenes/board";
-import Thread from "./scenes/thread";
+import { jsComponent as Board } from "../lib/js/src/scenes/board";
+import { jsComponent as Thread } from "../lib/js/src/scenes/thread";
+// import Board from "./scenes/board";
+// import Thread from "./scenes/thread";
 import Reply from "./scenes/reply";
 import Settings from "./scenes/settings";
 

@@ -14,9 +14,10 @@ let mapDispatch dispatch => {
   }];
 }; 
 
+let mapNavigation props => {
+  [%bs.obj { title: "Snack Chan" }];
+};
+
 let jsComponent = {
-  [%bs.obj {
-    screen: BoardListContainer.jsComponent |> Utilities.connect mapState mapDispatch,
-    navigationOptions: fun () => { title: "Snack Chan" } |> Utilities.getNavigation
-  }];
+  Utilities.buildScreen BoardListContainer.jsComponent mapNavigation mapState mapDispatch;
 };

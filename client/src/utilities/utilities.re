@@ -5,19 +5,30 @@
 /**
  * Functions.
  */
- let connect = [%bs.raw {|
+let wrapNavigation = [%bs.raw {|
+  function(aFunction) {
+    var { headerStyle } = require("../../../../src/components/styleProvider");
+    return ({ navigation }) => {
+      var props = navigation.state.params;
+      var customObj = aFunction(props);
+      return Object.assign({}, headerStyle, customObj);
+    };
+  }
+|}];
+
+let connect = [%bs.raw {|
   function(state, dispatch) {
     var { connect } = require("react-redux");
     return connect(state, dispatch);
   }
 |}];
 
-let getNavigation = [%bs.raw {|
-  function(customObj) {
-    var { headerStyle } = require("../../../../src/components/styleProvider");
-    return Object.assign({}, headerStyle, customObj);
-  }
-|}];
+let buildScreen aScreen aMapNavigation aMapState aMapDispatch => {
+  [%bs.obj {
+    screen: aScreen |> connect aMapState aMapDispatch,
+    navigationOptions: aMapNavigation |> wrapNavigation
+  }];
+};
 
 let nullJS = [%bs.raw {| undefined |}];
 

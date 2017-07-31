@@ -15,7 +15,9 @@ const reducers = combineReducers({
   BoardList,
   boardList: BoardList /* TODO: for Reason. */,
   ThreadList,
+  threadList: ThreadList /* TODO: for Reason. */,
   PostList,
+  postList: PostList /* TODO: for Reason. */,
   Settings,
   settings: Settings /* TODO: for Reason. */,
   App
