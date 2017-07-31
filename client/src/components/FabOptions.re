@@ -25,10 +25,10 @@ let make ::showActionSheetWithOptions ::navigation _children => {
       | "Thread" => threadOptions
       | _ => defaultOptions
       };
-    let params = [%bs.obj {
+    let params = {
       "options": currentAction.options, 
       "cancelButtonIndex": currentAction.cancelButtonIndex
-    }]; 
+    }; 
     let handleActionSheetChosen index => {
       if (index != 0) {
         let chosenAction = currentAction.options.(index);

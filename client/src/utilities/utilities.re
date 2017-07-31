@@ -36,6 +36,24 @@ let getType = [%bs.raw {| function(item) { return item.type } |}];
 
 let getPayload = [%bs.raw {| function(item) { return item.payload } |}];
 
+let formatChanBoard item => {
+  {
+    "board": item##board,
+    "bump_limit": item##bump_limit,
+    "image_limit": item##image_limit,
+    "is_archived": item##is_archived,
+    "max_comment_chars": item##max_comment_chars,
+    "max_filesize": item##max_filesize,
+    "max_webm_duration": item##max_webm_duration,
+    "max_webm_filesize": item##max_webm_filesize,
+    "meta_description": item##meta_description,
+    "pages": item##pages,
+    "per_page": item##per_page,
+    "title": item##title,
+    "ws_board": item##ws_board,
+  };
+};
+
 let formatChanItem board item => {
   { 
     "bumplimit": item##bumplimit,

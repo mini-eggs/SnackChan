@@ -4,18 +4,19 @@ external requestBoardList : unit => Types.asyncAction =
 let mapState state => {
   let boardList = state##boardList;
   let settings = state##settings;
-  let boards = settings##showNSFW ? boardList##allBoards : boardList##safeBoards; 
-  [%bs.obj { boards: boards }];
+  { 
+    "boards": settings##showNSFW == [%bs.raw {| true |}] ? boardList##allBoards : boardList##safeBoards
+  };
 };
 
 let mapDispatch dispatch => {
-  [%bs.obj {
-    requestBoardList: fun () => requestBoardList () |> dispatch
-  }];
+  {
+    "requestBoardList": fun () => requestBoardList () |> dispatch
+  };
 }; 
 
 let mapNavigation props => {
-  [%bs.obj { title: "Snack Chan" }];
+  { "title": "Snack Chan" };
 };
 
 let jsComponent = {

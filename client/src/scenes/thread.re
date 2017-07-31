@@ -5,19 +5,19 @@ external clearPostList : unit => Types.asyncAction =
   "clearPostList" [@@bs.module "../../../../src/actions/postList"];
 
 let mapState state => {
-  [%bs.obj { posts: state##postList##posts }];
+  { "posts": state##postList##posts };
 };
 
 let mapDispatch dispatch => {
-  [%bs.obj {
-    requestPostList: fun board no => requestPostList board no |> dispatch,
-    clearPostList: fun () => clearPostList () |> dispatch
-  }];
+  {
+    "requestPostList": fun board no => requestPostList board no |> dispatch,
+    "clearPostList": fun () => clearPostList () |> dispatch
+  };
 }; 
 
 let mapNavigation props => {
   let title = props##no;
-  [%bs.obj { title: title }];
+  { "title": title };
 };
 
 let jsComponent = {

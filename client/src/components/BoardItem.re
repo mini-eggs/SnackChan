@@ -4,12 +4,14 @@ let component = ReasonReact.statelessComponent "BoardItem";
 
 let make ::item ::navigation _children => {
   let handlePress _event {ReasonReact.state: state} => {
-    let params = [%bs.obj {"board": item##board, "item": item}]; 
+    let params = {"board": item##board, "item": item}; 
     navigation##navigate "Board" params; 
     ReasonReact.NoUpdate
   };
+  
   {
     ...component,
+
     render: fun {update} =>
       <CustomFade>
         <NativeBaseListItem onPress=(update handlePress)>

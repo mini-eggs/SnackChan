@@ -1,4 +1,4 @@
-let initialState = [%bs.raw {| { token: undefined } |}];
+let initialState = { "token": None };
 
 let reducer state action => {
   let name = action |> Utilities.getType;

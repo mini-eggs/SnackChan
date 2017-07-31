@@ -1,7 +1,7 @@
 /**
  * Constants and initial values;
  */
-let initialState = [%bs.raw {| { safeBoards: [], allBoards: [] } |}];
+let initialState = [%bs.raw {| { "safeBoards": [], "allBoards": [] } |}];
 
 /**
  * Helper functions.
@@ -14,6 +14,7 @@ let handleBoardListReceived payload => {
   let safeBoards = payload
     |> Array.to_list
     |> List.filter filterNSFW
+    |> List.map Utilities.formatChanBoard
     |> Array.of_list;
 
   { "safeBoards": safeBoards, "allBoards": payload };

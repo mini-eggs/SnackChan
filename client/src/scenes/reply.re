@@ -3,13 +3,13 @@ let mapState state => {
 };
 
 let mapDispatch dispatch => {
-  [%bs.obj {
-    sendReply: fun () => Js.log "Reply"
-  }];
+  {
+    "sendReply": fun () => Js.log "Reply"
+  };
 }; 
 
 let mapNavigation props => {
-  [%bs.obj { title: "Reply" }];
+  { "title": "Reply" };
 };
 
 let jsComponent = {
