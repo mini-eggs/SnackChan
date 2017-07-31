@@ -45,9 +45,9 @@ function ImageWrapper({ item, board, showImages }) {
   return <Fade placeholder={placeholder} children={image} />;
 }
 
-function mapState({ Settings }) {
+function mapState({ settings }) {
   return {
-    showImages: Settings.showImages
+    showImages: settings.showImages
   };
 }
 

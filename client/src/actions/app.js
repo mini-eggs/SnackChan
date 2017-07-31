@@ -1,9 +1,5 @@
 import { DeviceId, API_URL } from "../utilities/constants";
 
-const initialState = {
-  token: undefined
-};
-
 export function requestToken() {
   const method = "POST";
   const body = JSON.stringify({
@@ -13,12 +9,4 @@ export function requestToken() {
     const request = await fetch(`${API_URL}/get/token`, { method, body });
     const data = await request.json();
   };
-}
-
-export default function(state = initialState, { type, payload }) {
-  switch (type) {
-    default: {
-      return state;
-    }
-  }
 }

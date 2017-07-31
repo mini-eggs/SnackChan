@@ -7,19 +7,15 @@ import offlineConfig from "redux-offline/lib/defaults";
 
 import { reducer as BoardList } from "../../lib/js/src/reducers/boardList";
 import { reducer as ThreadList } from "../../lib/js/src/reducers/threadList";
-import PostList from "../reducers/postList";
-import Settings from "../reducers/settings";
-import App from "../reducers/app";
+import { reducer as Settings } from "../../lib/js/src/reducers/settings";
+import { reducer as PostList } from "../../lib/js/src/reducers/postList";
+import { reducer as App } from "../../lib/js/src/reducers/app";
 
 const reducers = combineReducers({
-  BoardList,
-  boardList: BoardList /* TODO: for Reason. */,
-  ThreadList,
-  threadList: ThreadList /* TODO: for Reason. */,
-  PostList,
-  postList: PostList /* TODO: for Reason. */,
-  Settings,
-  settings: Settings /* TODO: for Reason. */,
+  boardList: BoardList,
+  threadList: ThreadList,
+  postList: PostList,
+  settings: Settings,
   App
 });
 const someMiddlewards = [applyMiddleware(Thunk)];

@@ -1,17 +1,11 @@
 import { connect } from "react-redux";
 import { lifecycle } from "recompose";
-import { requestToken } from "../reducers/app";
+import { requestToken } from "../actions/app";
 import { clearThreadList } from "../actions/threadList";
 import { clearPostList } from "../actions/postList";
 
-function AppContainer({ children }) {
-  return children;
-}
-
 function componentWillMount() {
   // this.props.requestToken();
-  // Persisting this will mess
-  // with images.
   this.props.clearThreadList();
   this.props.clearPostList();
 }
@@ -25,5 +19,5 @@ function mapDispatch(dispatch) {
 }
 
 export default connect(null, mapDispatch)(
-  lifecycle({ componentWillMount })(AppContainer)
+  lifecycle({ componentWillMount })(({ children }) => children)
 );

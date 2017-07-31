@@ -47,14 +47,6 @@ let make ::navigation _children => {
     ...component,
     initialState: fun () => {message: "Enter post content."},
     render: fun {state, update} => {
-      /* let inputContent =
-        <View style=containerStyle>
-          <TextInput
-            onChangeText=(update handleTextChange)
-            value=state.message
-            style=textInputStyle
-          />
-        </View>; */
       let webviewSource = WebView.source uri::"http://boards.4chan.org/g/thread/61495787" ();
       <WebView bounces=[%bs.raw {| false |}] scrollEnabled=[%bs.raw {| false |}] source=webviewSource style=iframeContainer injectedJavaScript=injectedJavaScript />
     }
