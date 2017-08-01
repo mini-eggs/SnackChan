@@ -4,20 +4,53 @@ type actionsType = {
   options: array string,
   cancelButtonIndex: int
 };
+
 let defaultOptions: actionsType = {
   options: [|"Cancel", "Saved", "Watched", "Settings", "About"|],
   cancelButtonIndex: 0
 };
 
-let homeOptions = defaultOptions;
+let homeOptions = {
+  options: [|"Cancel", "Saved", "Watched", "Settings", "About"|],
+  cancelButtonIndex: 0
+};
 
-let boardOptions = defaultOptions;
+let boardOptions = {
+  options: [|"Cancel", "Reload", "Saved", "Watched", "Settings", "About"|], 
+  cancelButtonIndex: 0
+};
 
-let threadOptions: actionsType = {options: [|"Cancel", "Save", "Watch", "Reply"|], cancelButtonIndex: 0};
+let threadOptions: actionsType = {
+  options: [|"Cancel", "Reload", "Save", "Watch", "Reply"|], 
+  cancelButtonIndex: 0
+};
 
-let make ::showActionSheetWithOptions ::navigation _children => {
+let make ::resetThreads ::resetPosts ::showActionSheetWithOptions ::navigation _children => {
+  let currentRoute = navigation##state##routeName;
+
+  let reloadBoard () => {
+    let board = navigation##state##params##board;
+    resetThreads board;
+    ();
+  };
+
+  let reloadThread () => {
+    let board = navigation##state##params##board;
+    let number = navigation##state##params##no;
+    resetPosts board number;
+    ();
+  };
+    
+  let handleReload () => {
+    switch currentRoute {
+    | "Board" => reloadBoard ()
+    | "Thread" => reloadThread ()
+    | _ => ()
+    };
+  };
+
   let handlePress _event {ReasonReact.state: state} => {
-    let currentRoute = navigation##state##routeName;
+
     let currentAction =
       switch currentRoute {
       | "Home" => homeOptions
@@ -25,23 +58,29 @@ let make ::showActionSheetWithOptions ::navigation _children => {
       | "Thread" => threadOptions
       | _ => defaultOptions
       };
+
     let params = {
       "options": currentAction.options, 
       "cancelButtonIndex": currentAction.cancelButtonIndex
     }; 
+    
     let handleActionSheetChosen index => {
       if (index != 0) {
         let chosenAction = currentAction.options.(index);
 
         switch chosenAction {
         | "Settings" => {
-          (navigation##navigate "Settings")
+          navigation##navigate "Settings";
           ()
         }
-        | "Reply" => {
-          (navigation##navigate "Reply") navigation##state##params;
+        | "Reload" => {
+          handleReload ();
           ()
         }
+         | "Reply" => {
+          navigation##state##params |> navigation##navigate "Reply";
+          ()
+        } 
         | _ => {
           ()
         }
@@ -65,7 +104,7 @@ let make ::showActionSheetWithOptions ::navigation _children => {
   }
 };
 
-let jsComponent =
+let intermediateComponent =
   ReasonReact.wrapReasonForJs
     ::component
     (
@@ -73,5 +112,38 @@ let jsComponent =
         make
           showActionSheetWithOptions::jsProps##showActionSheetWithOptions
           navigation::jsProps##navigation
+          resetThreads::jsProps##resetThreads
+          resetPosts::jsProps##resetPosts
           [||]
     );
+
+
+external requestThreadList : string => int => Types.asyncAction =
+  "requestThreadList" [@@bs.module "../../../../src/actions/threadList"];
+external clearThreadList : unit => Types.asyncAction =
+  "clearThreadList" [@@bs.module "../../../../src/actions/threadList"];
+external requestPostList : string => int => Types.asyncAction =
+  "requestPostList" [@@bs.module "../../../../src/actions/postList"];
+external clearPostList : unit => Types.asyncAction =
+  "clearPostList" [@@bs.module "../../../../src/actions/postList"];
+
+let mapState state => {
+  { "hello": "world" };
+};
+
+let mapDispatch dispatch => {
+  {
+    "resetThreads": fun board => {
+       clearThreadList () |> dispatch;
+       requestThreadList board 1 |> dispatch; 
+    },
+    "resetPosts": fun board number => {
+      clearPostList () |> dispatch;
+      requestPostList board number |> dispatch;
+    }
+  };
+}; 
+
+let jsComponent = {
+  intermediateComponent |> Utilities.connect mapState mapDispatch;
+};

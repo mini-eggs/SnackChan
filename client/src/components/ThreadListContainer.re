@@ -24,11 +24,17 @@ let make ::requestThreadList ::clearThreadList ::threads ::navigation _children 
 
   /* Handle next page with infinite scroll */
   let handleEndReached _event {ReasonReact.state: page} => {
-    if ( page < 10 ) {
+    if ( Array.length threads == 0 ) {
+      /* Thread list has been reset elsewhere ( fab ) */
+      ReasonReact.Update 1;
+    } else if ( page < 10 ) {
+      /* user has reach end of current list */
       let nextPage = page + 1;
-      requestThreadList board page;
+      Js.log nextPage;
+      requestThreadList board nextPage;
       ReasonReact.Update nextPage;
     } else {
+      /* user has reached end of board */
       ReasonReact.NoUpdate;
     }
   };
@@ -70,6 +76,7 @@ let make ::requestThreadList ::clearThreadList ::threads ::navigation _children 
         <CustomList onEndReached=(update handleEndReached)>
           listElements
         </CustomList>
+        <CustomFabOptions />
       </NativeBaseContainer>;
     }
   }

@@ -1,5 +1,3 @@
-type navigationObject = {board: string}; 
-
 let component = ReasonReact.statelessComponent "BoardItem";
 
 let make ::item ::navigation _children => {
