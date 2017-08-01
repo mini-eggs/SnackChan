@@ -5,6 +5,18 @@
 /**
  * Functions.
  */
+
+let toast = [%bs.raw {|
+  function(text) {
+    var { Toast } = require("native-base");
+    Toast.show({
+      text: text,
+      position: "bottom",
+      buttonText: "OK"
+    })
+  }
+|}];
+
 let wrapNavigation = [%bs.raw {|
   function(aFunction) {
     var { headerStyle } = require("../../../../src/components/styleProvider");

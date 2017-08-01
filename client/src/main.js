@@ -1,6 +1,7 @@
 import React from "react";
 import { StackNavigator } from "react-navigation";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
+import { Root } from "native-base";
 import ReduxProvider from "./components/reduxProvider";
 import StyleProvider, { cardStyle } from "./components/styleProvider";
 import AppProvider from "./components/appProvider";
@@ -20,9 +21,11 @@ export default function() {
     <ReduxProvider>
       <AppProvider>
         <StyleProvider>
-          <ActionSheetProvider>
-            <Stacks onNavigationStateChange={null} />
-          </ActionSheetProvider>
+          <Root>
+            <ActionSheetProvider>
+              <Stacks onNavigationStateChange={null} />
+            </ActionSheetProvider>
+          </Root>
         </StyleProvider>
       </AppProvider>
     </ReduxProvider>

@@ -14,7 +14,9 @@ let get_handle conn (req: Cohttp.Request.t) body => {
 let post_handle conn (req: Cohttp.Request.t) body => {
   fun () => {
     switch (req.resource) {
-    | "/get/token" => (Routes.get_token body)
+    | "/post/register-device-and-token" => Routes.post_register_device_and_token body
+    /* | "/get/token" => (Routes.get_token body)
+    | "/get/notification" => (Routes.test_notification body) */
     | _ => (Routes.error_route ())
     }
   };

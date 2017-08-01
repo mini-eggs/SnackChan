@@ -1,7 +1,7 @@
 import React from "react";
 import { View, TouchableWithoutFeedback } from "react-native";
 import { withNavigation } from "react-navigation";
-import { Text } from "native-base";
+import { Text, Toast } from "native-base";
 import { connectActionSheet } from "@expo/react-native-action-sheet";
 import { saveImage } from "../utilities/functions";
 import HTML from "./html";
@@ -12,6 +12,22 @@ const imageOptions = {
   options: ["Cancel", "Save image", "Open in browser"],
   cancelButtonIndex: 0
 };
+
+function imageSaveComplete() {
+  Toast.show({
+    text: "Image saved.",
+    position: "bottom",
+    buttonText: "OK"
+  });
+}
+
+function imageSaveError() {
+  Toast.show({
+    text: "Error.",
+    position: "bottom",
+    buttonText: "OK"
+  });
+}
 
 function CardComponent({
   showActionSheetWithOptions,
@@ -31,9 +47,7 @@ function CardComponent({
   function handleActionSheet(index) {
     switch (imageOptions.options[index]) {
       case "Save image": {
-        saveImage(item)
-          .then(() => alert("Image saved."))
-          .catch(() => alert("Error."));
+        saveImage(item).then(imageSaveComplete).catch(imageSaveError);
       }
       default: {
         // Silence is golden.

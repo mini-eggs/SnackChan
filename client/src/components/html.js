@@ -9,16 +9,12 @@ const htmlStyles = StyleSheet.create({
   }
 });
 
-function remove(string, content) {
-  return (content || "").split(string).join("");
-}
-
 export default function({ html }) {
   return (
     <HTMLView
       stylesheet={htmlStyles}
       addLineBreaks={false}
-      value={remove("<br>", html)}
+      value={html || ""}
     />
   );
 }
