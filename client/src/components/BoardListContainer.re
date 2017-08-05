@@ -15,7 +15,9 @@ let make ::requestBoardList ::navigation ::boards _children => {
   /**
    * Hanlders.
    */
-  let handleUserInput text {ReasonReact.state: _state} => ReasonReact.Update {userInput: text};
+  let handleUserInput text {ReasonReact.state: _state} => {
+    ReasonReact.Update {userInput: text};
+  };
 
   let handleEndReached _event { ReasonReact.state: _state } => {
     ReasonReact.NoUpdate;
@@ -52,31 +54,37 @@ let make ::requestBoardList ::navigation ::boards _children => {
           check > (-1)
         };
 
-      let filteredBoards = List.filter filterBoards (Array.to_list boards);
-
       /**
        * Iterate boards.
        */
-      let counter = ref (-1);
-      let iteratePosts item => {
-        counter := !counter + 1;
-        let keyIndex = string_of_int !counter;
-        <BoardItem key=keyIndex navigation item />
+
+      let iteratePosts index item => {
+        let key = string_of_int index;
+        <BoardItem key=key navigation item />
       };
-      let listElements = Array.map iteratePosts (Array.of_list filteredBoards) |> ReasonReact.arrayToElement;
+
+      let boardList = boards
+        |> Array.to_list
+        |> List.filter filterBoards
+        |> List.mapi iteratePosts
+        |> Array.of_list
+        |> ReasonReact.arrayToElement;
       
       <NativeBaseContainer>
+
         /* Header. */
         <NativeBaseHeader style=headerStyle>
           <NativeBaseItem style=[%bs.raw {| { backgroundColor:"white" } |}]>
             <NativeBaseIcon name="ios-search" />
             <NativeBaseInput placeholder="Search" onChangeText=(update handleUserInput) />
           </NativeBaseItem>
-        </NativeBaseHeader>
+        </NativeBaseHeader> 
+
         /* Board list / main content. */
         <CustomList onEndReached=(update handleEndReached)> 
-          listElements 
+          boardList 
         </CustomList>
+        
         /* Fab. */
         <CustomFabOptions />
       </NativeBaseContainer>;

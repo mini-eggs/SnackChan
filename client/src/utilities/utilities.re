@@ -6,6 +6,12 @@
  * Functions.
  */
 
+let dangerouslyGetItem = [%bs.raw {|
+  function(item, key) {
+    return item[key];
+  }  
+|}];
+
 let toast = [%bs.raw {|
   function(text) {
     var { Toast } = require("native-base");
@@ -19,11 +25,11 @@ let toast = [%bs.raw {|
 
 let wrapNavigation = [%bs.raw {|
   function(aFunction) {
-    var { headerStyle } = require("../../../../src/components/styleProvider");
+    var { getHeaderStyle } = require("../../../../src/components/styleProvider");
     return ({ navigation }) => {
       var props = navigation.state.params;
       var customObj = aFunction(props);
-      return Object.assign({}, headerStyle, customObj);
+      return Object.assign({}, getHeaderStyle(), customObj);
     };
   }
 |}];

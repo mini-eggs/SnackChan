@@ -23,7 +23,7 @@ if (process.env.NODE_ENV !== "development") {
   someMiddlewards.push(offline(offlineConfig));
 }
 const middlewares = compose(...someMiddlewards);
-const store = createStore(reducers, middlewares);
+export const store = createStore(reducers, middlewares);
 
 export default function({ children }) {
   return <Provider store={store} children={children} />;

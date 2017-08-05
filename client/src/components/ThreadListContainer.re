@@ -30,7 +30,6 @@ let make ::requestThreadList ::clearThreadList ::threads ::navigation _children 
     } else if ( page < 10 ) {
       /* user has reach end of current list */
       let nextPage = page + 1;
-      Js.log nextPage;
       requestThreadList board nextPage;
       ReasonReact.Update nextPage;
     } else {

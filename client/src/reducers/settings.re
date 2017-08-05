@@ -1,9 +1,19 @@
-let initialState = [%bs.raw {| { showNSFW: false, showImages: false } |}];
+let initialState = [%bs.raw {| { 
+  showNSFW: false, 
+  showImages: false,
+  theme: "YotsubaB",
+  themeOptions: [
+    "Yotsuba",
+    "YotsubaB"
+  ]
+ } |}];
 
 let handleSaveSettings _state payload => {
   {
     "showImages": payload##showImages,
     "showNSFW": payload##showNSFW,
+    "theme": payload##theme,
+    "themeOptions": initialState##themeOptions
   };
 };
 
