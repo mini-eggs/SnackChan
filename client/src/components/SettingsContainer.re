@@ -35,6 +35,16 @@ let make ::saveSettings ::showImages ::showNSFW ::navigation ::themeOptions ::th
     },
     render: fun {state, update} => {
 
+      let headerValues = Utilities.getHeaderStyle (); 
+
+      let headerStyle = {
+        "backgroundColor": headerValues##headerStyle##backgroundColor
+      };
+
+      /* let headerTextStyle = {
+        "color": headerValues##headerTitleStyle##color
+      }; */
+
       let rec findValue options value currentIndex => {
         if ( options.(currentIndex) == value ) {
           currentIndex
@@ -72,7 +82,7 @@ let make ::saveSettings ::showImages ::showNSFW ::navigation ::themeOptions ::th
 
           </NativeBaseList>
 
-          <NativeBasePicker onValueChange=(update handleThemeChange) selectedValue=( findValue themeOptions state.theme 0 ) >
+          <NativeBasePicker headerStyle=headerStyle onValueChange=(update handleThemeChange) selectedValue=( findValue themeOptions state.theme 0 ) >
             themeOptionList
           </NativeBasePicker>
 

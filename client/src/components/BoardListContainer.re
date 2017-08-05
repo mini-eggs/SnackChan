@@ -6,7 +6,7 @@ let posOfSubString uint => [%bs.raw
    } |}
 ];
 
-let headerStyle = [%bs.raw {| { marginTop: -14 } |}];
+/* let headerStyle = [%bs.raw {| { marginTop: -14 } |}]; */
 
 let component = ReasonReact.statefulComponent "BoardListContainer";
 
@@ -70,6 +70,22 @@ let make ::requestBoardList ::navigation ::boards _children => {
         |> Array.of_list
         |> ReasonReact.arrayToElement;
       
+      /**
+       * Snag header styles from
+       * our styles component
+       * native-base has a bug with
+       * updating search bar header styles.
+       * https://github.com/GeekyAnts/NativeBase/issues/1142
+       */
+      
+      let headerValues = Utilities.getHeaderStyle (); 
+      let backgroundColor = headerValues##headerStyle##backgroundColor;
+
+      let headerStyle = {
+        "marginTop": (-14),
+        "backgroundColor": backgroundColor
+      };
+
       <NativeBaseContainer>
 
         /* Header. */

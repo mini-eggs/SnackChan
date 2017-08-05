@@ -12,7 +12,9 @@ function getTheme() {
 }
 
 export const getHeaderStyle = () => ({
-  headerStyle: { backgroundColor: getTheme().toolbarDefaultBg },
+  headerStyle: { 
+    backgroundColor: getTheme().toolbarDefaultBg
+  },
   headerTitleStyle: {
     color: getTheme().HeaderTextColor
   },

@@ -23,6 +23,13 @@ let toast = [%bs.raw {|
   }
 |}];
 
+let getHeaderStyle = [%bs.raw {|
+  function() {
+    var { getHeaderStyle } = require("../../../../src/components/styleProvider");
+    return getHeaderStyle();
+  }
+|}];
+
 let wrapNavigation = [%bs.raw {|
   function(aFunction) {
     var { getHeaderStyle } = require("../../../../src/components/styleProvider");
