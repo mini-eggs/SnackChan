@@ -12,6 +12,12 @@ clean_server:
 dependencies_server:
 	cd server && jbuilder external-lib-deps --missing main.exe
 
+build_test:
+	cd server && jbuilder build test.exe
+
+run_test: build_test
+	./server/_build/default/test.exe
+
 # Client
 
 run_client: 

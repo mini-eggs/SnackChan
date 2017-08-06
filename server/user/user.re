@@ -1,7 +1,14 @@
 open Mysql;
 open Pervasives;
 
-let db = quick_connect socket::"/Applications/MAMP/tmp/mysql/mysql.sock" host::"localhost" port::3306 user::"root" password::"root" database::"snackchan-local" ();
+let db = quick_connect 
+  socket::"/Applications/MAMP/tmp/mysql/mysql.sock" 
+  host::"localhost" 
+  port::3306 
+  user::"root" 
+  password::"root" 
+  database::"snackchan-local" 
+  ();
 
 let snag_row_values item => {
   switch item {
