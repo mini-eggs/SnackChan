@@ -1,15 +1,6 @@
 open Mysql;
 open Pervasives;
 
-let db = quick_connect 
-  socket::"/Applications/MAMP/tmp/mysql/mysql.sock" 
-  host::"localhost" 
-  port::3306 
-  user::"root" 
-  password::"root" 
-  database::"snackchan-local" 
-  ();
-
 let snag_row_values item => {
   switch item {
   | Some s => int_of_string s
@@ -18,6 +9,7 @@ let snag_row_values item => {
 };
 
 let create_new_user device_id push_token => {
+  let db = Database.getDatabase();
   /* Get number of rows. */
   let count_create = Prepared.create db "SELECT count(id) as count FROM users WHERE device_id = ?";
   let count_execute = Prepared.execute count_create [| device_id |];

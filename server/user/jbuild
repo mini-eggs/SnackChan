@@ -2,4 +2,4 @@
 
 (library
  ((name user)
-  (libraries (mysql cohttp.lwt))))
+  (libraries (mysql cohttp.lwt database))))
