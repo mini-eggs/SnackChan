@@ -2,4 +2,4 @@
 
 (library
  ((name user)
-  (libraries (mysql cohttp.lwt database))))
+  (libraries (cohttp.lwt yojson core mysql database))))

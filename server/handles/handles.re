@@ -6,6 +6,7 @@ let get_handle conn (req: Cohttp.Request.t) body => {
     switch (req.resource) {
     | "/" => (Routes.default_route ())
     | "/test/token" => (Routes.test_token ())
+    | "/test/send/notifcation" => (Routes.test_send_notification ())
     | _ => (Routes.error_route ())
     }
   };

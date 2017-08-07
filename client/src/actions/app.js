@@ -27,6 +27,5 @@ export function registerDeviceAndToken() {
       options
     );
     const data = await request.json();
-    console.log(data);
   };
 }

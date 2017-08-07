@@ -15,7 +15,7 @@ dependencies_server:
 build_test:
 	cd server && jbuilder build test.exe
 
-run_test: build_test
+run_tests: build_test
 	./server/_build/default/test.exe
 
 # Client

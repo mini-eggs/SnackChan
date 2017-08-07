@@ -5,7 +5,7 @@ import { clearThreadList } from "../actions/threadList";
 import { clearPostList } from "../actions/postList";
 
 function componentWillMount() {
-  // this.props.registerDeviceAndToken();
+  this.props.registerDeviceAndToken();
   this.props.clearThreadList();
   this.props.clearPostList();
 }
