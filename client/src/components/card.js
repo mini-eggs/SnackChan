@@ -1,5 +1,5 @@
 import React from "react";
-import { View, TouchableWithoutFeedback } from "react-native";
+import { View, TouchableWithoutFeedback, Linking } from "react-native";
 import { withNavigation } from "react-navigation";
 import { Text, Toast } from "native-base";
 import { connectActionSheet } from "@expo/react-native-action-sheet";
@@ -9,7 +9,14 @@ import FadeAnimation from "./fade";
 import ImageWrapper from "./image";
 
 const imageOptions = {
-  options: ["Cancel", "Save image", "Open in browser"],
+  options: [
+    "Cancel",
+    "Save image",
+    "Open image in browser",
+    "Open thread in browser",
+    "Save thread",
+    "Watch thread"
+  ],
   cancelButtonIndex: 0
 };
 
@@ -48,6 +55,16 @@ function CardComponent({
     switch (imageOptions.options[index]) {
       case "Save image": {
         saveImage(item).then(imageSaveComplete).catch(imageSaveError);
+      }
+      case "Open image in browser": {
+        Linking.openURL(item.imageURI);
+      }
+      case "Open thread in browser": {
+        Linking.openURL(`https://boards.4chan.org/${board}/thread/${item.no}`);
+      }
+      case "Save thread": {
+      }
+      case "Watch thread": {
       }
       default: {
         // Silence is golden.

@@ -32,9 +32,14 @@ let create_new_user device_id push_token => {
   }
 };
 
+  
+
 let send_notifcation device_id push_token => {
-  let json = `Assoc [ 
-    ("to", `String device_id),  
+  let uri = Uri.of_string "https://exp.host/--/api/v2/push/send";
+  let headers = Cohttp.Header.init_with "Content-Type" "application/json";
+  
+  let body = `Assoc [ 
+    ("to", `String push_token),  
     ("data", `Assoc [
       ("message", `String "Here we go")
     ]), 
@@ -43,35 +48,14 @@ let send_notifcation device_id push_token => {
     ("sound", `String "default"),
     ("priority", `String "normal"),
     ("badge", `Int 1)
-  ];
-
-  let body_string = Yojson.Basic.pretty_to_string json;
-  let body = Cohttp_lwt_body.of_string body_string;
-  let uri = Uri.of_string "https://exp.host/--/api/v2/push/send";
-  let headers = Cohttp.Header.init_with "Content-Type" "application/json";
+  ] |> Yojson.Basic.pretty_to_string
+    |> Cohttp_lwt_body.of_string;
 
   Client.post headers::headers body::body uri >>= fun (response, data) => {
     Cohttp_lwt_body.to_string data >>= fun body_string => {
-
-      Lwt_io.printf "%s" body_string;
-      
-      let handleOK () => {
-        let status = body_string 
-          |> Yojson.Basic.from_string 
-          |> Yojson.Basic.Util.member "data"
-          |> Yojson.Basic.Util.member "status"
-          |> Yojson.Basic.Util.to_string;
-
-        switch (status) {
-        | "error" => false
-        | _ => true
-        };
-      };
-      
-      switch ( response.status ) {
-      | `OK => handleOK ()
-      | _ => false
-      } |> Lwt.return
-    };
+      body_string
+      |> Yojson.Basic.from_string
+      |> Lwt.return 
+    }
   }; 
 };

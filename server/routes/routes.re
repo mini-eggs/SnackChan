@@ -16,6 +16,14 @@ let build_response (status: int) (message: string) => {
   Server.respond_string status::`OK body::body;
 };
 
+let build_json_response (status: int) (data: Yojson.Basic.json) => {
+  let body = `Assoc [ 
+    ("status", `Int status),  
+    ("message", data)
+  ] |> Yojson.Basic.pretty_to_string;
+  Server.respond_string status::`OK body::body;
+};
+
 /**
  * Routes.
  */
@@ -23,9 +31,8 @@ let build_response (status: int) (message: string) => {
 let test_send_notification _ => {
   let device_id = "547EAFE5-F9CF-4B4B-8C23-16037A8A2D54";
   let token_id = "ExponentPushToken[tMCNHSPqhFGDMoK2iz-cqO]";
-  User.send_notifcation device_id token_id >>= fun status => {
-    let value = status ? 1 : 0;
-    build_response value "Complete." ();
+  User.send_notifcation device_id token_id >>= fun message => {
+    build_json_response 1 message ();
   }; 
 };
 
