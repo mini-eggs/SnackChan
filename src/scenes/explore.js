@@ -11,14 +11,15 @@ import {
 } from "react-native";
 import { throttle } from "lodash";
 
+import Container from "../components/container";
 import SearchBar from "../components/searchBar";
-import SearchPage from "../components/searchPage";
+import SearchPage from "../containers/searchPage";
 import Featured from "../containers/featured";
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: Platform.OS === "ios" ? 22 : 0,
-    backgroundColor: "white"
+    backgroundColor: "white",
+    paddingTop: Platform.OS === "ios" ? 22 : 0
   },
   listContainer: {
     paddingLeft: 15
@@ -38,30 +39,54 @@ export default class extends React.Component {
     console.log(text);
   };
 
-  render() {
+  renderCloseSearchBar = () => {
     return (
-      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-        {/* INITIAL SEARCH INPUT */}
-        <TouchableWithoutFeedback onPress={this.toggleDisplay}>
-          <View>
-            <SearchBar editable={false} />
-          </View>
-        </TouchableWithoutFeedback>
-        {/* POPUP DISPLAY SEARCH INPUT */}
-        {this.state.search &&
-          <SearchPage>
-            <SearchBar
-              autoFocus={true}
-              onChangeText={throttle(this.handleChange, 500)}
-            />
-          </SearchPage>}
-        {/* FEATURED HOME ITEMS */}
-        <View style={styles.listContainer}>
-          <Featured title={"Our Favorites"} boards={["g", "lit", "fa"]} />
-          <Featured title={"Most Popular"} boards={["a", "random", "pol"]} />
-          <Featured title={"Your Recent"} boards={["soc", "hc", "gif"]} />
+      <TouchableWithoutFeedback onPress={this.toggleDisplay}>
+        <View>
+          <SearchBar fake={true} editable={false} />
         </View>
-      </ScrollView>
+      </TouchableWithoutFeedback>
+    );
+  };
+
+  renderOpenSearchBar = () => {
+    return this.state.search
+      ? <SearchPage>
+          <SearchBar
+            autoFocus={true}
+            onBlur={this.toggleDisplay}
+            onChangeText={throttle(this.handleChange, 500)}
+          />
+        </SearchPage>
+      : null;
+  };
+
+  renderList = () => {
+    return (
+      <View style={styles.listContainer}>
+        <Featured title={"Our Favorites"} boards={["g", "lit", "fa"]} />
+        <Featured title={"Most Popular"} boards={["a", "random", "pol"]} />
+        <Featured title={"Your Recent"} boards={["soc", "hc", "gif"]} />
+      </View>
+    );
+  };
+
+  render() {
+    const CloseSearch = this.renderCloseSearchBar;
+    const OpenSearch = this.renderOpenSearchBar;
+    const List = this.renderList;
+
+    return (
+      <Container>
+        <ScrollView
+          style={styles.container}
+          showsVerticalScrollIndicator={false}
+        >
+          <CloseSearch />
+          <OpenSearch />
+          <List />
+        </ScrollView>
+      </Container>
     );
   }
 }

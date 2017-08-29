@@ -1,6 +1,9 @@
 import React from "react";
-import { View, TextInput, Image, StyleSheet } from "react-native";
+import { View, TextInput, Image, Text, StyleSheet } from "react-native";
+import { merge } from "lodash";
 // import { Search } from "../constants/icons";
+
+const placeholderTextColor = "grey";
 
 const styles = StyleSheet.create({
   container: {
@@ -20,6 +23,7 @@ const styles = StyleSheet.create({
   //   width: 30
   // },
   input: {
+    fontSize: 14,
     height: 20,
     flex: 1,
     textAlign: "center"
@@ -27,10 +31,27 @@ const styles = StyleSheet.create({
 });
 
 function SearchBar(props) {
+  const { fake } = props;
+  const textValue = `Try "Tech"`;
+
+  const InnerComponent = fake
+    ? () =>
+        <Text
+          style={merge({}, styles.input, { color: placeholderTextColor })}
+          children={textValue}
+          {...props}
+        />
+    : () =>
+        <TextInput
+          placeholderTextColor={placeholderTextColor}
+          placeholder={textValue}
+          style={styles.input}
+          {...props}
+        />;
+
   return (
     <View style={styles.container}>
-      {/* <Image resizeMode="contain" source={Search} style={styles.image} /> */}
-      <TextInput placeholder={'Try "Tech"'} style={styles.input} {...props} />
+      <InnerComponent />
     </View>
   );
 }
