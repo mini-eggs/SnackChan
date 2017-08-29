@@ -1,9 +1,0 @@
-(jbuild_version 1)
-
-(executables
- ((libraries (cohttp.lwt yojson core entry handles routes ounit database))
-  (names (main test))))
-
-(alias
-  ((name DEFAULT)
-   (deps (main.exe))))

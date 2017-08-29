@@ -1,5 +1,0 @@
-(jbuild_version 1)
-
-(library
- ((name routes)
-  (libraries (user cohttp async cohttp.lwt yojson lib lwt core))))

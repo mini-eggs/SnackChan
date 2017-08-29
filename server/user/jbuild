@@ -1,5 +1,0 @@
-(jbuild_version 1)
-
-(library
- ((name user)
-  (libraries (cohttp.lwt yojson core mysql database))))
