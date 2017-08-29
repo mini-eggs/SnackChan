@@ -8,9 +8,9 @@ function mapState({ Threads }) {
   };
 }
 
-function mapDispatch(dispatch) {
+function mapDispatch(d) {
   return {
-    requestThreads: thread => dispatch(requestThreads(thread))
+    requestThreads: thread => d(requestThreads(thread))
   };
 }
 

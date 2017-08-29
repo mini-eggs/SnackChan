@@ -1,32 +1,6 @@
 import React from "react";
 import { Modal, View, StyleSheet, Platform, Text } from "react-native";
 
-import Fade from "./fade";
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "white"
-  },
-  wrapper: {
-    paddingTop: Platform.OS === "ios" ? 22 : 0
-  },
-  listContainer: {
-    paddingTop: 15,
-    paddingLeft: 15,
-    paddingRight: 15
-  },
-  boardContainer: {
-    marginBottom: 15
-  },
-  boardTitle: {
-    fontSize: 18
-  },
-  boardDescription: {
-    marginTop: 5,
-    fontSize: 14
-  }
-});
-
 function SingleBoard({ item }) {
   const {
     board, // 3
@@ -54,12 +28,15 @@ export default class extends React.Component {
 
   renderList = () => {
     const elements = this.props.boards.map((i, key) =>
-      <Fade delay={0 * 200 * key} duration={250 + 200 * key}>
-        <SingleBoard key={key} item={i} />
-      </Fade>
+      <SingleBoard key={key} item={i} />
     );
 
-    return <View style={styles.listContainer} children={elements} />;
+    return (
+      <View style={styles.listContainer}>
+        <Text style={styles.title}>Boards</Text>
+        {elements}
+      </View>
+    );
   };
 
   render() {
@@ -80,3 +57,31 @@ export default class extends React.Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "white"
+  },
+  wrapper: {
+    paddingTop: Platform.OS === "ios" ? 22 : 0
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "700",
+    paddingBottom: 15
+  },
+  listContainer: {
+    paddingLeft: 15,
+    paddingRight: 15
+  },
+  boardContainer: {
+    marginBottom: 15
+  },
+  boardTitle: {
+    fontSize: 18
+  },
+  boardDescription: {
+    marginTop: 5,
+    fontSize: 14
+  }
+});

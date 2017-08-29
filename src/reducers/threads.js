@@ -1,6 +1,6 @@
 import { Map, List } from "immutable";
 
-import { THREADS_RECEIVED, getImage } from "../constants";
+import { THREADS_RECEIVED, getImage, getThumbnail } from "../constants";
 
 const initialState = Map({
   boards: Map()
@@ -19,6 +19,7 @@ function formatThread(board, threads) {
         const item = Map({
           board,
           image: getImage(board, main),
+          thumbnail: getThumbnail(board, main),
           children: List([posts[1], posts[2], posts[3], posts[4], posts[5]])
         });
         return Object.keys(main).reduce(constructMap(main), item);

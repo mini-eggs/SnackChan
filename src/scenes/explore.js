@@ -36,7 +36,7 @@ export default class extends React.Component {
   };
 
   handleChange = text => {
-    console.log(text);
+    this.props.updateInput(text);
   };
 
   renderCloseSearchBar = () => {

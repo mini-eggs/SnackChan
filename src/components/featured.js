@@ -39,7 +39,7 @@ function Thread({ item }) {
   return (
     <Image
       resizeMode="cover"
-      source={{ uri: item.image }}
+      source={{ uri: item.thumbnail }}
       style={styles.threadImage}
     />
   );

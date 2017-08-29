@@ -9,6 +9,7 @@ import Thunk from "redux-thunk";
  */
 import Boards from "./reducers/boards";
 import Threads from "./reducers/threads";
+import Input from "./reducers/input";
 
 /**
  * Routes
@@ -19,7 +20,7 @@ import Explore from "./routes/explore";
  * Configs
  */
 const store = createStore(
-  combineReducers({ Boards, Threads }),
+  combineReducers({ Boards, Threads, Input }),
   applyMiddleware(Thunk)
 );
 const Stacks = StackNavigator({ Explore });
