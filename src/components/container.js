@@ -1,9 +1,11 @@
 import React from "react";
-import { View, StatusBar } from "react-native";
+import { View, StatusBar, Platform } from "react-native";
 
 const styles = {
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: "white",
+    paddingTop: Platform.OS === "ios" ? 22 : 0
   }
 };
 

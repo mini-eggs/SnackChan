@@ -1,5 +1,15 @@
 import React from "react";
-import { Modal, View, StyleSheet, Platform, Text } from "react-native";
+import {
+  Modal,
+  View,
+  ScrollView,
+  StyleSheet,
+  Platform,
+  Text
+} from "react-native";
+import { Spacer } from "./sticky";
+
+import { PADDING } from "../constants/styles";
 
 function SingleBoard({ item }) {
   const {
@@ -12,7 +22,7 @@ function SingleBoard({ item }) {
   return (
     <View style={styles.boardContainer}>
       <Text style={styles.boardTitle}>
-        {title} - /{board}/
+        /{board}/ - {title}
       </Text>
       {/* <Text style={styles.boardDescription}>
         {meta_description}
@@ -27,9 +37,9 @@ export default class extends React.Component {
   }
 
   renderList = () => {
-    const elements = this.props.boards.map((i, key) =>
+    const elements = this.props.boards.map((i, key) => (
       <SingleBoard key={key} item={i} />
-    );
+    ));
 
     return (
       <View style={styles.listContainer}>
@@ -40,8 +50,6 @@ export default class extends React.Component {
   };
 
   render() {
-    const List = this.renderList;
-
     return (
       <Modal
         transparent={false}
@@ -51,7 +59,10 @@ export default class extends React.Component {
       >
         <View style={styles.wrapper}>
           {this.props.children}
-          <List />
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <Spacer />
+            <this.renderList />
+          </ScrollView>
         </View>
       </Modal>
     );
@@ -63,7 +74,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white"
   },
   wrapper: {
-    paddingTop: Platform.OS === "ios" ? 22 : 0
+    marginTop: Platform.OS === "ios" ? 22 : 0
   },
   title: {
     fontSize: 24,
@@ -71,14 +82,13 @@ const styles = StyleSheet.create({
     paddingBottom: 15
   },
   listContainer: {
-    paddingLeft: 15,
-    paddingRight: 15
+    paddingLeft: PADDING,
+    paddingRight: PADDING
   },
-  boardContainer: {
-    marginBottom: 15
-  },
+  boardContainer: {},
   boardTitle: {
-    fontSize: 18
+    fontSize: 18,
+    paddingBottom: PADDING
   },
   boardDescription: {
     marginTop: 5,

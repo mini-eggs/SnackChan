@@ -8,7 +8,7 @@ function mapState() {
 
 function mapDispatch(d) {
   return {
-    updateInput: value => d(value)
+    updateInput: value => d(updateExploreSearch(value))
   };
 }
 

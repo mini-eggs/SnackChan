@@ -8,6 +8,9 @@ import {
   ScrollView,
   Dimensions
 } from "react-native";
+import { merge } from "lodash";
+
+import { PADDING } from "../constants/styles";
 
 const { width } = Dimensions.get("window");
 
@@ -18,46 +21,53 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: "700",
-    paddingBottom: 15
+    paddingLeft: PADDING
   },
-  boardContainer: {
-    paddingBottom: 15
-  },
+  boardContainer: {},
   boardTitle: {
     fontSize: 18,
     fontWeight: "700",
-    paddingBottom: 15
-  },
-  threadImage: {
-    height: width / 3,
-    width: width / 3 * 3 / 4,
-    marginRight: 15
+    paddingTop: PADDING,
+    paddingBottom: PADDING,
+    paddingLeft: PADDING
   }
 });
 
-function Thread({ item }) {
+const threadImageStyle = {
+  height: width / 3,
+  width: width / 3 * 3 / 4,
+  marginRight: PADDING
+};
+
+function Thread({ index, item }) {
   return (
     <Image
       resizeMode="cover"
       source={{ uri: item.thumbnail }}
-      style={styles.threadImage}
+      style={merge({}, threadImageStyle, {
+        marginLeft: index === 0 ? PADDING : 0
+      })}
     />
   );
 }
 
 function Board({ item }) {
   const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+  let count = -1; /* we increment before using. */
+
   return (
     <View style={styles.boardContainer}>
-      <Text style={styles.boardTitle}>
-        /{item.board}/
-      </Text>
+      <Text style={styles.boardTitle}>/{item.board}/</Text>
       <ListView
         horizontal={true}
         dataSource={ds.cloneWithRows(item.threads.slice(0, 5))}
-        renderScrollComponent={i =>
-          <ScrollView {...i} showsHorizontalScrollIndicator={false} />}
-        renderRow={i => <Thread item={i} />}
+        renderScrollComponent={i => (
+          <ScrollView {...i} showsHorizontalScrollIndicator={false} />
+        )}
+        renderRow={i => {
+          count = count + 1;
+          return <Thread index={count} item={i} />;
+        }}
       />
     </View>
   );
@@ -77,20 +87,14 @@ export default class extends React.Component {
       .filter(Boolean)
       .map((item, i) => <Board key={i} item={item} />);
 
-    return (
-      <View>
-        {nextBoards}
-      </View>
-    );
+    return <View>{nextBoards}</View>;
   };
 
   render() {
     const List = this.renderList;
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>
-          {this.props.title}
-        </Text>
+        <Text style={styles.title}>{this.props.title}</Text>
         <List />
       </View>
     );

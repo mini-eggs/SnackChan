@@ -7,6 +7,7 @@ import {
   Image,
   StyleSheet,
   Platform,
+  Dimensions,
   TouchableWithoutFeedback
 } from "react-native";
 import { throttle } from "lodash";
@@ -15,77 +16,79 @@ import Container from "../components/container";
 import SearchBar from "../components/searchBar";
 import SearchPage from "../containers/searchPage";
 import Featured from "../containers/featured";
+import Sticky, { Spacer } from "../components/sticky";
+import { Close } from "../constants/icons";
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "white",
-    paddingTop: Platform.OS === "ios" ? 22 : 0
+  activeSearchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center"
   },
-  listContainer: {
-    paddingLeft: 15
+  closeIcon: {
+    marginLeft: 15,
+    marginRight: 15,
+    height: 25,
+    width: 25
   }
 });
 
 export default class extends React.Component {
-  state = {
-    search: false
-  };
+  state = { search: false };
 
-  toggleDisplay = () => {
-    this.setState(({ search }) => ({ search: !search }));
-  };
+  toggleDisplay = () => this.setState(({ search }) => ({ search: !search }));
 
-  handleChange = text => {
-    this.props.updateInput(text);
-  };
+  handleChange = i => this.props.updateInput(i);
 
-  renderCloseSearchBar = () => {
-    return (
+  renderCloseSearchBar = () => (
+    <Sticky>
       <TouchableWithoutFeedback onPress={this.toggleDisplay}>
         <View>
           <SearchBar fake={true} editable={false} />
         </View>
       </TouchableWithoutFeedback>
-    );
-  };
+    </Sticky>
+  );
 
-  renderOpenSearchBar = () => {
-    return this.state.search
-      ? <SearchPage>
+  renderOpenSearchBar = () => (
+    <SearchPage>
+      <Sticky>
+        <View style={styles.activeSearchContainer}>
+          <View /* dummy element */ style={styles.closeIcon} />
           <SearchBar
+            editable={true}
             autoFocus={true}
-            onBlur={this.toggleDisplay}
             onChangeText={throttle(this.handleChange, 500)}
           />
-        </SearchPage>
-      : null;
-  };
+          <TouchableWithoutFeedback onPress={this.toggleDisplay}>
+            <View>
+              <Image style={styles.closeIcon} source={Close} />
+            </View>
+          </TouchableWithoutFeedback>
+        </View>
+      </Sticky>
+    </SearchPage>
+  );
 
-  renderList = () => {
-    return (
-      <View style={styles.listContainer}>
-        <Featured title={"Our Favorites"} boards={["g", "lit", "fa"]} />
-        <Featured title={"Most Popular"} boards={["a", "random", "pol"]} />
-        <Featured title={"Your Recent"} boards={["soc", "hc", "gif"]} />
-      </View>
-    );
-  };
+  renderList = () => (
+    <View>
+      <Featured title={"Our Favorites"} boards={["g", "lit", "fa"]} />
+      <Featured title={"Most Popular"} boards={["a", "random", "pol"]} />
+      <Featured title={"Your Recent"} boards={["soc", "hc", "gif"]} />
+    </View>
+  );
 
   render() {
-    const CloseSearch = this.renderCloseSearchBar;
-    const OpenSearch = this.renderOpenSearchBar;
-    const List = this.renderList;
-
     return (
       <Container>
-        <ScrollView
-          style={styles.container}
-          showsVerticalScrollIndicator={false}
-        >
-          <CloseSearch />
-          <OpenSearch />
-          <List />
-        </ScrollView>
+        <View>
+          <this.renderCloseSearchBar />
+          {this.state.search && <this.renderOpenSearchBar />}
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <Spacer />
+            <this.renderList />
+          </ScrollView>
+        </View>
       </Container>
     );
   }
