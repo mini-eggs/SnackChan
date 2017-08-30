@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { Spacer } from "./sticky";
 
-import { PADDING } from "../constants/styles";
+import { PADDING, FONT_LARGE, FONT_SMALL } from "../constants/styles";
 
 function SingleBoard({ item }) {
   const {
@@ -77,9 +77,9 @@ const styles = StyleSheet.create({
     marginTop: Platform.OS === "ios" ? 22 : 0
   },
   title: {
-    fontSize: 24,
+    fontSize: FONT_LARGE,
     fontWeight: "700",
-    paddingBottom: 15
+    paddingBottom: PADDING
   },
   listContainer: {
     paddingLeft: PADDING,
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   },
   boardContainer: {},
   boardTitle: {
-    fontSize: 18,
+    fontSize: FONT_SMALL,
     paddingBottom: PADDING
   },
   boardDescription: {

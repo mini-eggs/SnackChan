@@ -24,6 +24,7 @@
     "lodash": "^4.17.4",
     "react": "^16.0.0-alpha.12",
     "react-native": "^0.47.0",
+    "react-native-parallax-scroll-view": "git://github.com/fungilation/react-native-parallax-scroll-view.git",
     "react-navigation": "^1.0.0-beta.11",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0"

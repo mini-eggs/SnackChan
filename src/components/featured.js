@@ -6,26 +6,28 @@ import {
   StyleSheet,
   ListView,
   ScrollView,
-  Dimensions
+  Dimensions,
+  TouchableWithoutFeedback
 } from "react-native";
 import { merge } from "lodash";
+import { withNavigation } from "react-navigation";
 
-import { PADDING } from "../constants/styles";
+import { PADDING, FONT_LARGE, FONT_MEDIUM } from "../constants/styles";
 
 const { width } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
   container: {
-    paddingBottom: 25
+    paddingBottom: PADDING
   },
   title: {
-    fontSize: 24,
+    fontSize: FONT_LARGE,
     fontWeight: "700",
     paddingLeft: PADDING
   },
   boardContainer: {},
   boardTitle: {
-    fontSize: 18,
+    fontSize: FONT_MEDIUM,
     fontWeight: "700",
     paddingTop: PADDING,
     paddingBottom: PADDING,
@@ -39,17 +41,28 @@ const threadImageStyle = {
   marginRight: PADDING
 };
 
-function Thread({ index, item }) {
+const Thread = withNavigation(({ index, item, navigation }) => {
+  /**
+   * When user presses on featured image
+   * navigate to the specific thread that the
+   * image belongs to.
+   */
+  function handlePress() {
+    navigation.navigate("SingleThread", { item });
+  }
+
   return (
-    <Image
-      resizeMode="cover"
-      source={{ uri: item.thumbnail }}
-      style={merge({}, threadImageStyle, {
-        marginLeft: index === 0 ? PADDING : 0
-      })}
-    />
+    <TouchableWithoutFeedback onPress={handlePress}>
+      <Image
+        resizeMode="cover"
+        source={{ uri: item.thumbnail }}
+        style={merge({}, threadImageStyle, {
+          marginLeft: index === 0 ? PADDING : 0
+        })}
+      />
+    </TouchableWithoutFeedback>
   );
-}
+});
 
 function Board({ item }) {
   const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });

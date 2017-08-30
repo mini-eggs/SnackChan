@@ -15,6 +15,7 @@ import Input from "./reducers/input";
  * Routes
  */
 import Explore from "./routes/explore";
+import SingleThread from "./routes/singleThread";
 
 /**
  * Configs
@@ -23,7 +24,7 @@ const store = createStore(
   combineReducers({ Boards, Threads, Input }),
   applyMiddleware(Thunk)
 );
-const Stacks = StackNavigator({ Explore });
+const Stacks = StackNavigator({ Explore, SingleThread });
 
 /**
  * Initialize

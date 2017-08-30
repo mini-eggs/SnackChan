@@ -18,6 +18,7 @@ import SearchPage from "../containers/searchPage";
 import Featured from "../containers/featured";
 import Sticky, { Spacer } from "../components/sticky";
 import { Close } from "../constants/icons";
+import { PADDING } from "../constants/styles";
 
 const styles = StyleSheet.create({
   activeSearchContainer: {
@@ -26,8 +27,8 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   closeIcon: {
-    marginLeft: 15,
-    marginRight: 15,
+    marginLeft: PADDING,
+    marginRight: PADDING,
     height: 25,
     width: 25
   }
@@ -72,9 +73,9 @@ export default class extends React.Component {
 
   renderList = () => (
     <View>
-      <Featured title={"Our Favorites"} boards={["g", "lit", "fa"]} />
-      <Featured title={"Most Popular"} boards={["a", "random", "pol"]} />
-      <Featured title={"Your Recent"} boards={["soc", "hc", "gif"]} />
+      <Featured title={"Our Favorite"} boards={["g"]} />
+      <Featured title={"Most Popular"} boards={["a"]} />
+      <Featured title={"Most Recent"} boards={["soc"]} />
     </View>
   );
 

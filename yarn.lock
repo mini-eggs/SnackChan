@@ -4329,6 +4329,12 @@ react-native-maps@0.15.3:
   version "0.15.3"
   resolved "https://registry.yarnpkg.com/react-native-maps/-/react-native-maps-0.15.3.tgz#5d9e0a8e30ecc51dc755b7a3b9d6b6ed5e2dd08c"
 
+"react-native-parallax-scroll-view@git://github.com/fungilation/react-native-parallax-scroll-view.git":
+  version "0.19.0"
+  resolved "git://github.com/fungilation/react-native-parallax-scroll-view.git#086b0f01f69fecb013b0efa657c2c419b5702515"
+  dependencies:
+    prop-types "^15.5.10"
+
 react-native-safe-module@^1.1.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/react-native-safe-module/-/react-native-safe-module-1.2.0.tgz#a23824ca24edc2901913694a76646475113d570d"
