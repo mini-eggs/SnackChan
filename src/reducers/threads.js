@@ -1,44 +1,55 @@
-import { Map, List } from "immutable";
+// @flow
 
+import type { singleThreadT } from "../constants/types";
+import type { actionT } from "./_shared";
 import { THREADS_RECEIVED, getImage, getThumbnail } from "../constants";
 
-const initialState = Map({
-  boards: Map()
+type stateT = {
+  boards: { [string]: singleThreadT }
+};
+
+type threadsReceived = {
+  board: string,
+  threads: singleThreadT
+};
+
+const initial: stateT = {
+  boards: {}
+};
+
+const formatThread = (board: string, threads: Array<singleThreadT>) => ({
+  board: board,
+  threads: threads.map((item: singleThreadT) => ({
+    ...item.posts[0],
+    board: board,
+    image: getImage(board, item.posts[0]),
+    thumbnail: getThumbnail(board, item.posts[0]),
+    children: [
+      item.posts[1],
+      item.posts[2],
+      item.posts[3],
+      item.posts[4],
+      item.posts[5]
+    ]
+  }))
 });
 
-function constructMap(main) {
-  return (total, keyName) => total.set(keyName, main[keyName]);
-}
+const NSThreadsReceived = (state: stateT, payload: threadsReceived) => {
+  const nextThreads = {};
+  nextThreads[payload.board] = formatThread(payload.board, payload.threads);
+  return {
+    ...state,
+    boards: {
+      ...state.boards,
+      ...nextThreads
+    }
+  };
+};
 
-function formatThread(board, threads) {
-  return Map({
-    board,
-    threads: List(
-      threads.map(({ posts }) => {
-        const main = posts[0];
-        const item = Map({
-          board,
-          image: getImage(board, main),
-          thumbnail: getThumbnail(board, main),
-          children: List([posts[1], posts[2], posts[3], posts[4], posts[5]])
-        });
-        return Object.keys(main).reduce(constructMap(main), item);
-      })
-    )
-  });
-}
-
-function getStateFromThreadsListReceived(state, { board, threads }) {
-  const newThreads = formatThread(board, threads);
-  const currentBoards = state.get("boards");
-  const nextBoards = currentBoards.set(board, newThreads);
-  return state.set("boards", nextBoards);
-}
-
-export default function(state = initialState, { type, payload }) {
-  switch (type) {
+export default function(state: stateT = initial, action: actionT) {
+  switch (action.type) {
     case THREADS_RECEIVED: {
-      return getStateFromThreadsListReceived(state, payload);
+      return NSThreadsReceived(state, action.payload);
     }
     default: {
       return state;

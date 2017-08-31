@@ -14,7 +14,7 @@ type mappedT = {
 };
 
 const mapState = (state: storeState): mappedT => ({
-  boardsList: state.Threads.get("boards").toJS()
+  boardsList: state.Threads.boards
 });
 
 /**

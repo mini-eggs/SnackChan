@@ -104,6 +104,8 @@ const Thread = withNavigation(({ index, item, navigation }) => {
     navigation.navigate("SingleThread", { item });
   };
 
+  // console.log(item);
+
   return (
     <TouchableWithoutFeedback onPress={handlePress}>
       <Image

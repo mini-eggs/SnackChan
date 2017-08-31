@@ -1,4 +1,4 @@
-export type singleThreadT = {
+export type singlePostT = {
   board: string,
   image: string,
   thumbnail: string,
@@ -23,6 +23,10 @@ export type singleThreadT = {
   semantic_url: string,
   replies: number,
   images: number
+};
+
+export type singleThreadT = {
+  posts: Array<singlePostT>
 };
 
 export type singleBoardT = {
