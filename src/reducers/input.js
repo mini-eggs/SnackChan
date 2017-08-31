@@ -1,18 +1,25 @@
-import { Map } from "immutable";
+// @flow
+
+import { merge } from "lodash";
+
+import type { actionT } from "./_shared";
 import { UPDATE_EXPLORE_SEARCH } from "../constants/";
 
-const initialState = Map({
+export type stateT = {
+  exploreSearch: string
+};
+
+const initial: stateT = {
   exploreSearch: ""
-});
+};
 
-export function getStateFromSearch(state, payload) {
-  return state.set("exploreSearch", payload);
-}
+const NSFromSearch = (state: stateT, exploreSearch: string): stateT =>
+  merge({}, state, { exploreSearch });
 
-export default function(state = initialState, { type, payload }) {
-  switch (type) {
+export default function(state: stateT = initial, action: actionT) {
+  switch (action.type) {
     case UPDATE_EXPLORE_SEARCH: {
-      return getStateFromSearch(state, payload);
+      return NSFromSearch(state, action.payload);
     }
     default: {
       return state;

@@ -1,6 +1,15 @@
+// @flow
+
 import React from "react";
 import { StyleSheet, Dimensions, View } from "react-native";
 
+type propsT = {
+  children?: React.Children
+};
+
+/**
+ * Styles
+ */
 const { width } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
@@ -18,12 +27,15 @@ const styles = StyleSheet.create({
   }
 });
 
-export function Spacer() {
-  return <View style={styles.spacer} />;
-}
+/**
+ * Components
+ */
+const Spacer = () => <View style={styles.spacer} />;
 
-function Sticky({ children }) {
-  return <View style={styles.container} children={children} />;
-}
+const Sticky = (props: propsT) => (
+  <View style={styles.container} children={props.children} />
+);
+
+export { Spacer };
 
 export default Sticky;

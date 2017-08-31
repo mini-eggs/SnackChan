@@ -1,3 +1,5 @@
+// @flow
+
 import React from "react";
 import {
   ScrollView,
@@ -10,7 +12,6 @@ import {
   Dimensions,
   TouchableWithoutFeedback
 } from "react-native";
-import { throttle } from "lodash";
 
 import Container from "../components/container";
 import SearchBar from "../components/searchBar";
@@ -34,12 +35,28 @@ const styles = StyleSheet.create({
   }
 });
 
-export default class extends React.Component {
-  state = { search: false };
+type propsT = {
+  updateInput: string => void
+};
 
-  toggleDisplay = () => this.setState(({ search }) => ({ search: !search }));
+type stateT = {
+  search: boolean
+};
 
-  handleChange = i => this.props.updateInput(i);
+class Explore extends React.PureComponent<void, propsT, stateT> {
+  state = {
+    search: false
+  };
+
+  toggleDisplay = () => {
+    this.setState((state: stateT) => ({
+      search: !state.search
+    }));
+  };
+
+  handleChange = (i: string) => {
+    this.props.updateInput(i);
+  };
 
   renderCloseSearchBar = () => (
     <Sticky>
@@ -59,7 +76,7 @@ export default class extends React.Component {
           <SearchBar
             editable={true}
             autoFocus={true}
-            onChangeText={throttle(this.handleChange, 500)}
+            onChangeText={this.handleChange}
           />
           <TouchableWithoutFeedback onPress={this.toggleDisplay}>
             <View>
@@ -84,7 +101,7 @@ export default class extends React.Component {
       <Container>
         <View>
           <this.renderCloseSearchBar />
-          {this.state.search && <this.renderOpenSearchBar />}
+          {this.state.search && this.renderOpenSearchBar()}
           <ScrollView showsVerticalScrollIndicator={false}>
             <Spacer />
             <this.renderList />
@@ -94,3 +111,5 @@ export default class extends React.Component {
     );
   }
 }
+
+export default Explore;

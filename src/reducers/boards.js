@@ -1,21 +1,49 @@
-import { Map, List } from "immutable";
+// @flow
+
+import { merge } from "lodash";
+
+import type { singleBoardT } from "../constants/types";
+import type { actionT } from "./_shared";
 import { BOARD_RECEIVED } from "../constants";
 
-const initialState = Map({
-  boards: List()
-});
+/**
+ * Types.
+ */
 
-function getNextStateFromBoardsRecevied(state, { boards }) {
-  return state.set("boards", List(boards.map(i => Map(i))));
-}
+export type stateT = {
+  boards: Array<singleBoardT>
+};
 
-export default function(state = initialState, { type, payload }) {
-  switch (type) {
+type receivedT = {
+  boards: Array<singleBoardT>
+};
+
+/**
+ * InitialState
+ */
+const initial: stateT = {
+  boards: []
+};
+
+/**
+ * NS is an abbreviation for `next state.`
+ */
+const NSBoardsReceived = (state: stateT, payload: receivedT): stateT =>
+  merge({}, state, { boards: payload.boards });
+
+/**
+ * Reducer
+ */
+function BoardReducer(state: stateT = initial, action: actionT): stateT {
+  switch (action.type) {
     case BOARD_RECEIVED: {
-      return getNextStateFromBoardsRecevied(state, payload);
+      return NSBoardsReceived(state, action.payload);
     }
+
     default: {
       return state;
     }
   }
 }
+
+export default BoardReducer;

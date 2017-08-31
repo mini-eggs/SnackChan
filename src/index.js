@@ -1,4 +1,8 @@
+// @flow
+
 import React from "react";
+
+// $FlowFixMe
 import { StackNavigator } from "react-navigation";
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import { Provider } from "react-redux";

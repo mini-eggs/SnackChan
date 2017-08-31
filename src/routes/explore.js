@@ -1,3 +1,5 @@
+// @flow
+
 import Explore from "../containers/explore";
 
 export default {

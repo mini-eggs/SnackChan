@@ -1,12 +1,13 @@
-import SingleThread from "../scenes/singleThread";
+// @flow
+
 import { connect } from "react-redux";
 
-function mapState({ Threads }) {
-  return {};
-}
+import SingleThread from "../scenes/singleThread";
+import type { storeState } from "../reducers/_shared";
 
-function mapDispatch(d) {
-  return {};
-}
+type emptyT = {};
+
+const mapState = (state: storeState): emptyT => ({});
+const mapDispatch = (d: any): emptyT => ({});
 
 export default connect(mapState, mapDispatch)(SingleThread);

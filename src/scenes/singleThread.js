@@ -1,3 +1,5 @@
+// @flow
+
 import React from "react";
 import {
   Text,
@@ -29,7 +31,7 @@ function Thread() {
   );
 }
 
-export default class extends React.Component {
+export default class extends React.PureComponent {
   render() {
     const { item } = this.props.navigation.state.params;
     const { height, width } = getImageDimensions(item);

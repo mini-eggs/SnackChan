@@ -1,5 +1,16 @@
+// @flow
+
 import React from "react";
 import { View, StatusBar, Platform } from "react-native";
+
+type propsT = {
+  children: React.Children
+};
+
+const statusBarDefaults = {
+  backgroundColor: "white",
+  barStyle: "dark-content"
+};
 
 const styles = {
   container: {
@@ -9,11 +20,11 @@ const styles = {
   }
 };
 
-export default function({ children }) {
-  return (
-    <View style={styles.container}>
-      <StatusBar backgroundColor={"white"} barStyle={"dark-content"} />
-      {children}
-    </View>
-  );
-}
+const Container = (props: propsT) => (
+  <View style={styles.container}>
+    <StatusBar {...statusBarDefaults} />
+    {props.children}
+  </View>
+);
+
+export default Container;

@@ -1,11 +1,14 @@
+// @flow
+
 import { threadURL, THREADS_RECEIVED } from "../constants";
 
-function handleThreadsReceived(payload, type = THREADS_RECEIVED) {
-  return { type, payload };
-}
+const handleThreadsReceived = payload => ({
+  type: THREADS_RECEIVED,
+  payload: payload
+});
 
-export function requestThreads(board, page) {
-  return async dispatch => {
+export function requestThreads(board: string, page?: number) {
+  return async (dispatch: any) => {
     try {
       const req = await fetch(threadURL(board, page));
       const { threads } = await req.json();

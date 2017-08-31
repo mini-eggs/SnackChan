@@ -1,34 +1,57 @@
+// @flow
+
 import { connect } from "react-redux";
+
+import type { storeState } from "../reducers/_shared";
+import type { singleBoardT } from "../constants/types";
 import { requestBoards } from "../actions/board";
 import SearchPage from "../components/searchPage";
 
-function filterBoards(boards, input) {
+/**
+ * Helper function
+ */
+const filterBoards = (
+  boards: Array<singleBoardT>,
+  input: string
+): Array<singleBoardT> => {
   if (input === "") {
     return boards;
   }
 
   const search = input.toLowerCase();
 
-  return boards.filter(
-    ({ board, title }) =>
-      `/${board}/`.toLowerCase().indexOf(search) > -1 ||
-      title.toLowerCase().indexOf(search) > -1
-  );
-}
+  const filterFunc = (singleBoard: singleBoardT) =>
+    `/${singleBoard.board}/`.toLowerCase().indexOf(search) > -1 ||
+    singleBoard.title.toLowerCase().indexOf(search) > -1;
 
-function mapState({ Boards, Input }) {
-  const boards = Boards.get("boards").toJS();
-  const exploreSearch = Input.get("exploreSearch");
+  return boards.filter(filterFunc);
+};
 
-  return {
-    boards: filterBoards(boards, exploreSearch)
-  };
-}
+/**
+ * Get state
+ */
+type mappedT = {
+  boards: Array<singleBoardT>
+};
 
-function mapDispatch(d) {
-  return {
-    requestBoards: () => d(requestBoards())
-  };
-}
+const mapState = (state: storeState): mappedT => ({
+  boards: filterBoards(state.Boards.boards, state.Input.exploreSearch)
+});
 
+/**
+ * Get actions
+ */
+type dispatchedT = {
+  requestBoards: void => void
+};
+
+const mapDispatch = (dispatch: any): dispatchedT => ({
+  requestBoards: () => {
+    dispatch(requestBoards());
+  }
+});
+
+/**
+ * Complete component
+ */
 export default connect(mapState, mapDispatch)(SearchPage);

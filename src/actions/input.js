@@ -1,5 +1,8 @@
+// @flow
+
 import { UPDATE_EXPLORE_SEARCH } from "../constants/";
 
-export function updateExploreSearch(payload) {
-  return { type: UPDATE_EXPLORE_SEARCH, payload };
-}
+export const updateExploreSearch = (payload: string) => ({
+  type: UPDATE_EXPLORE_SEARCH,
+  payload: payload
+});

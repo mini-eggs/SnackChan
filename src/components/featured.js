@@ -1,3 +1,5 @@
+// @flow
+
 import React from "react";
 import {
   View,
@@ -10,10 +12,58 @@ import {
   TouchableWithoutFeedback
 } from "react-native";
 import { merge } from "lodash";
+// $FlowFixMe
 import { withNavigation } from "react-navigation";
 
+import type { singleThreadT } from "../constants/types";
+import type { singleBoardT } from "../constants/types";
 import { PADDING, FONT_LARGE, FONT_MEDIUM } from "../constants/styles";
 
+/**
+ * Types
+ */
+type threadT = {
+  board: string,
+  image: string,
+  thumbnail: string,
+  no: number,
+  sticky: number,
+  closed: number,
+  now: string,
+  name: string,
+  com: string,
+  filename: string,
+  ext: string,
+  w: number,
+  h: number,
+  tn_w: number,
+  tn_h: number,
+  tim: number,
+  time: number,
+  md5: string,
+  fsize: number,
+  resto: number,
+  capcode: string,
+  semantic_url: string,
+  replies: number,
+  images: number
+};
+
+type boardFullT = {
+  board: string,
+  threads: Array<threadT>
+};
+
+type propsT = {
+  title: string,
+  requestThreads: string => void,
+  boards: Array<string>,
+  boardsList: { [string]: boardFullT }
+};
+
+/**
+ * Styles
+ */
 const { width } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
@@ -41,15 +91,18 @@ const threadImageStyle = {
   marginRight: PADDING
 };
 
+/**
+ * Components
+ */
 const Thread = withNavigation(({ index, item, navigation }) => {
   /**
    * When user presses on featured image
    * navigate to the specific thread that the
    * image belongs to.
    */
-  function handlePress() {
+  const handlePress = () => {
     navigation.navigate("SingleThread", { item });
-  }
+  };
 
   return (
     <TouchableWithoutFeedback onPress={handlePress}>
@@ -64,16 +117,16 @@ const Thread = withNavigation(({ index, item, navigation }) => {
   );
 });
 
-function Board({ item }) {
+const Board = (props: { item: boardFullT }) => {
   const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
   let count = -1; /* we increment before using. */
 
   return (
     <View style={styles.boardContainer}>
-      <Text style={styles.boardTitle}>/{item.board}/</Text>
+      <Text style={styles.boardTitle}>/{props.item.board}/</Text>
       <ListView
         horizontal={true}
-        dataSource={ds.cloneWithRows(item.threads.slice(0, 5))}
+        dataSource={ds.cloneWithRows(props.item.threads)}
         renderScrollComponent={i => (
           <ScrollView {...i} showsHorizontalScrollIndicator={false} />
         )}
@@ -84,32 +137,31 @@ function Board({ item }) {
       />
     </View>
   );
-}
+};
 
-export default class extends React.Component {
+class Featured extends React.PureComponent<void, propsT, void> {
   componentDidMount() {
     const { boards, requestThreads } = this.props;
     boards.forEach(requestThreads);
   }
 
-  renderList = () => {
-    const { boards, boardsList } = this.props;
-
-    const nextBoards = boards
-      .map(i => boardsList[i])
-      .filter(Boolean)
-      .map((item, i) => <Board key={i} item={item} />);
-
-    return <View>{nextBoards}</View>;
-  };
+  renderList = () => (
+    <View>
+      {this.props.boards
+        .map(i => this.props.boardsList[i])
+        .filter(Boolean)
+        .map((item, i) => <Board key={i} item={item} />)}
+    </View>
+  );
 
   render() {
-    const List = this.renderList;
     return (
       <View style={styles.container}>
         <Text style={styles.title}>{this.props.title}</Text>
-        <List />
+        <this.renderList />
       </View>
     );
   }
 }
+
+export default Featured;

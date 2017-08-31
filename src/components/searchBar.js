@@ -1,7 +1,25 @@
+// @flow
+
 import React from "react";
 import { View, TextInput, Image, Text, StyleSheet } from "react-native";
 import { merge } from "lodash";
 
+/**
+ * Defaults
+ */
+const textValue = `Try "Tech"`;
+
+/**
+ * types
+ */
+type propsT = {
+  ...any,
+  fake?: boolean
+};
+
+/**
+ * Styles
+ */
 const placeholderTextColor = "grey";
 
 const styles = StyleSheet.create({
@@ -22,26 +40,26 @@ const styles = StyleSheet.create({
   }
 });
 
-function SearchBar(props) {
-  const { fake } = props;
-  const textValue = `Try "Tech"`;
-
-  const component = fake ? (
-    <Text
-      style={merge({}, styles.input, { color: placeholderTextColor })}
-      children={textValue}
-      {...props}
-    />
-  ) : (
-    <TextInput
-      placeholderTextColor={placeholderTextColor}
-      placeholder={textValue}
-      style={styles.input}
-      {...props}
-    />
-  );
-
-  return <View style={styles.container} children={component} />;
-}
+/**
+ * Component
+ */
+const SearchBar = (props: propsT) => (
+  <View style={styles.container}>
+    {props.fake ? (
+      <Text
+        style={merge({}, styles.input, { color: placeholderTextColor })}
+        children={textValue}
+        {...props}
+      />
+    ) : (
+      <TextInput
+        placeholderTextColor={placeholderTextColor}
+        placeholder={textValue}
+        style={styles.input}
+        {...props}
+      />
+    )}
+  </View>
+);
 
 export default SearchBar;

@@ -1,17 +1,36 @@
-import FeaturedComponent from "../components/featured";
+// @flow
+
 import { connect } from "react-redux";
+
+import type { storeState } from "../reducers/_shared";
+import FeaturedComponent from "../components/featured";
 import { requestThreads } from "../actions/threads";
 
-function mapState({ Threads }) {
-  return {
-    boardsList: Threads.get("boards").toJS()
-  };
-}
+/**
+ * State
+ */
+type mappedT = {
+  boardsList: any
+};
 
-function mapDispatch(d) {
-  return {
-    requestThreads: thread => d(requestThreads(thread))
-  };
-}
+const mapState = (state: storeState): mappedT => ({
+  boardsList: state.Threads.get("boards").toJS()
+});
 
+/**
+ * Actions
+ */
+type dispatchedT = {
+  requestThreads: string => void
+};
+
+const mapDispatch = (dispatch: any): dispatchedT => ({
+  requestThreads: (thread: string) => {
+    dispatch(requestThreads(thread));
+  }
+});
+
+/**
+ * Complete component
+ */
 export default connect(mapState, mapDispatch)(FeaturedComponent);

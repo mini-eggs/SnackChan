@@ -1,5 +1,7 @@
-export const PADDING = 15;
+// @flow
 
-export const FONT_LARGE = 32;
-export const FONT_MEDIUM = 24;
-export const FONT_SMALL = 18;
+export const PADDING: number = 15;
+
+export const FONT_LARGE: number = 32;
+export const FONT_MEDIUM: number = 24;
+export const FONT_SMALL: number = 18;

@@ -1,19 +1,18 @@
-export const BOARD_RECEIVED = "BOARD_RECEIVED";
-export const THREADS_RECEIVED = "THREADS_RECEIVED";
-export const UPDATE_EXPLORE_SEARCH = "UPDATE_EXPLORE_SEARCH";
+// @flow
 
-export function boardsURL() {
-  return `https://a.4cdn.org/boards.json`;
-}
+type fakePostT = any;
 
-export function threadURL(board, page = 1) {
-  return `https://a.4cdn.org/${board}/${page}.json`;
-}
+export const BOARD_RECEIVED: string = "BOARD_RECEIVED";
+export const THREADS_RECEIVED: string = "THREADS_RECEIVED";
+export const UPDATE_EXPLORE_SEARCH: string = "UPDATE_EXPLORE_SEARCH";
 
-export function getImage(board, { tim, ext }) {
-  return `https://i.4cdn.org/${board}/${tim}${ext}`;
-}
+export const boardsURL = (): string => `https://a.4cdn.org/boards.json`;
 
-export function getThumbnail(board, { tim, ext }) {
-  return `https://i.4cdn.org/${board}/${tim}s${ext}`;
-}
+export const threadURL = (board: string, page: number = 1): string =>
+  `https://a.4cdn.org/${board}/${page}.json`;
+
+export const getImage = (board: string, post: fakePostT): string =>
+  `https://i.4cdn.org/${board}/${post.tim}${post.ext}`;
+
+export const getThumbnail = (board: string, post: fakePostT): string =>
+  `https://i.4cdn.org/${board}/${post.tim}s${post.ext}`;
