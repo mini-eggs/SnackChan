@@ -11,9 +11,13 @@ const styles = {
   }
 };
 
-const loader = ({ msg, textStyle, emoji }) => {
-  const animation = new Animated.Value(0);
-
+const loader = ({
+  msg,
+  textStyle,
+  emoji,
+  containerStyle = {},
+  animation = new Animated.Value(0)
+}) => {
   Animated.loop(
     Animated.timing(animation, {
       toValue: 1,
@@ -35,7 +39,7 @@ const loader = ({ msg, textStyle, emoji }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={{ ...styles.container, ...containerStyle }}>
       <Animated.View style={style}>
         <Icon name="refresh" />
       </Animated.View>

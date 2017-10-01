@@ -3,6 +3,7 @@ import { StatusBar, View } from "react-native";
 import { Font } from "expo";
 import { ThemeProvider as RNMUIThemeProvider } from "react-native-material-ui";
 import Roboto from "../fonts/Roboto/Roboto-Regular.ttf";
+import Loader from "./Loader";
 
 /**
  * (1) Load default font.
@@ -24,13 +25,23 @@ class ThemeProvider extends React.unstable_AsyncComponent {
     }
   }
 
+  renderLoading() {
+    return <Loader containerStyle={{ justifyContent: "center" }} />;
+  }
+
+  renderApp() {
+    return (
+      <View style={{ flex: 1 }}>
+        <StatusBar {...this.props.header} barStyle="light-content" />
+        {this.props.children}
+      </View>
+    );
+  }
+
   render() {
-    return this.state.loading ? null : (
+    return (
       <RNMUIThemeProvider uiTheme={{}}>
-        <View style={{ flex: 1 }}>
-          <StatusBar {...this.props.header} barStyle="light-content" />
-          {this.props.children}
-        </View>
+        {this.state.loading ? this.renderLoading() : this.renderApp()}
       </RNMUIThemeProvider>
     );
   }

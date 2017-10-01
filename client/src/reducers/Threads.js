@@ -18,15 +18,24 @@ const transformThreads = ({ threads }) =>
     })
   );
 
+const threadsMergeWithoutDupes = (IDs, oldList, newList) =>
+  newList.reduce(
+    (total, current) =>
+      IDs.includes(current.get("no")) ? total : total.push(current),
+    oldList
+  );
+
 const reducer = (state = initial, { type, payload }) => {
   switch (type) {
     case CLEAR_BOARD_LIST: {
       return state.set("threads", List([]));
     }
     case RECEIVED_BOARD_LIST: {
-      const lastThreads = state.get("threads");
-      const nextThreads = transformThreads(payload);
-      return state.set("threads", lastThreads.concat(nextThreads));
+      const last = state.get("threads");
+      const IDs = last.map(item => item.get("no"));
+      const next = transformThreads(payload);
+      const unique = threadsMergeWithoutDupes(IDs, last, next);
+      return state.set("threads", unique);
     }
     default: {
       return state;

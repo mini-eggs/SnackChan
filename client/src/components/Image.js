@@ -33,6 +33,18 @@ const getLargeImage = (board, tim, ext) =>
 class ChanImage extends React.unstable_AsyncComponent {
   state = { full: false };
 
+  get largeURI() {
+    return getLargeImage(
+      this.props.navigation.state.params.board,
+      this.props.item.get("tim"),
+      this.props.item.get("ext")
+    );
+  }
+
+  prefetch() {
+    Image.prefetch(this.largeURI);
+  }
+
   handlePress() {
     this.setState(() => ({ full: true }));
   }
@@ -43,6 +55,7 @@ class ChanImage extends React.unstable_AsyncComponent {
 
   handleContainerPress(event) {
     event.stopPropagation();
+    event.preventDefault();
     return false;
   }
 
@@ -58,11 +71,7 @@ class ChanImage extends React.unstable_AsyncComponent {
   }
 
   shouldComponentUpdate(_nextProps, nextState) {
-    if (nextState.full !== this.state.full) {
-      return true;
-    } else {
-      return false;
-    }
+    return nextState.full !== this.state.full;
   }
 
   render() {
@@ -84,7 +93,7 @@ class ChanImage extends React.unstable_AsyncComponent {
       width: tn_w * smallRatio
     };
 
-    const largeURI = getLargeImage(board, tim, ext);
+    const largeURI = this.largeURI;
     const largeRatio = width / w;
     const largeStyle = {
       height: h * largeRatio,
@@ -121,7 +130,11 @@ class ChanImage extends React.unstable_AsyncComponent {
     } else {
       CurrentElement = (
         <View>
-          <Image source={{ uri: smallURI }} style={smallStyle} />
+          <Image
+            onLoad={::this.prefetch}
+            source={{ uri: smallURI }}
+            style={smallStyle}
+          />
           <View
             style={{
               ...styles.buttonContainer,
@@ -145,7 +158,7 @@ class ChanImage extends React.unstable_AsyncComponent {
       <View>
         <TouchableWithoutFeedback
           onPress={::this.handleContainerPress}
-          onPress={::this.handleLongPress}
+          onLongPress={::this.handleLongPress}
         >
           {CurrentElement}
         </TouchableWithoutFeedback>
