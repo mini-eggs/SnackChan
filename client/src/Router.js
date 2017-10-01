@@ -1,10 +1,14 @@
 import React from "react";
 import { StackNavigator } from "react-navigation";
 import Store from "./Store";
-import Boards from "./containers/Boards";
-import Threads from "./containers/Threads";
-import Posts from "./containers/Posts";
-import About from "./containers/About";
+import BoardsContainer from "./containers/Boards";
+import BoardsScene from "./scenes/Boards";
+import ThreadsContainer from "./containers/Threads";
+import ThreadsScene from "./scenes/Threads";
+import PostsContainer from "./containers/Posts";
+import PostsScene from "./scenes/Posts";
+import AboutContainer from "./containers/About";
+import AboutScene from "./scenes/About";
 
 const navigationOptions = () => {
   const { Styles } = Store.getState();
@@ -17,10 +21,10 @@ const navigationOptions = () => {
 };
 
 const router = StackNavigator({
-  Boards: { screen: Boards, navigationOptions },
-  Threads: { screen: Threads, navigationOptions },
-  Posts: { screen: Posts, navigationOptions },
-  About: { screen: About, navigationOptions }
+  Boards: { screen: BoardsContainer(BoardsScene), navigationOptions },
+  Threads: { screen: ThreadsContainer(ThreadsScene), navigationOptions },
+  Posts: { screen: PostsContainer(PostsScene), navigationOptions },
+  About: { screen: AboutContainer(AboutScene), navigationOptions }
 });
 
 export default router;

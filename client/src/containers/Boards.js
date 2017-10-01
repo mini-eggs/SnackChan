@@ -1,6 +1,5 @@
 import { connect } from "react-redux";
 import { requestBoards } from "../actions/Boards";
-import BoardsScene from "../scenes/Boards";
 
 const filter = find => item => {
   const board = item.get("board").toLowerCase();
@@ -23,4 +22,4 @@ const mapActions = dispatch => ({
   requestBoards: () => dispatch(requestBoards())
 });
 
-export default connect(mapState, mapActions)(BoardsScene);
+export default connect(mapState, mapActions);

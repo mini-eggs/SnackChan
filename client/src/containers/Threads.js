@@ -1,5 +1,4 @@
 import { connect } from "react-redux";
-import Threads from "../scenes/Threads";
 import { requestThreads, clearThreads } from "../actions/Threads";
 
 const mapState = ({ Styles, Threads }) => ({
@@ -12,4 +11,4 @@ const mapActions = dispatch => ({
   clearThreads: () => dispatch(clearThreads())
 });
 
-export default connect(mapState, mapActions)(Threads);
+export default connect(mapState, mapActions);

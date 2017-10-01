@@ -1,5 +1,4 @@
 import { connect } from "react-redux";
-import Posts from "../scenes/Posts";
 import { requestPosts, clearPosts } from "../actions/Posts";
 
 const mapState = ({ Styles, Posts }) => ({
@@ -12,4 +11,4 @@ const mapActions = dispatch => ({
   clearPosts: () => dispatch(clearPosts())
 });
 
-export default connect(mapState, mapActions)(Posts);
+export default connect(mapState, mapActions);

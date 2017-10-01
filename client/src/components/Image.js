@@ -1,13 +1,15 @@
 import React from "react";
-import { Video } from "expo";
+import { WebBrowser, Video, FileSystem } from "expo";
 import {
   Image,
   Dimensions,
   View,
   TouchableWithoutFeedback,
   Alert,
-  Text
+  Text,
+  CameraRoll
 } from "react-native";
+import { connectActionSheet } from "@expo/react-native-action-sheet";
 import { Button } from "react-native-material-ui";
 import { withNavigation } from "react-navigation";
 
@@ -30,8 +32,30 @@ const getSmallImage = (board, tim) => `https://i.4cdn.org/${board}/${tim}s.jpg`;
 const getLargeImage = (board, tim, ext) =>
   `https://i.4cdn.org/${board}/${tim}${ext}`;
 
+const saveItem = async (imageURI, imageFilename) => {
+  const onComplete = (t, m) =>
+    Alert.alert(t, m, [{ text: "OK" }], {
+      cancelable: true
+    });
+
+  const location = `${FileSystem.documentDirectory}/${imageFilename}`;
+
+  try {
+    await FileSystem.downloadAsync(imageURI, location);
+    await CameraRoll.saveToCameraRoll(location);
+    onComplete("Complete.", `${imageFilename} has been saved.`);
+  } catch (err) {
+    onComplete("Error.", err.toString());
+  }
+};
+
 class ChanImage extends React.unstable_AsyncComponent {
   state = { full: false };
+
+  actionSheetOptions = {
+    options: ["Open in Browser", "Save Image", "Cancel"],
+    cancelButtonIndex: 2
+  };
 
   get largeURI() {
     return getLargeImage(
@@ -50,7 +74,26 @@ class ChanImage extends React.unstable_AsyncComponent {
   }
 
   handleLongPress() {
-    // show download here.
+    this.props.showActionSheetWithOptions(
+      this.actionSheetOptions,
+      ::this.handleActionSheet
+    );
+  }
+
+  handleActionSheet(index) {
+    switch (index) {
+      case 0: {
+        WebBrowser.openBrowserAsync(this.largeURI);
+        return;
+      }
+      case 1: {
+        saveItem(this.largeURI, this.props.item.get("filename"));
+        return;
+      }
+      default: {
+        return;
+      }
+    }
   }
 
   handleContainerPress(event) {
@@ -173,4 +216,4 @@ class ChanImage extends React.unstable_AsyncComponent {
   }
 }
 
-export default withNavigation(ChanImage);
+export default connectActionSheet(withNavigation(ChanImage));
