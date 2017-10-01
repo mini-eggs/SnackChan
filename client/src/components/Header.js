@@ -37,6 +37,7 @@ const header = ({
   refreshPosts,
   refreshThreads,
   navigation,
+  handleSearchClose,
   onBack
 }) => {
   const style = {
@@ -82,6 +83,7 @@ const header = ({
         searchable: {
           autoFocus: true,
           placeholder: "Try Technology",
+          onSearchClosed: () => updateSearchInput(""),
           onChangeText: updateSearchInput
         }
       }

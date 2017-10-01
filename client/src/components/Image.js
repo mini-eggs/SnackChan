@@ -1,6 +1,13 @@
 import React from "react";
-// import { Video } from "expo";
-import { Image, Dimensions, View, WebView } from "react-native";
+import { Video } from "expo";
+import {
+  Image,
+  Dimensions,
+  View,
+  TouchableWithoutFeedback,
+  Alert,
+  Text
+} from "react-native";
 import { Button } from "react-native-material-ui";
 import { withNavigation } from "react-navigation";
 
@@ -8,6 +15,13 @@ const styles = {
   buttonContainer: {
     justifyContent: "center",
     alignItems: "center"
+  },
+  textContainer: {
+    padding: 15,
+    paddingBottom: 0
+  },
+  text: {
+    fontSize: 18
   }
 };
 
@@ -21,6 +35,26 @@ class ChanImage extends React.unstable_AsyncComponent {
 
   handlePress() {
     this.setState(() => ({ full: true }));
+  }
+
+  handleLongPress() {
+    // show download here.
+  }
+
+  handleContainerPress(event) {
+    event.stopPropagation();
+    return false;
+  }
+
+  onVideoError(extension) {
+    const format = extension.replace(".", "");
+    return () =>
+      Alert.alert(
+        "Error",
+        `You're platform does not support the ${format} format.`,
+        [{ text: "OK" }],
+        { cancelable: true }
+      );
   }
 
   shouldComponentUpdate(_nextProps, nextState) {
@@ -57,58 +91,69 @@ class ChanImage extends React.unstable_AsyncComponent {
       width: w * largeRatio
     };
 
-    if (this.state.full) {
-      const photoTypes = {
-        ".jpg": true,
-        ".jpeg": true,
-        ".png": true,
-        ".gif": true
-      };
+    const photoTypes = {
+      ".jpg": true,
+      ".jpeg": true,
+      ".png": true,
+      ".gif": true
+    };
 
-      if (photoTypes[ext]) {
-        return <Image source={{ uri: largeURI }} style={largeStyle} />;
-      } else {
-        return (
-          <WebView
-            style={largeStyle}
-            source={{
-              html: `
-                <video controls>
-                  <source src="${largeURI}" type="video/webm">
-                </video>
-                <style>
-                  video {
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    height: 100%;
-                    width: 100%;
-                  }
-                </style>
-              `
+    let CurrentElement = null;
+
+    if (this.state.full && photoTypes[ext]) {
+      CurrentElement = <Image source={{ uri: largeURI }} style={largeStyle} />;
+    } else if (this.state.full) {
+      CurrentElement = (
+        <Video
+          source={{ uri: largeURI }}
+          onError={this.onVideoError(ext)}
+          rate={1.0}
+          volume={1.0}
+          useNativeControls={true}
+          muted={false}
+          resizeMode={Video.RESIZE_MODE_CONTAIN}
+          shouldPlay
+          usePoster={true}
+          posterSource={{ uri: smallURI }}
+          style={largeStyle}
+        />
+      );
+    } else {
+      CurrentElement = (
+        <View>
+          <Image source={{ uri: smallURI }} style={smallStyle} />
+          <View
+            style={{
+              ...styles.buttonContainer,
+              marginTop: smallStyle.height * -1,
+              height: smallStyle.height
             }}
-          />
-        );
-      }
+          >
+            <Button
+              onPress={::this.handlePress}
+              raised
+              primary
+              text="load"
+              icon="visibility"
+            />
+          </View>
+        </View>
+      );
     }
 
     return (
       <View>
-        <Image source={{ uri: smallURI }} style={smallStyle} />
-        <View
-          style={{
-            ...styles.buttonContainer,
-            marginTop: smallStyle.height * -1,
-            height: smallStyle.height
-          }}
+        <TouchableWithoutFeedback
+          onPress={::this.handleContainerPress}
+          onPress={::this.handleLongPress}
         >
-          <Button
-            onPress={::this.handlePress}
-            raised
-            primary
-            text="load"
-            icon="visibility"
-          />
+          {CurrentElement}
+        </TouchableWithoutFeedback>
+        <View style={styles.textContainer}>
+          <Text style={styles.text}>
+            {this.props.item.get("filename")}
+            {this.props.item.get("ext")}
+          </Text>
         </View>
       </View>
     );

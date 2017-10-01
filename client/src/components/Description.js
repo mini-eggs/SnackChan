@@ -8,7 +8,10 @@ const styles = {
     fontFamily: "Roboto"
   },
   a: {},
-  br: {}
+  br: {},
+  "span.quote": {
+    color: "green"
+  }
 };
 
 const getHTML = item =>
@@ -16,7 +19,7 @@ const getHTML = item =>
 
 const description = ({ item }) => (
   <View style={{ padding: 15, paddingBottom: 0 }}>
-    <View style={{ marginBottom: 5 }}>
+    <View style={{ marginBottom: 15 }}>
       <Text style={{ fontSize: 18, fontWeight: "600" }}>{item.get("no")}</Text>
     </View>
     <HTML

@@ -14,7 +14,8 @@ const mapState = ({ Boards, Styles, Input }) => {
   const searchInput = Input.get("searchInput");
   return {
     boards: boards.filter(filter(searchInput)),
-    textStyles: Styles.get("text").toObject()
+    textStyles: Styles.get("text").toObject(),
+    searchInput: searchInput
   };
 };
 

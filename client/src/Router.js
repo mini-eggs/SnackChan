@@ -6,7 +6,7 @@ import Threads from "./containers/Threads";
 import Posts from "./containers/Posts";
 import About from "./containers/About";
 
-function navigationOptions() {
+const navigationOptions = () => {
   const { Styles } = Store.getState();
   return {
     title: "Snack Chan",
@@ -14,7 +14,7 @@ function navigationOptions() {
     headerTitleStyle: Styles.get("title").toObject(),
     header: () => null
   };
-}
+};
 
 const router = StackNavigator({
   Boards: { screen: Boards, navigationOptions },
