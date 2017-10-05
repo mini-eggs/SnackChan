@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Platform } from "react-native";
+import { View, Platform, StatusBar } from "react-native";
 import { Toolbar, Card } from "react-native-material-ui";
 import { withNavigation } from "react-navigation";
 
@@ -12,7 +12,7 @@ const styles = {
     marginBottom: -4
   },
   container: {
-    paddingTop: Platform.OS === "ios" ? 22 : 0
+    paddingTop: Platform.OS === "ios" ? 22 : StatusBar.currentHeight
   },
   iconPlaceholder: {
     width: 48,

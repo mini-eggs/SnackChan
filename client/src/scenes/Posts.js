@@ -1,6 +1,6 @@
 import React from "react";
 import { Map } from "immutable";
-import { View, ListView } from "react-native";
+import { View, FlatList } from "react-native";
 import { ActionButton } from "react-native-material-ui";
 import Header from "../containers/Header";
 import Loader from "../containers/Loader";
@@ -13,35 +13,35 @@ const styles = {
     marginRight: -8,
     marginTop: -4,
     marginBottom: -4
-  },
-  listHeader: {},
-  listFooter: {}
+  }
 };
-
-const ds = new ListView.DataSource({
-  rowHasChanged: (r1, r2) => r1 !== r2
-});
 
 const Container = ({
   navigation: { state: { params: { no } } },
   posts,
   reply,
-  toggleReply
+  toggleReply,
+  handleRef,
+  handleLink
 }) => (
   <View style={{ flex: 1 }}>
     <Header title={no.toString()} home={false} refresh={true} />
     {posts.size === 0 ? (
       <Loader />
     ) : (
-      <ListView
+      <FlatList
+        ref={handleRef}
         style={styles.listContainer}
         showsVerticalScrollIndicator={false}
-        renderHeader={() => <View style={styles.listHeader} />}
-        renderFooter={() => <View style={styles.listFooter} />}
         enableEmptySections={true}
-        dataSource={ds.cloneWithRows(posts.toJS())}
-        renderRow={item => (
+        keyExtractor={({ index }) => index}
+        data={posts.toJS().map((item, index) => ({
+          ...item,
+          index
+        }))}
+        renderItem={({ item }) => (
           <SingleThread
+            onLink={handleLink}
             item={Map(item)}
             style={{
               paddingBottom: 15
@@ -58,6 +58,8 @@ const Container = ({
 class Posts extends React.unstable_AsyncComponent {
   state = { reply: false };
 
+  listRef = null;
+
   componentDidMount() {
     this.props.requestPosts(
       this.props.navigation.state.params.board,
@@ -70,22 +72,45 @@ class Posts extends React.unstable_AsyncComponent {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    if (nextProps.posts.size !== this.props.posts.size) {
-      return true;
-    } else if (nextState.reply !== this.state.reply) {
-      return true;
-    } else {
-      return false;
-    }
+    return (
+      nextProps.posts.size !== this.props.posts.size ||
+      nextState.reply !== this.state.reply
+    );
   }
 
   toggleReply() {
     this.setState(({ reply }) => ({ reply: !reply }));
   }
 
+  handleRef(ref) {
+    this.listRef = ref;
+  }
+
+  findItemIndexScrollTo(find) {
+    const index = this.props.posts.reduce(
+      (final, current, currentIndex) =>
+        current.get("no") === find ? currentIndex : final,
+      false
+    );
+    if (index !== false) {
+      this.listRef.scrollToIndex({
+        animate: true,
+        index
+      });
+    }
+  }
+
+  handleLink(item, href) {
+    if (href.indexOf("#p") > -1) {
+      this.findItemIndexScrollTo(parseInt(href.replace("#p", "")));
+    }
+  }
+
   render() {
     return (
       <Container
+        handleRef={::this.handleRef}
+        handleLink={::this.handleLink}
         toggleReply={::this.toggleReply}
         {...this.props}
         {...this.state}

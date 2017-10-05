@@ -18,18 +18,23 @@ const styles = {
 const getHTML = item =>
   "<span>%HTML%</span>".split("%HTML%").join(item.get("com") || "");
 
-const handlePress = (navigation, item) => () => {
+const handlePress = (navigation, item, onLink) => (_e, href) => {
   if (navigation.state.routeName === "Threads") {
     navigation.navigate("Posts", {
       board: navigation.state.params.board,
       no: item.get("no")
     });
   } else {
-    alert("Handle press");
+    if (href.match(/#p([^/]+)/)) {
+      onLink(item, href);
+    } else {
+      alert("this case has not been matched");
+      alert(href);
+    }
   }
 };
 
-const description = ({ navigation, item }) => (
+const description = ({ navigation, item, onLink }) => (
   <View style={{ padding: 15, paddingBottom: 0 }}>
     <View style={{ marginBottom: 15 }}>
       <Text style={{ fontSize: 18, fontWeight: "600" }}>{item.get("no")}</Text>
@@ -37,7 +42,7 @@ const description = ({ navigation, item }) => (
     <HTML
       htmlStyles={styles}
       html={getHTML(item)}
-      onLinkPress={handlePress(navigation, item)}
+      onLinkPress={handlePress(navigation, item, onLink)}
     />
   </View>
 );

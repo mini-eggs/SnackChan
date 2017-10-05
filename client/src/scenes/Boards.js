@@ -1,7 +1,7 @@
 import React from "react";
 import { Map } from "immutable";
 import { curry } from "lodash";
-import { View, Text, ListView, Animated } from "react-native";
+import { View, Text, FlatList, Animated } from "react-native";
 import { Card, Icon } from "react-native-material-ui";
 import Header from "../containers/Header";
 import Loader from "../containers/Loader";
@@ -10,11 +10,9 @@ import Loader from "../containers/Loader";
  * Styles.
  */
 const styles = {
-  listHeader: {
-    height: 4
-  },
-  listFooter: {
-    height: 4
+  list: {
+    paddingTop: 4,
+    paddingBottom: 4
   },
   board: {
     padding: 15,
@@ -35,35 +33,61 @@ const styles = {
 /**
  * Child component.
  */
-const SingleBoard = ({
-  item,
-  textStyles,
-  onPress,
-  animation = new Animated.Value(0)
-}) => {
-  Animated.timing(animation, {
-    toValue: 1,
-    duration: 250,
-    useNativeDriver: true
-  }).start();
+class SingleBoard extends React.unstable_AsyncComponent {
+  animation = new Animated.Value(0);
 
-  return (
-    <Animated.View style={{ opacity: animation }}>
-      <Card onPress={onPress(item)}>
-        <View style={styles.board}>
-          <View style={styles.boardLeft}>
-            <Text style={textStyles} numberOfLines={1}>
-              /{item.get("board")}/ - {item.get("title")}
-            </Text>
+  componentDidMount() {
+    this.show();
+  }
+
+  shouldComponentUpdate(nextProps) {
+    return nextProps.item.get("board") !== this.props.item.get("board");
+  }
+
+  componentWillUpdate() {
+    this.hide();
+  }
+
+  componentDidUpdate() {
+    this.show();
+  }
+
+  show() {
+    Animated.timing(this.animation, {
+      toValue: 1,
+      duration: 250,
+      useNativeDriver: true
+    }).start();
+  }
+
+  hide() {
+    Animated.timing(this.animation, {
+      toValue: 0,
+      duration: 0,
+      useNativeDriver: true
+    }).start();
+  }
+
+  render() {
+    return (
+      <Animated.View style={{ opacity: this.animation }}>
+        <Card onPress={this.props.onPress(this.props.item)}>
+          <View style={styles.board}>
+            <View style={styles.boardLeft}>
+              <Text style={this.props.textStyles} numberOfLines={1}>
+                /{this.props.item.get("board")}/ -{" "}
+                {this.props.item.get("title")}
+              </Text>
+            </View>
+            <View style={styles.boardRight}>
+              <Icon name="arrow-forward" />
+            </View>
           </View>
-          <View style={styles.boardRight}>
-            <Icon name="arrow-forward" />
-          </View>
-        </View>
-      </Card>
-    </Animated.View>
-  );
-};
+        </Card>
+      </Animated.View>
+    );
+  }
+}
 
 /**
  * Component.
@@ -74,18 +98,20 @@ class Boards extends React.unstable_AsyncComponent {
     return boards.size === 0 && searchInput === "";
   }
 
-  get listViewProps() {
-    const ds = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2
-    });
+  get listData() {
+    return this.props.boards.toJS().map((item, index) => ({
+      ...item,
+      index
+    }));
+  }
 
+  get listProps() {
     return {
-      enableEmptySections: true,
+      style: styles.list,
+      keyExtractor: ({ index }) => index,
       showsVerticalScrollIndicator: false,
-      renderHeader: ::this.renderRowHeader,
-      renderFooter: ::this.renderRowFooter,
-      dataSource: ds.cloneWithRows(this.props.boards.toJS()),
-      renderRow: ::this.renderRow
+      data: this.listData,
+      renderItem: ::this.renderItem
     };
   }
 
@@ -104,17 +130,10 @@ class Boards extends React.unstable_AsyncComponent {
     });
   }
 
-  renderRowHeader() {
-    return <View style={styles.listHeader} />;
-  }
-
-  renderRowFooter() {
-    return <View style={styles.listHeader} />;
-  }
-
-  renderRow(item) {
+  renderItem({ item }, key) {
     return (
       <SingleBoard
+        key={key}
         item={Map(item)}
         textStyles={this.props.textStyles}
         onPress={curry(::this.handlePress)}
@@ -126,7 +145,7 @@ class Boards extends React.unstable_AsyncComponent {
     return (
       <View style={{ flex: 1 }}>
         <Header title="Snack Chan" home={true} refresh={false} />
-        {this.loading ? <Loader /> : <ListView {...this.listViewProps} />}
+        {this.loading ? <Loader /> : <FlatList {...this.listProps} />}
       </View>
     );
   }
