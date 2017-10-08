@@ -12,17 +12,23 @@ import Loader from "./Loader";
 class ThemeProvider extends React.unstable_AsyncComponent {
   state = { loading: true };
 
+  get theme() {
+    return {
+      card: {
+        container: {
+          ...this.props.cardStyle
+        }
+      }
+    };
+  }
+
   async componentDidMount() {
     await Font.loadAsync({ Roboto });
     this.setState(() => ({ loading: false }));
   }
 
   shouldComponentUpdate(_nextProps, nextState) {
-    if (nextState.loading !== this.props.loading) {
-      return true;
-    } else {
-      return false;
-    }
+    return nextState.loading !== this.props.loading;
   }
 
   renderLoading() {
@@ -40,7 +46,7 @@ class ThemeProvider extends React.unstable_AsyncComponent {
 
   render() {
     return (
-      <RNMUIThemeProvider uiTheme={{}}>
+      <RNMUIThemeProvider uiTheme={this.theme}>
         {this.state.loading ? this.renderLoading() : this.renderApp()}
       </RNMUIThemeProvider>
     );

@@ -15,11 +15,25 @@ const onPress = (item, navigation) => () => {
   }
 };
 
-const SingleThread = ({ item, navigation, style = {}, onLink = () => {} }) => (
+const SingleThread = ({
+  item,
+  navigation,
+  style = {},
+  onLink = () => {},
+  handlePostOptions
+}) => (
   <Card onPress={onPress(item, navigation)}>
     <View style={style}>
-      {item.get("tim") && <Image item={item} />}
-      {item.get("com") && <Description item={item} onLink={onLink} />}
+      {item.get("tim") && (
+        <Image item={item} handlePostOptions={handlePostOptions} />
+      )}
+      {item.get("com") && (
+        <Description
+          item={item}
+          onLink={onLink}
+          handlePostOptions={handlePostOptions}
+        />
+      )}
       {item.get("children") && <IntroChildren item={item} />}
     </View>
   </Card>

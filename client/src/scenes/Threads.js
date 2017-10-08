@@ -11,9 +11,7 @@ const styles = {
     marginRight: -8,
     marginTop: -4,
     marginBottom: -4
-  },
-  listHeader: {},
-  listFooter: {}
+  }
 };
 
 const ds = new ListView.DataSource({
@@ -35,8 +33,6 @@ const Container = ({
         onEndReachedThreshold={Dimensions.get("window").height}
         style={styles.listContainer}
         showsVerticalScrollIndicator={false}
-        renderHeader={() => <View style={styles.listHeader} />}
-        renderFooter={() => <View style={styles.listFooter} />}
         enableEmptySections={true}
         dataSource={ds.cloneWithRows(threads.toJS())}
         renderRow={item => <SingleThread item={Map(item)} />}
@@ -63,11 +59,7 @@ class Threads extends React.unstable_AsyncComponent {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    if (nextProps.threads.size !== this.props.threads.size) {
-      return true;
-    } else {
-      return false;
-    }
+    return nextProps.threads.size !== this.props.threads.size;
   }
 
   requestThreads() {

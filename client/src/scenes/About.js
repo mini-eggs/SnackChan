@@ -35,8 +35,8 @@ const About = ({ textStyle }) => {
         <View style={styles.container}>
           <Card>
             <View style={styles.inner}>
-              <Title>Why</Title>
-              <Span>Because</Span>
+              <Title>Snack Chan</Title>
+              <Span>A free and open-source, read-only 4chan client.</Span>
             </View>
           </Card>
         </View>

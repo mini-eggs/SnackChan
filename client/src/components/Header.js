@@ -3,6 +3,10 @@ import { View, Platform, StatusBar } from "react-native";
 import { Toolbar, Card } from "react-native-material-ui";
 import { withNavigation } from "react-navigation";
 
+const statusBarHeight = Platform.OS === "ios" ? 22 : StatusBar.currentHeight;
+
+export const headerHeight = 56 + statusBarHeight;
+
 const styles = {
   offset: {
     zIndex: 9,
@@ -12,20 +16,12 @@ const styles = {
     marginBottom: -4
   },
   container: {
-    paddingTop: Platform.OS === "ios" ? 22 : StatusBar.currentHeight
+    paddingTop: statusBarHeight
   },
   iconPlaceholder: {
     width: 48,
     height: 48
-  },
-  headerText:
-    Platform.OS === "ios"
-      ? {
-          // justifyContent: "center", // this breaks for the search input on header
-          // alignItems: "center",
-          // marginLeft: 0
-        }
-      : {}
+  }
 };
 
 const header = ({
@@ -41,8 +37,7 @@ const header = ({
   onBack
 }) => {
   const style = {
-    container: { backgroundColor: header.backgroundColor },
-    centerElementContainer: styles.headerText
+    container: { backgroundColor: header.backgroundColor }
   };
 
   const onLeftElementPress = () => {

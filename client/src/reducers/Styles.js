@@ -11,7 +11,11 @@ const initial = Map({
     backgroundColor: "#f1f1f1"
   }),
   text: Map({
-    color: "black"
+    color: "black",
+    fontSize: 14
+  }),
+  card: Map({
+    backgroundColor: "#ffffff"
   })
 });
 

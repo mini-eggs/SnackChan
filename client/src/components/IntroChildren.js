@@ -42,11 +42,7 @@ class IntroChildren extends React.unstable_AsyncComponent {
   state = { show: false };
 
   shouldComponentUpdate(_nextProps, nextState) {
-    if (nextState.show !== this.state.show) {
-      return true;
-    } else {
-      return false;
-    }
+    return nextState.show !== this.state.show;
   }
 
   toggle() {

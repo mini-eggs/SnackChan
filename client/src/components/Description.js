@@ -1,6 +1,7 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, TouchableWithoutFeedback, WebBrowser } from "react-native";
 import { withNavigation } from "react-navigation";
+import { Icon } from "react-native-material-ui";
 import HTML from "react-native-render-html";
 
 const styles = {
@@ -18,33 +19,64 @@ const styles = {
 const getHTML = item =>
   "<span>%HTML%</span>".split("%HTML%").join(item.get("com") || "");
 
-const handlePress = (navigation, item, onLink) => (_e, href) => {
+const handlePress = ({ navigation, item, onLink }) => (_e, href) => {
   if (navigation.state.routeName === "Threads") {
     navigation.navigate("Posts", {
       board: navigation.state.params.board,
       no: item.get("no")
     });
+  } else if (href.match(/#p([^/]+)/)) {
+    onLink(item, href);
   } else {
-    if (href.match(/#p([^/]+)/)) {
-      onLink(item, href);
-    } else {
-      alert("this case has not been matched");
-      alert(href);
-    }
+    WebBrowser.openBrowserAsync(href);
   }
 };
 
-const description = ({ navigation, item, onLink }) => (
-  <View style={{ padding: 15, paddingBottom: 0 }}>
-    <View style={{ marginBottom: 15 }}>
-      <Text style={{ fontSize: 18, fontWeight: "600" }}>{item.get("no")}</Text>
-    </View>
-    <HTML
-      htmlStyles={styles}
-      html={getHTML(item)}
-      onLinkPress={handlePress(navigation, item, onLink)}
-    />
-  </View>
-);
+class Description extends React.unstable_AsyncComponent {
+  get showOptions() {
+    return (
+      this.props.navigation.state.routeName === "Posts" && !this.props.hideMore
+    );
+  }
 
-export default withNavigation(description);
+  handleMorePress(event) {
+    event.stopPropagation();
+    this.props.handlePostOptions(this.props.item);
+  }
+
+  shouldComponentUpdate() {
+    return false;
+  }
+
+  render() {
+    return (
+      <View style={{ padding: 15, paddingBottom: 0 }}>
+        <View
+          style={{
+            marginBottom: 15,
+            flexDirection: "row",
+            justifyContent: "space-between"
+          }}
+        >
+          <Text style={{ fontSize: 18, fontWeight: "600" }}>
+            {this.props.item.get("no")}
+          </Text>
+          {this.showOptions && (
+            <TouchableWithoutFeedback onPress={::this.handleMorePress}>
+              <View>
+                <Icon name="more-vert" />
+              </View>
+            </TouchableWithoutFeedback>
+          )}
+        </View>
+        <HTML
+          htmlStyles={styles}
+          html={getHTML(this.props.item)}
+          onLinkPress={handlePress(this.props)}
+        />
+      </View>
+    );
+  }
+}
+
+export default withNavigation(Description);

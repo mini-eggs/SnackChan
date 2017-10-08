@@ -10,6 +10,14 @@ import PostsScene from "./scenes/Posts";
 import AboutContainer from "./containers/About";
 import AboutScene from "./scenes/About";
 
+const options = () => ({
+  cardStyle: {
+    ...Store.getState()
+      .Styles.get("body")
+      .toObject()
+  }
+});
+
 const navigationOptions = () => {
   const { Styles } = Store.getState();
   return {
@@ -20,11 +28,11 @@ const navigationOptions = () => {
   };
 };
 
-const router = StackNavigator({
+const screens = {
   Boards: { screen: BoardsContainer(BoardsScene), navigationOptions },
   Threads: { screen: ThreadsContainer(ThreadsScene), navigationOptions },
   Posts: { screen: PostsContainer(PostsScene), navigationOptions },
   About: { screen: AboutContainer(AboutScene), navigationOptions }
-});
+};
 
-export default router;
+export default StackNavigator(screens, options());

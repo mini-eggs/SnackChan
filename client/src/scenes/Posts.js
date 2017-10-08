@@ -1,11 +1,13 @@
 import React from "react";
 import { Map } from "immutable";
 import { View, FlatList } from "react-native";
+import { WebBrowser } from "expo";
 import { ActionButton } from "react-native-material-ui";
+import { getThreadURL } from "../constants/Chan";
 import Header from "../containers/Header";
 import Loader from "../containers/Loader";
 import SingleThread from "../components/SingleItem";
-import Reply from "../components/Reply";
+import Options from "../components/Options";
 
 const styles = {
   listContainer: {
@@ -19,10 +21,10 @@ const styles = {
 const Container = ({
   navigation: { state: { params: { no } } },
   posts,
-  reply,
-  toggleReply,
+  openReply,
   handleRef,
-  handleLink
+  handleLink,
+  handlePostOptions
 }) => (
   <View style={{ flex: 1 }}>
     <Header title={no.toString()} home={false} refresh={true} />
@@ -41,6 +43,7 @@ const Container = ({
         }))}
         renderItem={({ item }) => (
           <SingleThread
+            handlePostOptions={handlePostOptions}
             onLink={handleLink}
             item={Map(item)}
             style={{
@@ -50,13 +53,12 @@ const Container = ({
         )}
       />
     )}
-    <ActionButton icon="chat-bubble" onPress={toggleReply} />
-    <Reply visible={reply} onRequestClose={toggleReply} />
+    <ActionButton icon="chat-bubble" onPress={openReply} />
   </View>
 );
 
 class Posts extends React.unstable_AsyncComponent {
-  state = { reply: false };
+  state = { showOptions: false, optionsItem: null };
 
   listRef = null;
 
@@ -74,16 +76,29 @@ class Posts extends React.unstable_AsyncComponent {
   shouldComponentUpdate(nextProps, nextState) {
     return (
       nextProps.posts.size !== this.props.posts.size ||
-      nextState.reply !== this.state.reply
+      nextState.showOptions !== this.state.showOptions
     );
   }
 
-  toggleReply() {
-    this.setState(({ reply }) => ({ reply: !reply }));
+  openReply() {
+    WebBrowser.openBrowserAsync(
+      getThreadURL(
+        this.props.navigation.state.params.board,
+        this.props.navigation.state.params.no
+      )
+    );
   }
 
   handleRef(ref) {
     this.listRef = ref;
+  }
+
+  handlePostOptions(item) {
+    this.setState(() => ({ showOptions: true, optionsItem: item }));
+  }
+
+  requestOptionsClose() {
+    this.setState(() => ({ showOptions: false }));
   }
 
   findItemIndexScrollTo(find) {
@@ -108,13 +123,23 @@ class Posts extends React.unstable_AsyncComponent {
 
   render() {
     return (
-      <Container
-        handleRef={::this.handleRef}
-        handleLink={::this.handleLink}
-        toggleReply={::this.toggleReply}
-        {...this.props}
-        {...this.state}
-      />
+      <View style={{ flex: 1 }}>
+        <Container
+          handleRef={::this.handleRef}
+          handleLink={::this.handleLink}
+          handlePostOptions={::this.handlePostOptions}
+          openReply={::this.openReply}
+          {...this.props}
+          {...this.state}
+        />
+        {this.state.showOptions && (
+          <Options
+            posts={this.props.posts}
+            item={this.state.optionsItem}
+            onClose={::this.requestOptionsClose}
+          />
+        )}
+      </View>
     );
   }
 }

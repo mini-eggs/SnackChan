@@ -10,7 +10,7 @@ import {
   CameraRoll
 } from "react-native";
 import { connectActionSheet } from "@expo/react-native-action-sheet";
-import { Button } from "react-native-material-ui";
+import { Button, Icon } from "react-native-material-ui";
 import { withNavigation } from "react-navigation";
 
 const styles = {
@@ -32,20 +32,18 @@ const getSmallImage = (board, tim) => `https://i.4cdn.org/${board}/${tim}s.jpg`;
 const getLargeImage = (board, tim, ext) =>
   `https://i.4cdn.org/${board}/${tim}${ext}`;
 
-const saveItem = async (imageURI, imageFilename) => {
-  const onComplete = (t, m) =>
-    Alert.alert(t, m, [{ text: "OK" }], {
+const saveItem = async (imageURI, imageFilename, extension) => {
+  try {
+    const location = `${FileSystem.documentDirectory}/${imageFilename}${extension}`;
+    const { uri } = await FileSystem.downloadAsync(imageURI, location);
+    await CameraRoll.saveToCameraRoll(uri);
+    Alert.alert("Complete", "Image has been saved.", [{ text: "OK" }], {
       cancelable: true
     });
-
-  const location = `${FileSystem.documentDirectory}/${imageFilename}`;
-
-  try {
-    await FileSystem.downloadAsync(imageURI, location);
-    await CameraRoll.saveToCameraRoll(location);
-    onComplete("Complete.", `${imageFilename} has been saved.`);
   } catch (err) {
-    onComplete("Error.", err.toString());
+    Alert.alert("Error", "Could not save image.", [{ text: "OK" }], {
+      cancelable: true
+    });
   }
 };
 
@@ -57,12 +55,24 @@ class ChanImage extends React.unstable_AsyncComponent {
     cancelButtonIndex: 2
   };
 
+  get showOptions() {
+    return (
+      this.props.navigation.state.routeName === "Posts" &&
+      (this.props.item.get("com") || "") === ""
+    );
+  }
+
   get largeURI() {
     return getLargeImage(
       this.props.navigation.state.params.board,
       this.props.item.get("tim"),
       this.props.item.get("ext")
     );
+  }
+
+  handleMorePress(event) {
+    event.stopPropagation();
+    this.props.handlePostOptions(this.props.item);
   }
 
   prefetch() {
@@ -87,7 +97,11 @@ class ChanImage extends React.unstable_AsyncComponent {
         return;
       }
       case 1: {
-        saveItem(this.largeURI, this.props.item.get("filename"));
+        saveItem(
+          this.largeURI,
+          this.props.item.get("filename"),
+          this.props.item.get("ext")
+        );
         return;
       }
       default: {
@@ -98,8 +112,6 @@ class ChanImage extends React.unstable_AsyncComponent {
 
   handleContainerPress(event) {
     event.stopPropagation();
-    event.preventDefault();
-    return false;
   }
 
   onVideoError(extension) {
@@ -206,10 +218,25 @@ class ChanImage extends React.unstable_AsyncComponent {
           {CurrentElement}
         </TouchableWithoutFeedback>
         <View style={styles.textContainer}>
-          <Text style={styles.text}>
-            {this.props.item.get("filename")}
-            {this.props.item.get("ext")}
-          </Text>
+          <View
+            style={{
+              marginBottom: 15,
+              flexDirection: "row",
+              justifyContent: "space-between"
+            }}
+          >
+            <Text style={styles.text}>
+              {this.props.item.get("filename")}
+              {this.props.item.get("ext")}
+            </Text>
+            {this.showOptions && (
+              <TouchableWithoutFeedback onPress={::this.handleMorePress}>
+                <View>
+                  <Icon name="more-vert" />
+                </View>
+              </TouchableWithoutFeedback>
+            )}
+          </View>
         </View>
       </View>
     );
