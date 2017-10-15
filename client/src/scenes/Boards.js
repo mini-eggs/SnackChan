@@ -123,11 +123,16 @@ class Boards extends React.unstable_AsyncComponent {
     return size !== this.props.boards.size;
   }
 
-  handlePress(item, event) {
+  handlePress(item, _event) {
     this.props.navigation.navigate("Threads", {
       board: item.get("board"),
       title: item.get("title")
     });
+  }
+
+  handleSubmitEditing() {
+    const item = this.props.boards.first();
+    item && this.handlePress(item);
   }
 
   renderItem({ item }, key) {
@@ -144,7 +149,12 @@ class Boards extends React.unstable_AsyncComponent {
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <Header title="Snack Chan" home={true} refresh={false} />
+        <Header
+          title="Snack Chan"
+          home={true}
+          refresh={false}
+          onSubmitEditing={::this.handleSubmitEditing}
+        />
         {this.loading ? <Loader /> : <FlatList {...this.listProps} />}
       </View>
     );

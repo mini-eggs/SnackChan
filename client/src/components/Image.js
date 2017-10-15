@@ -13,6 +13,8 @@ import { connectActionSheet } from "@expo/react-native-action-sheet";
 import { Button, Icon } from "react-native-material-ui";
 import { withNavigation } from "react-navigation";
 
+import ConnectSettings from "../containers/Settings";
+
 const styles = {
   buttonContainer: {
     justifyContent: "center",
@@ -243,4 +245,9 @@ class ChanImage extends React.unstable_AsyncComponent {
   }
 }
 
-export default connectActionSheet(withNavigation(ChanImage));
+const ImageContainer = props =>
+  props.imageStatus ? <ChanImage {...props} /> : null;
+
+export default ConnectSettings(
+  connectActionSheet(withNavigation(ImageContainer))
+);

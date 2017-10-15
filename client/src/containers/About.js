@@ -1,9 +1,18 @@
 import { connect } from "react-redux";
 
-const mapState = ({ Styles }) => ({
-  textStyle: Styles.get("text").toObject()
+import { updateImages, updateNSFW, updateBadWords } from "../actions/Settings";
+
+const mapState = ({ Styles, Settings }) => ({
+  textStyle: Styles.get("text").toObject(),
+  imageStatus: Settings.get("showImages"),
+  NSFWStatus: Settings.get("showNSFW"),
+  badWordStatus: Settings.get("showBadWords")
 });
 
-const mapActions = () => ({});
+const mapActions = dispatch => ({
+  handleImages: () => dispatch(updateImages()),
+  handleNSFW: () => dispatch(updateNSFW()),
+  handleBadWords: () => dispatch(updateBadWords())
+});
 
 export default connect(mapState, mapActions);

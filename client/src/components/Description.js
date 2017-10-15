@@ -3,6 +3,11 @@ import { View, Text, TouchableWithoutFeedback, WebBrowser } from "react-native";
 import { withNavigation } from "react-navigation";
 import { Icon } from "react-native-material-ui";
 import HTML from "react-native-render-html";
+import Filter from "bad-words";
+
+import ConnectSettings from "../containers/Settings";
+
+const filter = new Filter();
 
 const styles = {
   span: {
@@ -16,8 +21,13 @@ const styles = {
   }
 };
 
-const getHTML = item =>
-  "<span>%HTML%</span>".split("%HTML%").join(item.get("com") || "");
+const formatDescriptionString = (descStr, showBadWords) =>
+  showBadWords ? descStr : filter.clean(descStr);
+
+const getHTML = (item, showBadWords) =>
+  "<span>%HTML%</span>"
+    .split("%HTML%")
+    .join(formatDescriptionString(item.get("com") || "", showBadWords));
 
 const handlePress = ({ navigation, item, onLink }) => (_e, href) => {
   if (navigation.state.routeName === "Threads") {
@@ -71,7 +81,7 @@ class Description extends React.unstable_AsyncComponent {
         </View>
         <HTML
           htmlStyles={styles}
-          html={getHTML(this.props.item)}
+          html={getHTML(this.props.item, this.props.showBadWords)}
           onLinkPress={handlePress(this.props)}
         />
       </View>
@@ -79,4 +89,4 @@ class Description extends React.unstable_AsyncComponent {
   }
 }
 
-export default withNavigation(Description);
+export default ConnectSettings(withNavigation(Description));

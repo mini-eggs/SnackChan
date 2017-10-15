@@ -34,7 +34,8 @@ const header = ({
   refreshThreads,
   navigation,
   handleSearchClose,
-  onBack
+  onBack,
+  onSubmitEditing = () => {}
 }) => {
   const style = {
     container: { backgroundColor: header.backgroundColor }
@@ -79,7 +80,8 @@ const header = ({
           autoFocus: true,
           placeholder: "Try Technology",
           onSearchClosed: () => updateSearchInput(""),
-          onChangeText: updateSearchInput
+          onChangeText: updateSearchInput,
+          onSubmitEditing: () => onSubmitEditing()
         }
       }
     : {
