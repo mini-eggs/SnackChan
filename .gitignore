@@ -1,3 +1,4 @@
+builds/
 .expo/
 npm-debug.*
 .DS_Store
