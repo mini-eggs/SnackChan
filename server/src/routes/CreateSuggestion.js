@@ -26,7 +26,7 @@ export default async (req, res) => {
 
     // Make sure user isn't doing this too often.
     const count = await getCount(deviceID);
-    if (count > 3) throw new Error("Your doing that too often.");
+    if (count > 3) throw new Error("You're doing that too often.");
 
     // Create it!
     await Suggestions.create({ deviceID, content });

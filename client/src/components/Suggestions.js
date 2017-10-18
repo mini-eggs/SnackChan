@@ -1,8 +1,9 @@
 import React from "react";
-import { View, TextInput, Alert } from "react-native";
+import { View, TextInput } from "react-native";
 import { Button } from "react-native-material-ui";
 import SuggestionsConnect from "../containers/Suggestions";
 import { API_CREATE_SUGGESTION as handleSubmit } from "../constants/API";
+import { AlertWrap, SanitizeAndLogError } from "../constants/Tools";
 
 const styles = {
   container: {
@@ -22,45 +23,34 @@ const styles = {
   }
 };
 
+const initialState = { textInput: "", loading: false };
+
 class Suggestions extends React.unstable_AsyncComponent {
-  state = { textInput: "" };
+  state = initialState;
 
   updateText(textInput) {
     this.setState(() => ({ textInput }));
   }
 
-  async onSubmit() {
-    if (!this.state.textInput) {
-      return;
-    }
-
-    try {
-      const res = await handleSubmit(this.state.textInput);
-      const { message, status } = await res.json();
-
-      if (status) {
-        this.handleSubmitComplete(message);
-      } else {
-        this.handleSubmitError(message);
-      }
-    } catch (err) {
-      this.handleCrucialError(err);
+  onSubmit() {
+    if (this.state.textInput && !this.state.loading) {
+      this.setState(() => ({ loading: true }), ::this.createSubmitRequest);
     }
   }
 
-  handleSubmitComplete(message) {
-    Alert.alert("Complete", message, [{ text: "OK" }], { cancelable: true });
-    this.setState(() => ({ textInput: "" }));
+  createSubmitRequest() {
+    handleSubmit(this.state.textInput)
+      .then(::this.handleSubmitSucces)
+      .catch(::this.handleSubmitError)
+      .finally(() => this.setState(() => initialState));
   }
 
-  handleSubmitError(message) {
-    Alert.alert("Error", message, [{ text: "OK" }], { cancelable: true });
+  handleSubmitSucces({ message }) {
+    AlertWrap("Complete", message);
   }
 
-  handleCrucialError(err) {
-    Alert.alert("Error", `Oops, something has gone wrong.`, [{ text: "OK" }], {
-      cancelable: true
-    });
+  handleSubmitError(err) {
+    AlertWrap("Error", SanitizeAndLogError(err));
   }
 
   render() {
@@ -78,9 +68,15 @@ class Suggestions extends React.unstable_AsyncComponent {
             onChangeText={::this.updateText}
           />
         </View>
-        <Button onPress={::this.onSubmit} raised primary text="Submit" />
+        <Button
+          raised
+          primary
+          onPress={::this.onSubmit}
+          text={this.state.loading ? "Loading..." : "Submit"}
+        />
       </View>
     );
   }
 }
+
 export default SuggestionsConnect(Suggestions);
