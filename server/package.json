@@ -8,7 +8,8 @@
   },
   "scripts": {
     "dev": "export $(cat dev.env | xargs) && nodemon index.js",
-    "start": "export $(cat prod.env | xargs) && pm2 start index.js -i max"
+    "start": "export $(cat prod.env | xargs) && pm2 start index.js -i max",
+    "clean": "rm -rf node_modules .esm-cache"
   },
   "devDependencies": {
     "nodemon": "^1.12.1",
