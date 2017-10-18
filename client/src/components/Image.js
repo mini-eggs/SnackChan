@@ -1,13 +1,12 @@
 import React from "react";
-import { WebBrowser, Video, FileSystem } from "expo";
+import { WebBrowser, Video } from "expo";
 import {
   Image,
   Dimensions,
   View,
   TouchableWithoutFeedback,
   Alert,
-  Text,
-  CameraRoll
+  Text
 } from "react-native";
 import { connectActionSheet } from "@expo/react-native-action-sheet";
 import { Button, Icon } from "react-native-material-ui";
@@ -34,27 +33,12 @@ const getSmallImage = (board, tim) => `https://i.4cdn.org/${board}/${tim}s.jpg`;
 const getLargeImage = (board, tim, ext) =>
   `https://i.4cdn.org/${board}/${tim}${ext}`;
 
-const saveItem = async (imageURI, imageFilename, extension) => {
-  try {
-    const location = `${FileSystem.documentDirectory}/${imageFilename}${extension}`;
-    const { uri } = await FileSystem.downloadAsync(imageURI, location);
-    await CameraRoll.saveToCameraRoll(uri);
-    Alert.alert("Complete", "Image has been saved.", [{ text: "OK" }], {
-      cancelable: true
-    });
-  } catch (err) {
-    Alert.alert("Error", "Could not save image.", [{ text: "OK" }], {
-      cancelable: true
-    });
-  }
-};
-
 class ChanImage extends React.unstable_AsyncComponent {
   state = { full: false };
 
   actionSheetOptions = {
-    options: ["Open in Browser", "Save Image", "Cancel"],
-    cancelButtonIndex: 2
+    options: ["Open in Browser", "Cancel"],
+    cancelButtonIndex: 1
   };
 
   get showOptions() {
@@ -96,14 +80,6 @@ class ChanImage extends React.unstable_AsyncComponent {
     switch (index) {
       case 0: {
         WebBrowser.openBrowserAsync(this.largeURI);
-        return;
-      }
-      case 1: {
-        saveItem(
-          this.largeURI,
-          this.props.item.get("filename"),
-          this.props.item.get("ext")
-        );
         return;
       }
       default: {
@@ -245,9 +221,10 @@ class ChanImage extends React.unstable_AsyncComponent {
   }
 }
 
-const ImageContainer = props =>
-  props.imageStatus ? <ChanImage {...props} /> : null;
-
 export default ConnectSettings(
-  connectActionSheet(withNavigation(ImageContainer))
+  connectActionSheet(
+    withNavigation(
+      props => (props.imageStatus ? <ChanImage {...props} /> : null)
+    )
+  )
 );

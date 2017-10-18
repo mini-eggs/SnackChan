@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "@std/esm": "^0.11.3",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "mysql2": "^1.4.2",
+    "sequelize": "^4.14.0"
+  },
+  "scripts": {
+    "dev": "export $(cat dev.env | xargs) && nodemon index.js",
+    "start": "export $(cat prod.env | xargs) && pm2 start index.js -i max"
+  },
+  "devDependencies": {
+    "nodemon": "^1.12.1",
+    "pm2": "^2.7.1"
+  }
+}

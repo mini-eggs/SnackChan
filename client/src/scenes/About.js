@@ -1,7 +1,8 @@
 import React from "react";
-import { ScrollView, View, Text } from "react-native";
+import { ScrollView, View, Text, Dimensions } from "react-native";
 import { Card, RadioButton } from "react-native-material-ui";
 import Header from "../containers/Header";
+import Suggestions from "../components/Suggestions";
 
 const styles = {
   container: {
@@ -17,6 +18,9 @@ const styles = {
   },
   text: {
     fontSize: 16
+  },
+  pageOffset: {
+    height: Dimensions.get("window").height / 2
   }
 };
 
@@ -39,7 +43,7 @@ const About = ({
   return (
     <View style={{ flex: 1 }}>
       <Header title={"About"} home={false} refresh={false} />
-      <ScrollView showHorizontalScrollBar={false}>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
           <Card>
             <View style={styles.inner}>
@@ -70,6 +74,13 @@ const About = ({
               />
             </View>
           </Card>
+          <Card>
+            <View style={styles.inner}>
+              <Title>Suggestions</Title>
+              <Suggestions />
+            </View>
+          </Card>
+          <View style={styles.pageOffset} />
         </View>
       </ScrollView>
     </View>
