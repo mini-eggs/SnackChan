@@ -3,6 +3,7 @@ builds/
 npm-debug.*
 .DS_Store
 node_modules/
+.esm-cache/
 dist/
 !docs/dist/
 npm-debug.log
