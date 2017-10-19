@@ -26,15 +26,25 @@ const getHTML = (item, showBadWords) => {
   return `<span>${showBadWords ? html : filter.clean(html)}</span>`;
 };
 
-const handlePress = ({ navigation, item, onLink }) => (_e, href) => {
-  if (navigation.state.routeName === "Threads") {
-    navigation.navigate("Posts", {
-      board: navigation.state.params.board,
-      no: item.get("no")
-    });
+const handlePress = ({ navigation, item, onLink, onNavigation }) => (
+  _e,
+  href
+) => {
+  if (
+    navigation.state.routeName === "Threads" &&
+    typeof onNavigation === "function"
+  ) {
+    // We've clicked a link to a post
+    // and we're on the thread scene.
+    onNavigation();
   } else if (href.match(/#p([^/]+)/)) {
+    // We've clicked a link to a post
+    // and we're on the posts scene.
+    // Lets scroll to it.
     onLink(item, href);
   } else {
+    // Lol idk lets open in web browser
+    // for easy mode.
     WebBrowser.openBrowserAsync(href);
   }
 };

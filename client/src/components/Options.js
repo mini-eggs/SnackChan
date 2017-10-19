@@ -29,7 +29,8 @@ const Empty = ({ textStyle }) => (
       style={{
         ...textStyle,
         textAlign: "center",
-        paddingTop: styles.container.marginTop * -1 + 15
+        paddingTop: styles.container.marginTop * -1 + 15,
+        fontSize: 18
       }}
     >
       No replies found.

@@ -34,7 +34,9 @@ const SingleThread = ({
           handlePostOptions={handlePostOptions}
         />
       )}
-      {item.get("children") && <IntroChildren item={item} />}
+      {item.get("children") && (
+        <IntroChildren onNavigation={onPress(item, navigation)} item={item} />
+      )}
     </View>
   </Card>
 );

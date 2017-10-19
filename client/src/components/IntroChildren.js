@@ -27,12 +27,14 @@ const styles = {
   }
 };
 
-const PostChildren = ({ posts }) => (
+const PostChildren = ({ posts, onNavigation }) => (
   <View style={styles.childContainer}>
     {posts.map((item, key) => (
       <View key={key} style={styles.child}>
         {item.tim && <Image item={Map(item)} />}
-        {item.com && <Description item={Map(item)} />}
+        {item.com && (
+          <Description onNavigation={onNavigation} item={Map(item)} />
+        )}
       </View>
     ))}
   </View>
@@ -71,7 +73,10 @@ class IntroChildren extends React.unstable_AsyncComponent {
       <View style={styles.container}>
         <Buttons />
         {this.state.show && (
-          <PostChildren posts={this.props.item.get("children")} />
+          <PostChildren
+            onNavigation={this.props.onNavigation}
+            posts={this.props.item.get("children")}
+          />
         )}
       </View>
     );
