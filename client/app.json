@@ -1,8 +1,8 @@
 {
   "expo": {
     "name": "Snack Chan",
-    "icon": "./src/images/icon_1.png",
-    "version": "0.1.0",
+    "icon": "./src/images/icon.png",
+    "version": "1.0.0",
     "slug": "snack-chan",
     "sdkVersion": "21.0.0",
     "ios": {

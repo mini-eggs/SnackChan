@@ -5,7 +5,7 @@ const deviceID = Constants.deviceId;
 
 const API_ENDPOINT =
   process.env.NODE_ENV === "production"
-    ? "http://api.evanjon.es:8080"
+    ? "http://api.evanjon.es"
     : "http://127.0.0.1:8080";
 
 export const API_CREATE_SUGGESTION_ENDPOINT = `${API_ENDPOINT}/snackchan/api/post/create/suggestion`;
