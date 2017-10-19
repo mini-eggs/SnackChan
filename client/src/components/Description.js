@@ -23,7 +23,7 @@ const styles = {
 
 const getHTML = (item, showBadWords) => {
   const html = item.get("com") || "";
-  return showBadWords ? html : filter.clean(html);
+  return `<span>${showBadWords ? html : filter.clean(html)}</span>`;
 };
 
 const handlePress = ({ navigation, item, onLink }) => (_e, href) => {
