@@ -61,8 +61,8 @@ const About = ({
                 onSelect={e => handleImages(e)}
               />
               <RadioButton
-                label="Language filter"
-                value="Language filter"
+                label="Show bad language"
+                value="Show bad language"
                 checked={badWordStatus}
                 onSelect={handleBadWords}
               />

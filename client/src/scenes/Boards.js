@@ -116,6 +116,7 @@ class Boards extends React.unstable_AsyncComponent {
   }
 
   componentDidMount() {
+    this.props.updateSearchInput("");
     this.props.requestBoards();
   }
 

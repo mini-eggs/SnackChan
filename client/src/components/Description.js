@@ -21,13 +21,10 @@ const styles = {
   }
 };
 
-const formatDescriptionString = (descStr, showBadWords) =>
-  showBadWords ? descStr : filter.clean(descStr);
-
-const getHTML = (item, showBadWords) =>
-  "<span>%HTML%</span>"
-    .split("%HTML%")
-    .join(formatDescriptionString(item.get("com") || "", showBadWords));
+const getHTML = (item, showBadWords) => {
+  const html = item.get("com") || "";
+  return showBadWords ? html : filter.clean(html);
+};
 
 const handlePress = ({ navigation, item, onLink }) => (_e, href) => {
   if (navigation.state.routeName === "Threads") {
@@ -81,7 +78,7 @@ class Description extends React.unstable_AsyncComponent {
         </View>
         <HTML
           htmlStyles={styles}
-          html={getHTML(this.props.item, this.props.showBadWords)}
+          html={getHTML(this.props.item, this.props.badWordStatus)}
           onLinkPress={handlePress(this.props)}
         />
       </View>

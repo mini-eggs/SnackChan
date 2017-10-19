@@ -1,4 +1,5 @@
 import { connect } from "react-redux";
+import { updateSearchInput } from "../actions/Input";
 import { requestBoards } from "../actions/Boards";
 
 const filter = (find, status) => item => {
@@ -23,6 +24,7 @@ const mapState = ({ Boards, Styles, Input, Settings }) => {
 };
 
 const mapActions = dispatch => ({
+  updateSearchInput: text => dispatch(updateSearchInput(text)),
   requestBoards: () => dispatch(requestBoards())
 });
 
