@@ -13,13 +13,7 @@ class ThemeProvider extends React.unstable_AsyncComponent {
   state = { loading: true };
 
   get theme() {
-    return {
-      card: {
-        container: {
-          ...this.props.cardStyle
-        }
-      }
-    };
+    return { card: { container: { ...this.props.cardStyle } } };
   }
 
   async componentDidMount() {

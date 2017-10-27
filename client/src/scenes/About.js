@@ -1,8 +1,21 @@
 import React from "react";
-import { ScrollView, View, Text, Dimensions } from "react-native";
+import { ScrollView, View, Text, Dimensions, Alert } from "react-native";
 import { Card, RadioButton } from "react-native-material-ui";
 import Header from "../containers/Header";
 import Suggestions from "../components/Suggestions";
+
+const AlertWrapCancellable = (title, message) =>
+  new Promise((resolve, reject) => {
+    Alert.alert(
+      title,
+      message,
+      [
+        { text: "Cancel", onPress: reject, style: "cancel" },
+        { text: "OK", onPress: resolve }
+      ],
+      { cancelable: false }
+    );
+  });
 
 const styles = {
   container: {
@@ -21,6 +34,17 @@ const styles = {
   },
   pageOffset: {
     height: Dimensions.get("window").height / 2
+  }
+};
+
+const wrapHandle = (currentValue, handleFunction) => () => {
+  if (currentValue) {
+    handleFunction();
+  } else {
+    AlertWrapCancellable(
+      "Warning NSFW content",
+      "Are you sure you want to enable not safe for work content?"
+    ).then(handleFunction);
   }
 };
 
@@ -55,23 +79,23 @@ const About = ({
             <View style={styles.inner}>
               <Title>Settings</Title>
               <RadioButton
-                label="Show images"
-                value="Show images"
+                label="Show images (may be NSFW)"
+                value="Show images (may be NSFW)"
                 checked={imageStatus}
-                onSelect={e => handleImages(e)}
+                onSelect={wrapHandle(imageStatus, handleImages)}
               />
               <RadioButton
-                label="Show bad language"
-                value="Show bad language"
+                label="Show NSFW language"
+                value="Show NSFW language"
                 checked={badWordStatus}
-                onSelect={handleBadWords}
+                onSelect={wrapHandle(badWordStatus, handleBadWords)}
               />
-              <RadioButton
+              {/* <RadioButton
                 label="Show NSFW boards"
                 value="Show NSFW boards"
                 checked={NSFWStatus}
-                onSelect={handleNSFW}
-              />
+                onSelect={wrapHandle(NSFWStatus, handleNSFW)}
+              /> */}
             </View>
           </Card>
           <Card>

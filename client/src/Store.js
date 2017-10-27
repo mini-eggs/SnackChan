@@ -26,7 +26,9 @@ const reducers = combineReducers({
   Posts,
   Settings
 });
-const middlewares = compose(applyMiddleware(Thunk), offline(offlineConfig));
+const middlewares = compose(
+  applyMiddleware(Thunk) /*, offline(offlineConfig)*/
+);
 const store = createStore(reducers, middlewares);
 
 export default store;

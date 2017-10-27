@@ -4,7 +4,8 @@ import { withNavigation } from "react-navigation";
 import { Icon } from "react-native-material-ui";
 import HTML from "react-native-render-html";
 import Filter from "bad-words";
-
+import ProfanitySensor from "profanity-censor";
+import LeoProfanity from "leo-profanity";
 import ConnectSettings from "../containers/Settings";
 
 const filter = new Filter();
@@ -21,9 +22,15 @@ const styles = {
   }
 };
 
+const filterBadWards = value => {
+  const filtered = filter.clean(value);
+  const profanityCensored = ProfanitySensor.filter(filtered);
+  return LeoProfanity.clean(profanityCensored);
+};
+
 const getHTML = (item, showBadWords) => {
   const html = item.get("com") || "";
-  return `<span>${showBadWords ? html : filter.clean(html)}</span>`;
+  return `<span>${showBadWords ? html : filterBadWards(html)}</span>`;
 };
 
 const handlePress = ({ navigation, item, onLink, onNavigation }) => (
