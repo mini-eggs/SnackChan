@@ -1,0 +1,17 @@
+builds/
+.expo/
+npm-debug.*
+.DS_Store
+node_modules/
+.esm-cache/
+dist/
+!docs/dist/
+npm-debug.log
+yarn-error.log
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+.env
+*.env
